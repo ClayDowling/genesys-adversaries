@@ -17,7 +17,7 @@ struct skill_t* new_skill(const char* n, enum attribute_t a) {
     return false;                           \
 }
 
-bool is_skill(void *node, const char* name) {
+bool is_skill(const void *node, const char* name) {
     IS_NAME(struct skill_t, node, name);
 }
 
@@ -27,7 +27,7 @@ struct talent_t* new_talent(const char* n) {
     return t;
 }
 
-bool is_talent(void* node, const char* name) {
+bool is_talent(const void* node, const char* name) {
     IS_NAME(struct talent_t, node, name);
 }
 
@@ -65,7 +65,7 @@ struct node_t* new_node(void* value) {
     return n;
 }
 
-void node_append(struct node_t* t, void* n) {
+struct node_t* node_append(struct node_t* t, void* n) {
     if (NULL == t) {
         t = new_node(n);
         return t;
@@ -80,4 +80,9 @@ struct namedlist_t* newnamedlist(const char* n) {
     struct namedlist_t* nl = (struct namedlist_t*)calloc(1, sizeof(struct namedlist_t));
     nl->name = n;
     return nl;
+}
+
+struct world_t* new_world() {
+    struct world_t* w = (struct world_t*)calloc(1, sizeof(struct world_t));
+    return w;
 }

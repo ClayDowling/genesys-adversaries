@@ -9,7 +9,7 @@ struct skill_t {
     enum attribute_t attribute;
 };
 
-struct skill_t new_skill(const char* n, enum attribute_t a);
+struct skill_t* new_skill(const char* n, enum attribute_t a);
 bool is_skill(const void*, const char*);
 
 struct talent_t {
@@ -36,8 +36,8 @@ enum listitemtype { li_attribute, li_name };
 struct listitem_t {
     enum listitemtype type;
     union {
-        struct attributebonus_t bonus;
-        struct leveledname_t item;
+        const struct attributebonus_t* bonus;
+        const struct leveledname_t* item;
     };
 };
 struct listitem_t* new_listattribute(enum listitemtype t, const struct attributebonus_t* a);
