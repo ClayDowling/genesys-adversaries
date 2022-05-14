@@ -25,23 +25,33 @@ struct attributebonus_t {
 };
 struct attributebonus_t* new_attributebonus(enum attribute_t a, int l);
 
-struct leveledname_t {
-    const char* name;
+struct skill_reference_t {
+    struct skill_t* reference;
     int level;
 };
-struct leveledname_t* new_leveledname(const char* n, int l);
+struct skill_reference_t* new_skill_reference(struct skill_t*, int);
+bool is_skill_reference(const void*, struct skill_t*);
 
-enum listitemtype { li_attribute, li_name };
+struct talent_reference_t {
+    struct talent_t* reference;
+    int level;
+};
+struct talent_reference_t* new_talent_reference(struct talent_t*, int);
+bool is_talent_reference(const void*, struct talent_t*);
+
+enum listitemtype { li_attribute, li_skillref, li_talentref };
 
 struct listitem_t {
     enum listitemtype type;
     union {
         const struct attributebonus_t* bonus;
-        const struct leveledname_t* item;
+        const struct skill_reference_t* skill;
+        const struct talent_reference_t* talent;
     };
 };
-struct listitem_t* new_listattribute(enum listitemtype t, const struct attributebonus_t* a);
-struct listitem_t* new_listname(enum listitemtype t, const struct leveledname_t* n);
+struct listitem_t* new_listattribute(const struct attributebonus_t* a);
+struct listitem_t* new_listskill(const struct skill_reference_t* n);
+struct listitem_t* new_listtalent(const struct talent_reference_t* n);
 
 struct node_t {
     void* node;

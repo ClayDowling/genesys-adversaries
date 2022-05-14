@@ -58,7 +58,6 @@ TEST(Ast, is_namedlist_given_mismatched_list_returns_false) {
   EXPECT_FALSE(is_namedlist((void*)lst, "Sample"));
 }
 
-
 TEST(Ast, node_append_adds_node_to_populated_list) {
   struct node_t *TOP = nullptr;
   struct skill_t* s = new_skill("Ranged (Light)", attr_agility);

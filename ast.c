@@ -38,24 +38,29 @@ struct attributebonus_t* new_attributebonus(enum attribute_t a, int l) {
     return ab;
 }
 
-struct leveledname_t* new_leveledname(const char* n, int l) {
-    struct leveledname_t* ln = (struct leveledname_t*)calloc(1, sizeof(struct leveledname_t));
-    ln->name = n;
-    ln->level = l;
-    return ln;
+#define IS_REFERENCE(TYPE, NODE, POINTER) {             \
+    if (NODE->reference == (TYPE*)POINTER) return true; \
+    return false;                                       \
 }
 
-struct listitem_t* new_listattribute(enum listitemtype t, const struct attributebonus_t* a) {
+struct listitem_t* new_listattribute(const struct attributebonus_t* a) {
     struct listitem_t* li = (struct listitem_t*)calloc(1, sizeof(struct listitem_t));
     li->type = li_attribute;
     li->bonus = a;
     return li;
 }
 
-struct listitem_t* new_listname(enum listitemtype t, const struct leveledname_t* n) {
+struct listitem_t* new_listskill(const struct skill_reference_t* n) {
     struct listitem_t* li = (struct listitem_t*)calloc(1, sizeof(struct listitem_t));
-    li->type = li_name;
-    li->item = n;
+    li->type = li_skillref;
+    li->skill = n;
+    return li;
+}
+
+struct listitem_t* new_listtalent(const struct talent_reference_t* n) {
+    struct listitem_t* li = (struct listitem_t*)calloc(1, sizeof(struct listitem_t));
+    li->type = li_talentref;
+    li->talent = n;
     return li;
 }
 
