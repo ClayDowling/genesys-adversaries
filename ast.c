@@ -76,6 +76,15 @@ struct node_t* node_append(struct node_t* t, void* n) {
     return t;
 }
 
+void* node_find(struct node_t* top, const char* name, bool (predicate)(const void*, const char*)) {
+    for(struct node_t* cur = top; cur != NULL; cur = cur->next) {
+        if (predicate(cur->node, name)) {
+            return cur->node;
+        }
+    }
+    return NULL;
+}
+
 struct namedlist_t* newnamedlist(const char* n) {
     struct namedlist_t* nl = (struct namedlist_t*)calloc(1, sizeof(struct namedlist_t));
     nl->name = n;

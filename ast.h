@@ -49,7 +49,7 @@ struct node_t {
 };
 struct node_t* new_node(void*);
 struct node_t* node_append(struct node_t* t, void* n);
-
+void* node_find(struct node_t*, const char*, bool (predicate)(const void*, const char*));
 
 struct namedlist_t {
     const char *name;
