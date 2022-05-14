@@ -85,13 +85,50 @@ void* node_find(struct node_t* top, const char* name, bool (predicate)(const voi
     return NULL;
 }
 
-struct namedlist_t* newnamedlist(const char* n) {
+struct namedlist_t* new_namedlist(enum namedlist_type t, const char* n) {
     struct namedlist_t* nl = (struct namedlist_t*)calloc(1, sizeof(struct namedlist_t));
     nl->name = n;
+    nl->type = t;
     return nl;
+}
+
+bool is_namedlist(const void* candidate, const char* name) {
+    IS_NAME(struct namedlist_t, candidate, name);
 }
 
 struct world_t* new_world() {
     struct world_t* w = (struct world_t*)calloc(1, sizeof(struct world_t));
     return w;
+}
+
+void world_add_skill(struct world_t* w, const struct skill_t* s) {
+    w->skills = node_append(w->skills, (void*)s);
+}
+
+void world_add_talent(struct world_t* w, const struct talent_t* t) {
+    w->talents = node_append(w->talents, (void*)t);
+}
+
+void world_add_package(struct world_t* w, const struct namedlist_t* p) {
+    w->packages = node_append(w->packages, (void*)p);
+}
+
+void world_add_character(struct world_t* w, const struct namedlist_t* c) {
+    w->characters = node_append(w->characters, (void*)c);
+}
+
+struct skill_t* world_find_skill(struct world_t* w, const char* n) { 
+    return (struct skill_t*)node_find(w->skills, n, is_skill);
+}
+
+struct talent_t* world_find_talent(struct world_t* w, const char* n) {
+    return (struct talent_t*)node_find(w->talents, n, is_talent);
+}
+
+struct namedlist_t* world_find_package(struct world_t* w, const char* n) {
+    return (struct namedlist_t*)node_find(w->packages, n, is_namedlist);
+}
+
+struct namedlist_t* world_find_character(struct world_t* w, const char* n) {
+    return (struct namedlist_t*)node_find(w->characters, n, is_namedlist);
 }

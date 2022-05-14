@@ -51,11 +51,15 @@ struct node_t* new_node(void*);
 struct node_t* node_append(struct node_t* t, void* n);
 void* node_find(struct node_t*, const char*, bool (predicate)(const void*, const char*));
 
+enum namedlist_type {list_package, list_minion, list_rival, list_nemesis, list_MAX};
+
 struct namedlist_t {
-    const char *name;
-    struct node_t TOP;
+    enum namedlist_type type;
+    const char* name;
+    struct node_t* TOP;
 };
-struct namedlist_t* new_namedlist(const char* n);
+struct namedlist_t* new_namedlist(enum namedlist_type, const char*);
+bool is_namedlist(const void*, const char*);
 
 struct world_t {
     struct node_t *skills;
@@ -64,8 +68,15 @@ struct world_t {
     struct node_t *characters;
 };
 struct world_t* new_world();
-struct skill_t* find_skill(struct world_t* w, const char* n);
-struct talent_t* find_talent(struct world_t* w, const char* n);
-struct package_t* find_package(struct world_t* w, const char* n);
+
+void world_add_skill(struct world_t*, const struct skill_t*);
+void world_add_talent(struct world_t*, const struct talent_t*);
+void world_add_package(struct world_t*, const struct namedlist_t*);
+void world_add_character(struct world_t*, const struct namedlist_t*);
+
+struct skill_t* world_find_skill(struct world_t* w, const char* n);
+struct talent_t* world_find_talent(struct world_t* w, const char* n);
+struct namedlist_t* world_find_package(struct world_t* w, const char* n);
+struct namedlist_t* world_find_character(struct world_t*, const char*);
 
 #endif
