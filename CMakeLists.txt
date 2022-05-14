@@ -19,4 +19,8 @@ add_executable(${PROJECT_NAME}
     main.c
 )
 
+add_executable(lemon
+    lemon.c
+)
+
 add_subdirectory(test)
