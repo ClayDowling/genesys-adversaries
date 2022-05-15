@@ -164,8 +164,13 @@ struct listitem_t* world_add_reference(const struct world_t* w, const char* n, i
     struct listitem_t* li = NULL;
     
     struct skill_t* s = world_find_skill(w, n);
+    struct talent_t* t = world_find_talent(w, n);
     if (NULL != s) {
         li = new_listskill(new_skill_reference(s, l));
+    } else if (t != NULL) {
+        li = new_listtalent(new_talent_reference(t, l));
     }
+
     return li;
 }
+

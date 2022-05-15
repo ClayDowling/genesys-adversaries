@@ -91,5 +91,4 @@ struct talent_t* world_find_talent(const struct world_t* w, const char* n);
 struct namedlist_t* world_find_package(const struct world_t* w, const char* n);
 struct namedlist_t* world_find_character(const struct world_t*, const char*);
 
-
 #endif

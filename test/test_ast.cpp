@@ -123,3 +123,30 @@ TEST(Ast, world_add_reference_given_skill_provides_skill_reference) {
   EXPECT_EQ(1, sr->level);
 
 }
+
+TEST(Ast, world_add_reference_given_talent_provides_talent_reference) {
+  const char* TALENT_NAME = "Night Vision";
+  struct talent_t* t = new_talent(TALENT_NAME);
+  struct world_t* world = new_world();
+  world_add_talent(world, t);
+  
+  struct listitem_t* li = world_add_reference(world, TALENT_NAME, 0);
+
+  ASSERT_NE(nullptr, li);
+  ASSERT_EQ(li_talentref, li->type);
+  
+  const struct talent_reference_t* sr = li->talent;
+  EXPECT_EQ(t, sr->reference);
+  EXPECT_EQ(0, sr->level);
+}
+
+TEST(Ast, world_add_reference_given_neither_talent_nor_reference_returns_null) {
+  const char* TALENT_NAME = "Night Vision";
+  struct talent_t* t = new_talent(TALENT_NAME);
+  struct world_t* world = new_world();
+  world_add_talent(world, t);
+  
+  struct listitem_t* li = world_add_reference(world, "Something Else", 0);
+
+  ASSERT_EQ(nullptr, li);
+}
