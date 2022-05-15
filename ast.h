@@ -26,17 +26,17 @@ struct attributebonus_t {
 struct attributebonus_t* new_attributebonus(enum attribute_t a, int l);
 
 struct skill_reference_t {
-    struct skill_t* reference;
+    const struct skill_t* reference;
     int level;
 };
-struct skill_reference_t* new_skill_reference(struct skill_t*, int);
+struct skill_reference_t* new_skill_reference(const struct skill_t*, int);
 bool is_skill_reference(const void*, struct skill_t*);
 
 struct talent_reference_t {
-    struct talent_t* reference;
+    const struct talent_t* reference;
     int level;
 };
-struct talent_reference_t* new_talent_reference(struct talent_t*, int);
+struct talent_reference_t* new_talent_reference(const struct talent_t*, int);
 bool is_talent_reference(const void*, struct talent_t*);
 
 enum listitemtype { li_attribute, li_skillref, li_talentref };
@@ -84,9 +84,12 @@ void world_add_talent(struct world_t*, const struct talent_t*);
 void world_add_package(struct world_t*, const struct namedlist_t*);
 void world_add_character(struct world_t*, const struct namedlist_t*);
 
-struct skill_t* world_find_skill(struct world_t* w, const char* n);
-struct talent_t* world_find_talent(struct world_t* w, const char* n);
-struct namedlist_t* world_find_package(struct world_t* w, const char* n);
-struct namedlist_t* world_find_character(struct world_t*, const char*);
+struct listitem_t* world_add_reference(const struct world_t*, const char*, int);
+
+struct skill_t* world_find_skill(const struct world_t* w, const char* n);
+struct talent_t* world_find_talent(const struct world_t* w, const char* n);
+struct namedlist_t* world_find_package(const struct world_t* w, const char* n);
+struct namedlist_t* world_find_character(const struct world_t*, const char*);
+
 
 #endif

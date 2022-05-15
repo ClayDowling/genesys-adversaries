@@ -7,7 +7,7 @@ struct token {
     int token_type;
     const char* strval;
     int intval;
-    enum attribute_t attribute_val;
+    enum attribute_t attributeval;
 };
 
 #endif

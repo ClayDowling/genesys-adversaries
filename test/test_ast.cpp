@@ -106,3 +106,20 @@ TEST(Ast, world_add_character_adds_character_to_world) {
  
   EXPECT_EQ(nl, world_find_character(world, CHARACTER_NAME));
 }
+
+TEST(Ast, world_add_reference_given_skill_provides_skill_reference) {
+  const char* SKILL_NAME = "Computers";
+  struct skill_t* s = new_skill(SKILL_NAME, attr_intellect);
+  struct world_t* world = new_world();
+  world_add_skill(world, s);
+  
+  struct listitem_t* li = world_add_reference(world, SKILL_NAME, 1);
+
+  ASSERT_NE(nullptr, li);
+  ASSERT_EQ(li_skillref, li->type);
+  
+  const struct skill_reference_t* sr = li->skill;
+  EXPECT_EQ(s, sr->reference);
+  EXPECT_EQ(1, sr->level);
+
+}

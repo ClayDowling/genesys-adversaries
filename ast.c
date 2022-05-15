@@ -38,9 +38,31 @@ struct attributebonus_t* new_attributebonus(enum attribute_t a, int l) {
     return ab;
 }
 
+struct skill_reference_t* new_skill_reference(const struct skill_t* s, int level) {
+    struct skill_reference_t* sr = (struct skill_reference_t*)calloc(1, sizeof(struct skill_reference_t));
+    sr->level = level;
+    sr->reference = s;
+    return sr;
+}
+
+struct talent_reference_t* new_talent_reference(const struct talent_t* r, int level) {
+    struct talent_reference_t* tr = (struct talent_reference_t*)calloc(1, sizeof(struct talent_reference_t));
+    tr->reference = r;
+    tr->level = level;
+    return tr;
+}
+
 #define IS_REFERENCE(TYPE, NODE, POINTER) {             \
-    if (NODE->reference == (TYPE*)POINTER) return true; \
+    if (((TYPE*)NODE)->reference == POINTER) return true; \
     return false;                                       \
+}
+
+bool is_skill_reference(const void* item, struct skill_t* ref) {
+    IS_REFERENCE(struct skill_reference_t, item, ref);
+}
+
+bool is_talent_reference(const void* item, struct talent_t* ref) {
+    IS_REFERENCE(struct talent_reference_t, item, ref);
 }
 
 struct listitem_t* new_listattribute(const struct attributebonus_t* a) {
@@ -122,18 +144,28 @@ void world_add_character(struct world_t* w, const struct namedlist_t* c) {
     w->characters = node_append(w->characters, (void*)c);
 }
 
-struct skill_t* world_find_skill(struct world_t* w, const char* n) { 
+struct skill_t* world_find_skill(const struct world_t* w, const char* n) { 
     return (struct skill_t*)node_find(w->skills, n, is_skill);
 }
 
-struct talent_t* world_find_talent(struct world_t* w, const char* n) {
+struct talent_t* world_find_talent(const struct world_t* w, const char* n) {
     return (struct talent_t*)node_find(w->talents, n, is_talent);
 }
 
-struct namedlist_t* world_find_package(struct world_t* w, const char* n) {
+struct namedlist_t* world_find_package(const struct world_t* w, const char* n) {
     return (struct namedlist_t*)node_find(w->packages, n, is_namedlist);
 }
 
-struct namedlist_t* world_find_character(struct world_t* w, const char* n) {
+struct namedlist_t* world_find_character(const struct world_t* w, const char* n) {
     return (struct namedlist_t*)node_find(w->characters, n, is_namedlist);
+}
+
+struct listitem_t* world_add_reference(const struct world_t* w, const char* n, int l) {
+    struct listitem_t* li = NULL;
+    
+    struct skill_t* s = world_find_skill(w, n);
+    if (NULL != s) {
+        li = new_listskill(new_skill_reference(s, l));
+    }
+    return li;
 }
