@@ -1,4 +1,9 @@
+*~
 *.o
 *.a
 *.exe
 build/
+.vscode/
+adversary.c
+adversary.h
+adversary.out
