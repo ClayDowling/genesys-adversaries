@@ -15,12 +15,19 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 add_executable(${PROJECT_NAME}
+    adversary.c
     ast.c
     main.c
 )
 
 add_executable(lemon
     lemon.c
+)
+
+add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/adversary.c
+    COMMAND lemon -T${CMAKE_CURRENT_SOURCE_DIR}/lempar.c ${CMAKE_CURRENT_SOURCE_DIR}/adversary.y
+    DEPENDS lemon adversary.y
 )
 
 add_subdirectory(test)
