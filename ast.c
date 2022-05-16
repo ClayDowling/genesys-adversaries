@@ -123,6 +123,13 @@ bool is_namedlist(const void* candidate, const char* name) {
     IS_NAME(struct namedlist_t, candidate, name);
 }
 
+struct leveleditem_t* new_leveleditem(const char* n, int l) {
+	struct leveleditem_t* li = (struct leveleditem_t*)calloc(1, sizeof(struct leveleditem_t));
+	li->name = n;
+	li->level = l;
+	return li;
+}
+
 struct world_t* new_world() {
     struct world_t* w = (struct world_t*)calloc(1, sizeof(struct world_t));
     return w;

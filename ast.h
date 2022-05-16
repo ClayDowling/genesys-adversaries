@@ -71,6 +71,12 @@ struct namedlist_t {
 struct namedlist_t* new_namedlist(enum namedlist_type, const char*);
 bool is_namedlist(const void*, const char*);
 
+struct leveleditem_t {
+	const char* name;
+	int level;
+};
+struct leveleditem_t* new_leveleditem(const char*, int);
+
 struct world_t {
     struct node_t *skills;
     struct node_t *talents;
