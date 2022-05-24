@@ -2,6 +2,7 @@
 #include "adversary.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 struct token* lex(const char* source) {
 
@@ -43,7 +44,7 @@ struct token* lex(const char* source) {
         strncpy(strval, start, end - start);
         return new_token_name(lineno, strval);
     }
-    @start "-"? [0-9][0-9]+ @end {
+    @start [-]?[0-9]+ @end {
         int n = 0;
         int sign = 1;
         if (*start == '-') {
@@ -60,7 +61,12 @@ struct token* lex(const char* source) {
         return new_token_int(lineno, n);
     }
 
-    "\n" { lineno++; }
+    [\n] { lineno++; }
+
+    *   { 
+            fprintf(stderr, "Unknown token on line %d\n", lineno);
+            return 0; 
+        }
 
     */
 
