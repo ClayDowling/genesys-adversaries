@@ -39,11 +39,11 @@ struct token* lex(const char* source) {
     'willpower'|'will'  { return new_token_attribute(lineno, attr_willpower); }
     'presence'|'pr'     { return new_token_attribute(lineno, attr_presence); }
     ["] @start [^"]* @end ["]       { 
-        const char* strval = (const char*)calloc(1, end - start + 1);
+        char* strval = (char*)calloc(1, end - start + 1);
         strncpy(strval, start, end - start);
         return new_token_name(lineno, strval);
     }
-    @start "-"?[0-9][0-9]+ @end {
+    @start "-"? [0-9][0-9]+ @end {
         int n = 0;
         int sign = 1;
         if (*start == '-') {
@@ -52,7 +52,7 @@ struct token* lex(const char* source) {
         }
 
         for(; start < end; start++) {
-            n = n*10 + (start - '0');
+            n = n*10 + (*start - '0');
         }
 
         n = n * sign;

@@ -1,6 +1,8 @@
 #include "token.h"
 #include "adversary.h"
 
+#include <stdlib.h>
+
 struct token* new_token(unsigned int l, int t) {
     struct token* tok = (struct token*)calloc(1, sizeof(struct token));
     tok->token_type = t;

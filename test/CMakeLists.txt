@@ -6,7 +6,10 @@ enable_testing()
 include_directories(..)
 add_executable(${UNIT_TEST_NAME}
     test_ast.cpp
+    test_lexer.cpp
     ../ast.c
+    ../lexer.c
+    ../token.c
 )
 target_link_libraries(${UNIT_TEST_NAME}
     gtest_main
