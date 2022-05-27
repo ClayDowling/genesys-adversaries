@@ -8,7 +8,7 @@ add_executable(${UNIT_TEST_NAME}
     test_ast.cpp
     test_lexer.cpp
     ../ast.c
-    ../lexer.c
+    ../lexer.cpp
     ../token.c
 )
 target_link_libraries(${UNIT_TEST_NAME}

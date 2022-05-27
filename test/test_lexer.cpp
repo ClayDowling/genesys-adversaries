@@ -1,10 +1,13 @@
 #include <gtest/gtest.h>
 #include <tuple>
+#include <sstream>
+using std::istringstream;
 #include <string>
 using std::string;
+#include "lexer.h"
 
 extern "C" {
-#include "lexer.h"
+#include "adversary.h"
 }
 
 class TokenTest : public testing::TestWithParam<std::tuple<int, const char*> > {
@@ -19,7 +22,10 @@ TEST_P(TokenTest, StringGeneratesExpectedToken) {
     int expected = std::get<0>(instance);
     const char* str = std::get<1>(instance);
 
-    auto tok = lex(str);
+    std::istringstream in(str);
+    lexer luthor(in);
+
+    auto tok = luthor.get();
     ASSERT_EQ(expected, tok->token_type);
 }
 
@@ -51,7 +57,10 @@ TEST_P(LexerAttribute, StringGeneratesExpectedAttribute) {
     int expected = std::get<0>(instance);
     const char* str = std::get<1>(instance);
 
-    auto tok = lex(str);
+    std::istringstream in(str);
+    lexer luthor(in);
+
+    auto tok = luthor.get();
     ASSERT_EQ(ATTRIBUTE, tok->token_type);
     ASSERT_EQ(expected, tok->attributeval);
 }
@@ -75,36 +84,53 @@ INSTANTIATE_TEST_SUITE_P(AttributeTokens, LexerAttribute,
 
 TEST(Lexer, givenEmptyString_ReturnsNullPtr) {
 
-    ASSERT_EQ(nullptr, lex(""));
+    istringstream in("");
+    lexer luthor(in);
+    ASSERT_EQ(nullptr, luthor.get());
 
 }
 
 TEST(Lexer, givenNumber_ReturnsCorrectValue) {
-    auto tok = lex("256");
+    istringstream in("256");
+    lexer luthor(in);
+    auto tok = luthor.get();
     ASSERT_EQ(NUMBER, tok->token_type);
     ASSERT_EQ(256, tok->intval);
 }
 
 TEST(Lexer, givenNegativeNumber_ReturnsCorrectValue) {
-    auto tok = lex("-7");
+
+    istringstream in("-7");
+    lexer luthor(in);
+
+    auto tok = luthor.get();
     ASSERT_EQ(NUMBER, tok->token_type);
     ASSERT_EQ(-7, tok->intval);
 }
 
 TEST(Lexer, givenName_ReturnsExpectedName) {
-    auto tok = lex("\"Ranged (Light)\"");
+    istringstream in("\"Ranged (Light)\"");
+    lexer luthor(in);
+
+    auto tok = luthor.get();
     ASSERT_EQ(NAME, tok->token_type);
     ASSERT_EQ(string("Ranged (Light)"), string(tok->strval));
 }
 
 TEST(Lexer, givenEmptyName_ReturnsEmptyName) {
-    auto tok = lex("\"\"");
+    istringstream in("\"\"");
+    lexer luthor(in);
+
+    auto tok = luthor.get();
     ASSERT_EQ(NAME, tok->token_type);
     ASSERT_EQ(string(""), string(tok->strval));
 }
 
 TEST(Lexer, givenMultipleInputLines_ReturnsCorrectLineNumber) {
-    auto tok = lex("\nskill");
+    istringstream in("\nskill");
+    lexer luthor(in);
+
+    auto tok = luthor.get();
     ASSERT_EQ(SKILL, tok->token_type);
     ASSERT_EQ(2, tok->lineno);
 }

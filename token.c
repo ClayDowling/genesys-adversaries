@@ -2,6 +2,13 @@
 #include "adversary.h"
 
 #include <stdlib.h>
+#include <string.h>
+
+struct token _token_cr = {
+    .token_type = 0
+};
+
+struct token* TOKEN_CR = &_token_cr;
 
 struct token* new_token(unsigned int l, int t) {
     struct token* tok = (struct token*)calloc(1, sizeof(struct token));
@@ -12,7 +19,7 @@ struct token* new_token(unsigned int l, int t) {
 
 struct token* new_token_name(unsigned int l, const char* n) {
     struct token *tok = new_token(l, NAME);
-    tok->strval = n;
+    tok->strval = strdup(n);
     return tok;
 }
 

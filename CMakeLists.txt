@@ -12,18 +12,12 @@ FetchContent_Declare(
     GIT_TAG release-1.11.0
 )
 
-FetchContent_Declare(
-    re2c
-    GIT_REPOSITORY https://github.com/skvadrik/re2c.git
-    GIT_TAG 3.0
-)
-
-FetchContent_MakeAvailable(googletest re2c)
+FetchContent_MakeAvailable(googletest)
 
 add_executable(${PROJECT_NAME}  
     adversary.c
     ast.c
-    lexer.c
+    lexer.cpp
     main.c
     token.c
 )
@@ -36,12 +30,6 @@ add_custom_command(
     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/adversary.c
     COMMAND lemon -T${CMAKE_CURRENT_SOURCE_DIR}/lempar.c ${CMAKE_CURRENT_SOURCE_DIR}/adversary.y
     DEPENDS lemon adversary.y
-)
-
-add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/lexer.c
-    COMMAND re2c -T -o ${CMAKE_CURRENT_SOURCE_DIR}/lexer.c ${CMAKE_CURRENT_SOURCE_DIR}/lexer.re
-    DEPENDS re2c lexer.re
 )
 
 add_subdirectory(test)
