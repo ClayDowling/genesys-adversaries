@@ -20,7 +20,7 @@ add_executable(${PROJECT_NAME}
     lexer.cpp
     main.c
     token.c
-)
+        World.cpp World.h)
 
 add_executable(lemon
     lemon.c
