@@ -1,10 +1,22 @@
-%extra_argument { struct world_t* world }
+%extra_argument { struct world_t* thisworld }
 
 %parse_accept {
     printf("World loaded!\n");
 }
 %parse_failure {
-    printf("Forked!\n");
+    fprintf(stderr, "We're Forked!  Abandoning parse.\n");
+}
+
+%syntax_error {
+    fprintf(stderr, "Unexpected token type %d near line %d\n", yymajor, yyminor->lineno);
+    switch(yymajor) {
+        case NAME:
+            fprintf(stderr, "name %s\n", yyminor->strval);
+            break;
+        case NUMBER:
+            fprintf(stderr, "number %d\n", yyminor->intval);
+            break;
+    }
 }
 
 %include {
@@ -25,10 +37,10 @@
 %type namedlist         {struct namedlist_t*}
 
 input ::= world .
-world(A) ::= world skill(B) . { world_add_skill(A, B); }
-world(A) ::= world talent(B) . { world_add_talent(A, B); }
-world(A) ::= world package(B) . { world_add_package(A, B); }
-world(A) ::= world character(B) . { world_add_character(A, B); }
+world ::= skill(B) . { world_add_skill(thisworld, B); }
+world ::= talent(B) . { world_add_talent(thisworld, B); }
+world ::= package(B) . { world_add_package(thisworld, B); }
+world ::= character(B) . { world_add_character(thisworld, B); }
 
 skill(A) ::= SKILL NAME(B) LPAREN ATTRIBUTE(C) RPAREN . { A = new_skill(B->strval, C->attributeval); }
 talent(A) ::= TALENT NAME(B) . { A = new_talent(B->strval); }
@@ -52,7 +64,7 @@ character(A) ::= NEMESIS namedlist(B) . {
 
 namedlist(A) ::= NAME(B) COLON leveleditem(C) . { 
     A = new_namedlist(list_MAX, B->strval); 
-    struct listitem_t* li = world_add_reference(world, C->name, C->level);
+    struct listitem_t* li = world_add_reference(thisworld, C->name, C->level);
     if (li != NULL) {
         node_append(A->TOP, (void*)li);
     } else {
@@ -61,7 +73,7 @@ namedlist(A) ::= NAME(B) COLON leveleditem(C) . {
 }
 
 namedlist(A) ::= namedlist leveleditem(B) . {
-    struct listitem_t* li = world_add_reference(world, B->name, B->level);
+    struct listitem_t* li = world_add_reference(thisworld, B->name, B->level);
     if (li != NULL) {
         node_append(A->TOP, (void*)li);
     } else {
@@ -70,7 +82,7 @@ namedlist(A) ::= namedlist leveleditem(B) . {
 }
 
 namedlist(A) ::= namedlist COMMA leveleditem(B) . {
-    struct listitem_t* li = world_add_reference(world, B->name, B->level);
+    struct listitem_t* li = world_add_reference(thisworld, B->name, B->level);
     if (li != NULL) {
         node_append(A->TOP, (void*)li);
     } else {

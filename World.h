@@ -5,11 +5,17 @@
 #ifndef ADVERSARIES_WORLD_H
 #define ADVERSARIES_WORLD_H
 
+extern "C" {
 #include "ast.h"
+}
+
 #include "lexer.h"
 
 #include <string>
 using std::string;
+
+#include <iostream>
+using std::istream;
 
 class World {
 
@@ -18,7 +24,7 @@ public:
 
     World();
     ~World();
-    void read(ifstream&);
+    void read(istream&);
 };
 
 

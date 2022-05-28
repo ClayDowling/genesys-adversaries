@@ -6,18 +6,20 @@
 using std::ifstream;
 #include "World.h"
 
+extern "C" {
 // Forward declarations for functions in adversary.c, from the lemon parser interface
 void *ParseAlloc(void *(*mallocProc)(size_t));
 void Parse(
         void *yyp,                   /* The parser */
         int yymajor,                 /* The major token code number */
-        struct token* yyminor,       /* The value for the token */
-        struct world_t*               /* Optional %extra_argument parameter */
+        struct token *yyminor,       /* The value for the token */
+        struct world_t *               /* Optional %extra_argument parameter */
 );
 void ParseFree(
         void *p,                    /* The parser to be deleted */
-        void (*freeProc)(void*)     /* Function used to reclaim memory */
+        void (*freeProc)(void *)     /* Function used to reclaim memory */
 );
+}
 
 World::World() {
     world = new_world();
@@ -27,7 +29,7 @@ World::~World() {
     free(world);
 }
 
-void World::read(ifstream& in) {
+void World::read(istream& in) {
     lexer lex(in);
 
     void* parser = ParseAlloc(malloc);
