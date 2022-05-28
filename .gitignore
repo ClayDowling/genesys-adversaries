@@ -3,6 +3,8 @@
 *.a
 *.exe
 build/
+cmake-build-debug/
+.idea/
 .vscode/
 adversary.c
 adversary.h
