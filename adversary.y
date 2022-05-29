@@ -8,7 +8,7 @@
 }
 
 %syntax_error {
-    fprintf(stderr, "Unexpected token type %d near line %d\n", yymajor, yyminor->lineno);
+    fprintf(stderr, "Unexpected token type %s near line %d\n", tag_to_name(yymajor), yyminor->lineno);
     switch(yymajor) {
         case NAME:
             fprintf(stderr, "name %s\n", yyminor->strval);
@@ -22,6 +22,7 @@
 %include {
 
 #include "ast.h"
+#include "terminal_tags.h"
 
 }
 

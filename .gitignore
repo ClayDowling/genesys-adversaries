@@ -9,4 +9,4 @@ cmake-build-debug/
 adversary.c
 adversary.h
 adversary.out
-lexer.c
+terminal_tags.c

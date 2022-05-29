@@ -8,14 +8,11 @@ add_executable(${UNIT_TEST_NAME}
     test_ast.cpp
     test_lexer.cpp
     test_parser.cpp
-    ../ast.c
-    ../lexer.cpp
-    ../token.c
-        ../adversary.c
-        ../World.cpp
-        )
+)
+
 target_link_libraries(${UNIT_TEST_NAME}
     gtest_main
+    adversary
 )
 
 gtest_discover_tests(${UNIT_TEST_NAME})
