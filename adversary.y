@@ -38,29 +38,37 @@
 %type namedlist         {struct namedlist_t*}
 
 input ::= world .
-world ::= skill(B) . { world_add_skill(thisworld, B); }
-world ::= talent(B) . { world_add_talent(thisworld, B); }
-world ::= package(B) . { world_add_package(thisworld, B); }
-world ::= character(B) . { world_add_character(thisworld, B); }
 
-skill(A) ::= SKILL NAME(B) LPAREN ATTRIBUTE(C) RPAREN . { A = new_skill(B->strval, C->attributeval); }
-talent(A) ::= TALENT NAME(B) . { A = new_talent(B->strval); }
+world ::= .
+world ::= world skill .
+world ::= world talent .
+world ::= world package .
+world ::= world character .
+
+
+skill ::= SKILL NAME(B) LPAREN ATTRIBUTE(C) RPAREN . { world_add_skill(thisworld, new_skill(B->strval, C->attributeval)); }
+talent ::= TALENT NAME(B) . { world_add_talent(thisworld, new_talent(B->strval)); }
 
 package(A) ::= PACKAGE namedlist(B) . {
     A = B;
     A->type = list_package;
+    world_add_package(thisworld, A);
 }
+
 character(A) ::= MINION namedlist(B) . {
     A = B;
     A->type = list_minion;
+    world_add_character(thisworld, A);
 }
 character(A) ::= RIVAL namedlist(B) . {
     A = B;
     A->type = list_rival;
+    world_add_character(thisworld, A);
 }
 character(A) ::= NEMESIS namedlist(B) . {
     A = B;
     A->type = list_nemesis;
+    world_add_character(thisworld, A);
 }
 
 namedlist(A) ::= NAME(B) COLON leveleditem(C) . { 
