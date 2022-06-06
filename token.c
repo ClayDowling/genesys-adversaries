@@ -17,8 +17,8 @@ struct token* new_token(unsigned int l, int t) {
     return tok;
 }
 
-struct token* new_token_name(unsigned int l, const char* n) {
-    struct token *tok = new_token(l, NAME);
+struct token* new_token_word(unsigned int l, const char* n) {
+    struct token *tok = new_token(l, WORD);
     tok->strval = strdup(n);
     return tok;
 }

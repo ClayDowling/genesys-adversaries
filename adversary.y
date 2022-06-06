@@ -10,7 +10,8 @@
 %syntax_error {
     fprintf(stderr, "Unexpected token type %s near line %d\n", tag_to_name(yymajor), yyminor->lineno);
     switch(yymajor) {
-        case NAME:
+        case QUOTEDSTRING:
+        case WORD:
             fprintf(stderr, "name %s\n", yyminor->strval);
             break;
         case NUMBER:
@@ -20,6 +21,9 @@
 }
 
 %include {
+
+#include <string.h>
+#include <stdlib.h>
 
 #include "ast.h"
 #include "terminal_tags.h"
@@ -36,6 +40,8 @@
 %type character         {struct namedlist_t*}
 %type leveleditem	{struct leveleditem_t*}
 %type namedlist         {struct namedlist_t*}
+%type name              {const char*}
+%type builtname         {char*}
 
 input ::= world .
 
@@ -46,8 +52,8 @@ world ::= world package .
 world ::= world character .
 
 
-skill ::= SKILL NAME(B) LPAREN ATTRIBUTE(C) RPAREN . { world_add_skill(thisworld, new_skill(B->strval, C->attributeval)); }
-talent ::= TALENT NAME(B) . { world_add_talent(thisworld, new_talent(B->strval)); }
+skill ::= SKILL name(B) LPAREN ATTRIBUTE(C) RPAREN . { world_add_skill(thisworld, new_skill(B, C->attributeval)); }
+talent ::= TALENT name(B) . { world_add_talent(thisworld, new_talent(B)); }
 
 package(A) ::= PACKAGE namedlist(B) . {
     A = B;
@@ -71,8 +77,8 @@ character(A) ::= NEMESIS namedlist(B) . {
     world_add_character(thisworld, A);
 }
 
-namedlist(A) ::= NAME(B) COLON leveleditem(C) . { 
-    A = new_namedlist(list_MAX, B->strval); 
+namedlist(A) ::= name(B) COLON leveleditem(C) . { 
+    A = new_namedlist(list_MAX, B); 
     struct listitem_t* li = world_add_reference(thisworld, C->name, C->level);
     if (li != NULL) {
         node_append(A->TOP, (void*)li);
@@ -103,6 +109,19 @@ namedlist(A) ::= namedlist COMMA attributebonus(B) . {
 	node_append(A->TOP, (void*)B);
 }
 
-leveleditem(A) ::= NAME(B) . { A = new_leveleditem(B->strval, 0); }
-leveleditem(A) ::= NAME(B) NUMBER(C) . { A= new_leveleditem(B->strval, C->intval); }
+leveleditem(A) ::= name(B) . { A = new_leveleditem(B, 0); }
+leveleditem(A) ::= name(B) NUMBER(C) . { A= new_leveleditem(B, C->intval); }
 attributebonus(A) ::= ATTRIBUTE(B) NUMBER(C) . { A = new_attributebonus(B->attributeval, C->intval); }
+
+name(A) ::= QUOTEDSTRING(B) . { A = B->strval; }
+
+
+name(A) ::= builtname(B) .    { A = B; }
+
+
+builtname(A) ::= builtname(B) WORD(C) . { 
+    int len = strlen(B) + strlen(C->strval) + 2; 
+    A = (char*)calloc(1, len); 
+    snprintf(A, len, "%s %s", B, C->strval);
+    free(B);
+    } 
