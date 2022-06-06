@@ -1,6 +1,6 @@
-#line 2 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
+#line 2 "/home/clay/workspace/adversaries-lemon/lex.yy.c"
 
-#line 4 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
+#line 4 "/home/clay/workspace/adversaries-lemon/lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -529,10 +529,10 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 1 "/home/clay/workspace/adversaries-lemon/adversary.l"
 /* used for getting the name of included files */
 
-#line 6 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 6 "/home/clay/workspace/adversaries-lemon/adversary.l"
 
 #include "adversary.h"
 #include "token.h"
@@ -540,8 +540,8 @@ char *yytext;
 enum attribute_t yy_adv_attribute = attr_MAX;
 int yy_adv_lineno = 1;
 
-#line 544 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
-#line 545 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
+#line 544 "/home/clay/workspace/adversaries-lemon/lex.yy.c"
+#line 545 "/home/clay/workspace/adversaries-lemon/lex.yy.c"
 
 #define INITIAL 0
 #define incl 1
@@ -759,10 +759,10 @@ YY_DECL
 		}
 
 	{
-#line 17 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 17 "/home/clay/workspace/adversaries-lemon/adversary.l"
 
 
-#line 766 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
+#line 766 "/home/clay/workspace/adversaries-lemon/lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -822,138 +822,138 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 19 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 19 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_lineno++; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 20 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 20 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { return COMMA; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 21 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 21 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { return COLON; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 22 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 22 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { return LPAREN; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 23 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 23 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { return RPAREN; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 25 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 25 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { return NUMBER; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 27 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 27 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { return SKILL; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 28 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 28 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { return TALENT; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 29 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 29 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { return MINION; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 30 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 30 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { return RIVAL; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 31 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 31 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { return NEMESIS; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 33 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 33 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_attribute = attr_brawn; return ATTRIBUTE; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 34 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 34 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_attribute = attr_agility; return ATTRIBUTE; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 35 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 35 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_attribute = attr_intellect; return ATTRIBUTE; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 36 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 36 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_attribute = attr_cunning; return ATTRIBUTE; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 37 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 37 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_attribute = attr_willpower; return ATTRIBUTE; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 38 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 38 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_attribute = attr_presence; return ATTRIBUTE; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 40 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 40 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_attribute = attr_brawn; return ATTRIBUTE; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 41 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 41 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_attribute = attr_agility; return ATTRIBUTE; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 42 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 42 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_attribute = attr_intellect; return ATTRIBUTE; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 43 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 43 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_attribute = attr_cunning; return ATTRIBUTE; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 44 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 44 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_attribute = attr_willpower; return ATTRIBUTE; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 45 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 45 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { yy_adv_attribute = attr_presence; return ATTRIBUTE; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 48 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 48 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { return WORD; }
 	YY_BREAK
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
-#line 50 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 50 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { return QUOTEDSTRING; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 52 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 52 "/home/clay/workspace/adversaries-lemon/adversary.l"
 // Eat up the whitespace
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 54 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 54 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { 
         fprintf(stderr, "Unrecognized symbol \"%s\" in input.\n", yytext);
         yyterminate();
@@ -961,12 +961,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 60 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 60 "/home/clay/workspace/adversaries-lemon/adversary.l"
 BEGIN(incl);
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 62 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 62 "/home/clay/workspace/adversaries-lemon/adversary.l"
 /* Eat whitespace before the file name */
 	YY_BREAK
 case 30:
@@ -974,7 +974,7 @@ case 30:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 63 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 63 "/home/clay/workspace/adversaries-lemon/adversary.l"
 { // Filename except trailing whitespace
         yyin = fopen(yytext, "r");
 
@@ -989,7 +989,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(incl):
-#line 75 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 75 "/home/clay/workspace/adversaries-lemon/adversary.l"
 {
         yypop_buffer_state();
 
@@ -1000,10 +1000,10 @@ case YY_STATE_EOF(incl):
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 82 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 82 "/home/clay/workspace/adversaries-lemon/adversary.l"
 ECHO;
 	YY_BREAK
-#line 1007 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
+#line 1007 "/home/clay/workspace/adversaries-lemon/lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2006,4 +2006,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 82 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 82 "/home/clay/workspace/adversaries-lemon/adversary.l"
