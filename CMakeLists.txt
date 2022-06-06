@@ -1,13 +1,13 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.22)
 project(adversaries LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_STANDARD 99)
-
 include(FetchContent)
 include(CTest)
 
 set(UNITY_EXTENSION_FIXTURE on)
+
 FetchContent_Declare(
     unity
     GIT_REPOSITORY https://github.com/ThrowTheSwitch/Unity.git
@@ -29,6 +29,15 @@ add_library(adversary
     parser.c
 )
 
+add_executable(adversary-to-tokens
+    adversary-to-tokens.c
+    terminal_tags.c
+    lex.yy.c
+)
+target_link_libraries(adversary-to-tokens
+    fl
+)
+
 target_link_libraries(${PROJECT_NAME}
     adversary
 )
@@ -47,6 +56,7 @@ add_custom_command(
 
 add_executable(symbol-to-name
     symbol-to-name.cpp
+    adversary.h
 )
 
 add_custom_command(
