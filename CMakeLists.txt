@@ -29,6 +29,11 @@ add_library(adversary
     parser.c
 )
 
+target_link_libraries(${PROJECT_NAME}
+    adversary
+    fl
+)
+
 add_executable(tokenstream
     adversary-to-tokens.c
     terminal_tags.c
@@ -36,10 +41,6 @@ add_executable(tokenstream
 )
 target_link_libraries(tokenstream
     fl
-)
-
-target_link_libraries(${PROJECT_NAME}
-    adversary
 )
 
 add_executable(lemon
