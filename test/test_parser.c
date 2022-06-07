@@ -25,7 +25,7 @@ TEST(Parser, Skill_in_input_becomes_part_of_world) {
 }
 
 TEST(Parser, Talent_in_input_becomes_part_of_world) {
-    struct world_t* w = parse_buffer("talent Born With It");
+    struct world_t* w = parse_buffer("talent \"Born With It\"");
 
     struct talent_t* t = world_find_talent(w, "Born With It");
 

@@ -28,7 +28,7 @@
 #include "ast.h"
 #include "terminal_tags.h"
 
-extern char* quoted_string;
+extern char quoted_string[];
 
 }
 
@@ -44,6 +44,8 @@ extern char* quoted_string;
 %type namedlist         {struct namedlist_t*}
 %type name              {const char*}
 %type builtname         {char*}
+
+%token_destructor { free((void*)$$->strval); free($$); }
 
 input ::= world .
 
@@ -115,14 +117,6 @@ leveleditem(A) ::= name(B) . { A = new_leveleditem(B, 0); }
 leveleditem(A) ::= name(B) NUMBER(C) . { A= new_leveleditem(B, C->intval); }
 attributebonus(A) ::= ATTRIBUTE(B) NUMBER(C) . { A = new_attributebonus(B->attributeval, C->intval); }
 
-name(A) ::= QUOTEDSTRING . { A = quoted_string; }
+name(A) ::= QUOTEDSTRING . { A = strdup(quoted_string); }
+name(A) ::= WORD(B) .    { A = strdup(B->strval); }
 
-name(A) ::= builtname(B) .    { A = B; }
-
-
-builtname(A) ::= builtname(B) WORD(C) . { 
-    int len = strlen(B) + strlen(C->strval) + 2; 
-    A = (char*)calloc(1, len); 
-    snprintf(A, len, "%s %s", B, C->strval);
-    free(B);
-    } 
