@@ -28,6 +28,8 @@
 #include "ast.h"
 #include "terminal_tags.h"
 
+extern char* quoted_string;
+
 }
 
 %token_type {struct token*}
@@ -113,8 +115,7 @@ leveleditem(A) ::= name(B) . { A = new_leveleditem(B, 0); }
 leveleditem(A) ::= name(B) NUMBER(C) . { A= new_leveleditem(B, C->intval); }
 attributebonus(A) ::= ATTRIBUTE(B) NUMBER(C) . { A = new_attributebonus(B->attributeval, C->intval); }
 
-name(A) ::= QUOTEDSTRING(B) . { A = B->strval; }
-
+name(A) ::= QUOTEDSTRING . { A = quoted_string; }
 
 name(A) ::= builtname(B) .    { A = B; }
 

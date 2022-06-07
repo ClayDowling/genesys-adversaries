@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.16)
 project(adversaries LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -29,12 +29,12 @@ add_library(adversary
     parser.c
 )
 
-add_executable(adversary-to-tokens
+add_executable(tokenstream
     adversary-to-tokens.c
     terminal_tags.c
     lex.yy.c
 )
-target_link_libraries(adversary-to-tokens
+target_link_libraries(tokenstream
     fl
 )
 

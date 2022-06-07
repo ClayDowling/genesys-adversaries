@@ -1,5 +1,7 @@
 /* used for getting the name of included files */
 %x incl
+%x QS
+
 %option case-insensitive
 
 %{
@@ -9,6 +11,9 @@
 
 enum attribute_t yy_adv_attribute = attr_MAX;
 int yy_adv_lineno = 1;
+
+#define BUFFER_MAX 60
+char quoted_string[BUFFER_MAX];
 
 %}
 
@@ -44,20 +49,7 @@ cun             { yy_adv_attribute = attr_cunning; return ATTRIBUTE; }
 will            { yy_adv_attribute = attr_willpower; return ATTRIBUTE; }
 pr              { yy_adv_attribute = attr_presence; return ATTRIBUTE; }
 
-
-[A-Za-z][A-Za-z0-9]*  { return WORD; }
-
-\"([^\\\"]|\\.)*\"            { return QUOTEDSTRING; }
-
-[ \t]       // Eat up the whitespace
-
-.               { 
-        fprintf(stderr, "Unrecognized symbol \"%s\" in input.\n", yytext);
-        yyterminate();
-    }
-
-
-use     BEGIN(incl);
+use           { BEGIN(incl); }
 
 <incl>[ \t]*        /* Eat whitespace before the file name */
 <incl>[^ \t\n]+$    { // Filename except trailing whitespace
@@ -71,6 +63,31 @@ use     BEGIN(incl);
         yypush_buffer_state(yy_create_buffer(yyin, YY_BUF_SIZE ));
         BEGIN(INITIAL);
     }
+
+
+[A-Za-z][A-Za-z0-9]*  { return WORD; }
+
+\"              { BEGIN(QS); }
+<QS>[^\n\"]*    { 
+                    char* yyptr = yytext;
+                    int i = 0;
+                    memset(quoted_string, 0, BUFFER_MAX);
+                    while(*yyptr && i < BUFFER_MAX) {
+                        quoted_string[i] = *yyptr++;
+                        ++i;
+                    }
+                }
+<QS>\"          { BEGIN(INITIAL); return QUOTEDSTRING; }
+
+[ \t]       // Eat up the whitespace
+
+
+.               { 
+        fprintf(stderr, "Unrecognized symbol \"%s\" in input.\n", yytext);
+        yyterminate();
+    }
+
+
 
 <<EOF>>     {
         yypop_buffer_state();
