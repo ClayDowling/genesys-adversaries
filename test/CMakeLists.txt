@@ -12,5 +12,4 @@ add_executable(${UNIT_TEST_NAME}
 target_link_libraries(${UNIT_TEST_NAME}
     unity
     adversary
-    fl
 )

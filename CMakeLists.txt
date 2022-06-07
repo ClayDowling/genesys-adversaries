@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_STANDARD 99)
 include(FetchContent)
 include(CTest)
+find_package(FLEX)
 
 set(UNITY_EXTENSION_FIXTURE on)
 
@@ -31,16 +32,12 @@ add_library(adversary
 
 target_link_libraries(${PROJECT_NAME}
     adversary
-    fl
 )
 
 add_executable(tokenstream
     adversary-to-tokens.c
     terminal_tags.c
     lex.yy.c
-)
-target_link_libraries(tokenstream
-    fl
 )
 
 add_executable(lemon
@@ -60,16 +57,6 @@ add_executable(symbol-to-name
     adversary.h
 )
 
-add_custom_command(
-    OUTPUT ${GENERATED_FILE_DIR}/terminal_tags.c
-    COMMAND symbol-to-name -o ${GENERATED_FILE_DIR}/terminal_tags.c ${GENERATED_FILE_DIR}/adversary.h
-    DEPENDS symbol-to-name ${GENERATED_FILE_DIR}/adversary.h
-)
-
-add_custom_command(
-    OUTPUT ${GENERATED_FILE_DIR}/lex.yy.c
-    COMMAND flex  -o ${GENERATED_FILE_DIR}/lex.yy.c ${CMAKE_CURRENT_SOURCE_DIR}/adversary.l
-    DEPENDS ${GENERATED_FILE_DIR}/adversary.l
-)
+FLEX_TARGET(AdversaryScanner adversary.l ${GENERATED_FILE_DIR}/lex.yy.c)
 
 add_subdirectory(test)

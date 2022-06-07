@@ -3,6 +3,7 @@
 %x QS
 
 %option case-insensitive
+%option noyywrap
 
 %{
 

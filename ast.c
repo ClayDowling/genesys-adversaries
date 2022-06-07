@@ -1,5 +1,4 @@
 #include "ast.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
 
@@ -20,8 +19,6 @@ struct skill_t *new_skill(const char *n, enum attribute_t a) {
   }
 
 bool is_skill(const void *node, const char *name) {
-  struct skill_t *n = (struct skill_t *)node;
-  printf("%s\n", n->name);
   IS_NAME(struct skill_t, node, name);
 }
 

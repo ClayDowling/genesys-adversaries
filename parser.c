@@ -61,6 +61,15 @@ struct world_t *parse_file(const char *filename) {
 }
 
 struct world_t *parse_buffer(const char *buffer) {
+#ifdef _WIN32
+  yyin = tmpfile();
+  fwrite((void *)buffer, strlen(buffer), 1, yyin);
+#else
   yyin = fmemopen((void *)buffer, strlen(buffer), "r");
+#endif
   return parse_input();
+
+#ifdef _WIN32
+  fclose(yyin);
+#endif
 }

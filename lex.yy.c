@@ -1,6 +1,6 @@
-#line 2 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
+#line 1 "C:/Users/User/workspace/adversaries-lemon/lex.yy.c"
 
-#line 4 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
+#line 3 "C:/Users/User/workspace/adversaries-lemon/lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -9,10 +9,88 @@
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
 #define YY_FLEX_MINOR_VERSION 6
-#define YY_FLEX_SUBMINOR_VERSION 4
+#define YY_FLEX_SUBMINOR_VERSION 3
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
 #endif
+
+    #define yy_create_buffer yy_create_buffer
+
+    #define yy_delete_buffer yy_delete_buffer
+
+    #define yy_scan_buffer yy_scan_buffer
+
+    #define yy_scan_string yy_scan_string
+
+    #define yy_scan_bytes yy_scan_bytes
+
+    #define yy_init_buffer yy_init_buffer
+
+    #define yy_flush_buffer yy_flush_buffer
+
+    #define yy_load_buffer_state yy_load_buffer_state
+
+    #define yy_switch_to_buffer yy_switch_to_buffer
+
+    #define yypush_buffer_state yypush_buffer_state
+
+    #define yypop_buffer_state yypop_buffer_state
+
+    #define yyensure_buffer_stack yyensure_buffer_stack
+
+    #define yylex yylex
+
+    #define yyrestart yyrestart
+
+    #define yylex_init yylex_init
+
+    #define yylex_init_extra yylex_init_extra
+
+    #define yylex_destroy yylex_destroy
+
+    #define yyget_debug yyget_debug
+
+    #define yyset_debug yyset_debug
+
+    #define yyget_extra yyget_extra
+
+    #define yyset_extra yyset_extra
+
+    #define yyget_in yyget_in
+
+    #define yyset_in yyset_in
+
+    #define yyget_out yyget_out
+
+    #define yyset_out yyset_out
+
+    #define yyget_leng yyget_leng
+
+    #define yyget_text yyget_text
+
+    #define yyget_lineno yyget_lineno
+
+    #define yyset_lineno yyset_lineno
+
+    #define yywrap yywrap
+
+    #define yyalloc yyalloc
+
+    #define yyrealloc yyrealloc
+
+    #define yyfree yyfree
+
+    #define yytext yytext
+
+    #define yyleng yyleng
+
+    #define yyin yyin
+
+    #define yyout yyout
+
+    #define yy_flex_debug yy_flex_debug
+
+    #define yylineno yylineno
 
 /* First, we deal with  platform-specific or compiler-specific issues. */
 
@@ -84,15 +162,9 @@ typedef unsigned int flex_uint32_t;
 #define UINT32_MAX             (4294967295U)
 #endif
 
-#ifndef SIZE_MAX
-#define SIZE_MAX               (~(size_t)0)
-#endif
-
 #endif /* ! C99 */
 
 #endif /* ! FLEXINT_H */
-
-/* begin standard C++ headers. */
 
 /* TODO: this is always defined, so inline it */
 #define yyconst const
@@ -125,7 +197,7 @@ typedef unsigned int flex_uint32_t;
 /* Action number for EOF rule of a given start state. */
 #define YY_STATE_EOF(state) (YY_END_OF_BUFFER + state + 1)
 /* Special action meaning "start processing a new file". */
-#define YY_NEW_FILE yyrestart( yyin  )
+#define YY_NEW_FILE yyrestart(yyin  )
 #define YY_END_OF_BUFFER_CHAR 0
 
 /* Size of default input buffer. */
@@ -291,7 +363,7 @@ void yypop_buffer_state ( void );
 static void yyensure_buffer_stack ( void );
 static void yy_load_buffer_state ( void );
 static void yy_init_buffer ( YY_BUFFER_STATE b, FILE *file  );
-#define YY_FLUSH_BUFFER yy_flush_buffer( YY_CURRENT_BUFFER )
+#define YY_FLUSH_BUFFER yy_flush_buffer(YY_CURRENT_BUFFER )
 
 YY_BUFFER_STATE yy_scan_buffer ( char *base, yy_size_t size  );
 YY_BUFFER_STATE yy_scan_string ( const char *yy_str  );
@@ -307,7 +379,7 @@ void yyfree ( void *  );
 	if ( ! YY_CURRENT_BUFFER ){ \
         yyensure_buffer_stack (); \
 		YY_CURRENT_BUFFER_LVALUE =    \
-            yy_create_buffer( yyin, YY_BUF_SIZE ); \
+            yy_create_buffer(yyin,YY_BUF_SIZE ); \
 	} \
 	YY_CURRENT_BUFFER_LVALUE->yy_is_interactive = is_interactive; \
 	}
@@ -316,12 +388,14 @@ void yyfree ( void *  );
 	if ( ! YY_CURRENT_BUFFER ){\
         yyensure_buffer_stack (); \
 		YY_CURRENT_BUFFER_LVALUE =    \
-            yy_create_buffer( yyin, YY_BUF_SIZE ); \
+            yy_create_buffer(yyin,YY_BUF_SIZE ); \
 	} \
 	YY_CURRENT_BUFFER_LVALUE->yy_at_bol = at_bol; \
 	}
 #define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->yy_at_bol)
 
+#define yywrap() (/*CONSTCOND*/1)
+#define YY_SKIP_YYWRAP
 typedef flex_uint8_t YY_CHAR;
 
 FILE *yyin = NULL, *yyout = NULL;
@@ -531,11 +605,11 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 1 "adversary.l"
 /* used for getting the name of included files */
 
 
-#line 8 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 9 "adversary.l"
 
 #include "adversary.h"
 #include "token.h"
@@ -546,8 +620,8 @@ int yy_adv_lineno = 1;
 #define BUFFER_MAX 60
 char quoted_string[BUFFER_MAX];
 
-#line 550 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
-#line 551 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
+#line 623 "C:/Users/User/workspace/adversaries-lemon/lex.yy.c"
+#line 624 "C:/Users/User/workspace/adversaries-lemon/lex.yy.c"
 
 #define INITIAL 0
 #define incl 1
@@ -560,7 +634,7 @@ char quoted_string[BUFFER_MAX];
  */
 #include <unistd.h>
 #endif
-
+    
 #ifndef YY_EXTRA_TYPE
 #define YY_EXTRA_TYPE void *
 #endif
@@ -759,17 +833,17 @@ YY_DECL
 		if ( ! YY_CURRENT_BUFFER ) {
 			yyensure_buffer_stack ();
 			YY_CURRENT_BUFFER_LVALUE =
-				yy_create_buffer( yyin, YY_BUF_SIZE );
+				yy_create_buffer(yyin,YY_BUF_SIZE );
 		}
 
-		yy_load_buffer_state(  );
+		yy_load_buffer_state( );
 		}
 
 	{
-#line 22 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 23 "adversary.l"
 
 
-#line 773 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
+#line 846 "C:/Users/User/workspace/adversaries-lemon/lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -829,127 +903,127 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 24 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 25 "adversary.l"
 { yy_adv_lineno++; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 25 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 26 "adversary.l"
 { return COMMA; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 26 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 27 "adversary.l"
 { return COLON; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 27 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 28 "adversary.l"
 { return LPAREN; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 28 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 29 "adversary.l"
 { return RPAREN; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 30 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 31 "adversary.l"
 { return NUMBER; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 32 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 33 "adversary.l"
 { return SKILL; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 33 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 34 "adversary.l"
 { return TALENT; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 34 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 35 "adversary.l"
 { return MINION; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 35 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 36 "adversary.l"
 { return RIVAL; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 36 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 37 "adversary.l"
 { return NEMESIS; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 38 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 39 "adversary.l"
 { yy_adv_attribute = attr_brawn; return ATTRIBUTE; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 39 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 40 "adversary.l"
 { yy_adv_attribute = attr_agility; return ATTRIBUTE; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 40 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 41 "adversary.l"
 { yy_adv_attribute = attr_intellect; return ATTRIBUTE; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 41 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 42 "adversary.l"
 { yy_adv_attribute = attr_cunning; return ATTRIBUTE; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 42 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 43 "adversary.l"
 { yy_adv_attribute = attr_willpower; return ATTRIBUTE; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 43 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 44 "adversary.l"
 { yy_adv_attribute = attr_presence; return ATTRIBUTE; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 45 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 46 "adversary.l"
 { yy_adv_attribute = attr_brawn; return ATTRIBUTE; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 46 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 47 "adversary.l"
 { yy_adv_attribute = attr_agility; return ATTRIBUTE; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 47 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 48 "adversary.l"
 { yy_adv_attribute = attr_intellect; return ATTRIBUTE; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 48 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 49 "adversary.l"
 { yy_adv_attribute = attr_cunning; return ATTRIBUTE; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 49 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 50 "adversary.l"
 { yy_adv_attribute = attr_willpower; return ATTRIBUTE; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 50 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 51 "adversary.l"
 { yy_adv_attribute = attr_presence; return ATTRIBUTE; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 52 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 53 "adversary.l"
 { BEGIN(incl); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 54 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 55 "adversary.l"
 /* Eat whitespace before the file name */
 	YY_BREAK
 case 26:
@@ -957,7 +1031,7 @@ case 26:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 55 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 56 "adversary.l"
 { // Filename except trailing whitespace
         yyin = fopen(yytext, "r");
 
@@ -972,17 +1046,17 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 68 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 69 "adversary.l"
 { return WORD; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 70 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 71 "adversary.l"
 { BEGIN(QS); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 71 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 72 "adversary.l"
 { 
                     char* yyptr = yytext;
                     int i = 0;
@@ -995,17 +1069,17 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 80 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 81 "adversary.l"
 { BEGIN(INITIAL); return QUOTEDSTRING; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 82 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 83 "adversary.l"
 // Eat up the whitespace
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 85 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 86 "adversary.l"
 { 
         fprintf(stderr, "Unrecognized symbol \"%s\" in input.\n", yytext);
         yyterminate();
@@ -1014,7 +1088,7 @@ YY_RULE_SETUP
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(incl):
 case YY_STATE_EOF(QS):
-#line 92 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 93 "adversary.l"
 {
         yypop_buffer_state();
 
@@ -1025,10 +1099,10 @@ case YY_STATE_EOF(QS):
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 99 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 100 "adversary.l"
 ECHO;
 	YY_BREAK
-#line 1032 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
+#line 1105 "C:/Users/User/workspace/adversaries-lemon/lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1104,7 +1178,7 @@ ECHO;
 				{
 				(yy_did_buffer_switch_on_eof) = 0;
 
-				if ( yywrap(  ) )
+				if ( yywrap( ) )
 					{
 					/* Note: because we've taken care in
 					 * yy_get_next_buffer() to have set up
@@ -1236,8 +1310,7 @@ static int yy_get_next_buffer (void)
 
 				b->yy_ch_buf = (char *)
 					/* Include room in for 2 EOB chars. */
-					yyrealloc( (void *) b->yy_ch_buf,
-							 (yy_size_t) (b->yy_buf_size + 2)  );
+					yyrealloc((void *) b->yy_ch_buf,(yy_size_t) (b->yy_buf_size + 2)  );
 				}
 			else
 				/* Can't grow it, we don't own it. */
@@ -1269,7 +1342,7 @@ static int yy_get_next_buffer (void)
 		if ( number_to_move == YY_MORE_ADJ )
 			{
 			ret_val = EOB_ACT_END_OF_FILE;
-			yyrestart( yyin  );
+			yyrestart(yyin  );
 			}
 
 		else
@@ -1286,12 +1359,9 @@ static int yy_get_next_buffer (void)
 	if (((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
 		/* Extend the array by 50%, plus the number we really need. */
 		int new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
-		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) yyrealloc(
-			(void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf, (yy_size_t) new_size  );
+		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) yyrealloc((void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf,(yy_size_t) new_size  );
 		if ( ! YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
 			YY_FATAL_ERROR( "out of dynamic memory in yy_get_next_buffer()" );
-		/* "- 2" to take care of EOB's */
-		YY_CURRENT_BUFFER_LVALUE->yy_buf_size = (int) (new_size - 2);
 	}
 
 	(yy_n_chars) += number_to_move;
@@ -1442,13 +1512,13 @@ static int yy_get_next_buffer (void)
 					 */
 
 					/* Reset buffer status. */
-					yyrestart( yyin );
+					yyrestart(yyin );
 
 					/*FALLTHROUGH*/
 
 				case EOB_ACT_END_OF_FILE:
 					{
-					if ( yywrap(  ) )
+					if ( yywrap( ) )
 						return 0;
 
 					if ( ! (yy_did_buffer_switch_on_eof) )
@@ -1486,11 +1556,11 @@ static int yy_get_next_buffer (void)
 	if ( ! YY_CURRENT_BUFFER ){
         yyensure_buffer_stack ();
 		YY_CURRENT_BUFFER_LVALUE =
-            yy_create_buffer( yyin, YY_BUF_SIZE );
+            yy_create_buffer(yyin,YY_BUF_SIZE );
 	}
 
-	yy_init_buffer( YY_CURRENT_BUFFER, input_file );
-	yy_load_buffer_state(  );
+	yy_init_buffer(YY_CURRENT_BUFFER,input_file );
+	yy_load_buffer_state( );
 }
 
 /** Switch to a different input buffer.
@@ -1518,7 +1588,7 @@ static int yy_get_next_buffer (void)
 		}
 
 	YY_CURRENT_BUFFER_LVALUE = new_buffer;
-	yy_load_buffer_state(  );
+	yy_load_buffer_state( );
 
 	/* We don't actually know whether we did this switch during
 	 * EOF (yywrap()) processing, but the only time this flag
@@ -1546,7 +1616,7 @@ static void yy_load_buffer_state  (void)
 {
 	YY_BUFFER_STATE b;
     
-	b = (YY_BUFFER_STATE) yyalloc( sizeof( struct yy_buffer_state )  );
+	b = (YY_BUFFER_STATE) yyalloc(sizeof( struct yy_buffer_state )  );
 	if ( ! b )
 		YY_FATAL_ERROR( "out of dynamic memory in yy_create_buffer()" );
 
@@ -1555,13 +1625,13 @@ static void yy_load_buffer_state  (void)
 	/* yy_ch_buf has to be 2 characters longer than the size given because
 	 * we need to put in 2 end-of-buffer characters.
 	 */
-	b->yy_ch_buf = (char *) yyalloc( (yy_size_t) (b->yy_buf_size + 2)  );
+	b->yy_ch_buf = (char *) yyalloc((yy_size_t) (b->yy_buf_size + 2)  );
 	if ( ! b->yy_ch_buf )
 		YY_FATAL_ERROR( "out of dynamic memory in yy_create_buffer()" );
 
 	b->yy_is_our_buffer = 1;
 
-	yy_init_buffer( b, file );
+	yy_init_buffer(b,file );
 
 	return b;
 }
@@ -1580,9 +1650,9 @@ static void yy_load_buffer_state  (void)
 		YY_CURRENT_BUFFER_LVALUE = (YY_BUFFER_STATE) 0;
 
 	if ( b->yy_is_our_buffer )
-		yyfree( (void *) b->yy_ch_buf  );
+		yyfree((void *) b->yy_ch_buf  );
 
-	yyfree( (void *) b  );
+	yyfree((void *) b  );
 }
 
 /* Initializes or reinitializes a buffer.
@@ -1594,7 +1664,7 @@ static void yy_load_buffer_state  (void)
 {
 	int oerrno = errno;
     
-	yy_flush_buffer( b );
+	yy_flush_buffer(b );
 
 	b->yy_input_file = file;
 	b->yy_fill_buffer = 1;
@@ -1637,7 +1707,7 @@ static void yy_load_buffer_state  (void)
 	b->yy_buffer_status = YY_BUFFER_NEW;
 
 	if ( b == YY_CURRENT_BUFFER )
-		yy_load_buffer_state(  );
+		yy_load_buffer_state( );
 }
 
 /** Pushes the new state onto the stack. The new state becomes
@@ -1668,7 +1738,7 @@ void yypush_buffer_state (YY_BUFFER_STATE new_buffer )
 	YY_CURRENT_BUFFER_LVALUE = new_buffer;
 
 	/* copied from yy_switch_to_buffer. */
-	yy_load_buffer_state(  );
+	yy_load_buffer_state( );
 	(yy_did_buffer_switch_on_eof) = 1;
 }
 
@@ -1687,7 +1757,7 @@ void yypop_buffer_state (void)
 		--(yy_buffer_stack_top);
 
 	if (YY_CURRENT_BUFFER) {
-		yy_load_buffer_state(  );
+		yy_load_buffer_state( );
 		(yy_did_buffer_switch_on_eof) = 1;
 	}
 }
@@ -1754,7 +1824,7 @@ YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )
 		/* They forgot to leave room for the EOB's. */
 		return NULL;
 
-	b = (YY_BUFFER_STATE) yyalloc( sizeof( struct yy_buffer_state )  );
+	b = (YY_BUFFER_STATE) yyalloc(sizeof( struct yy_buffer_state )  );
 	if ( ! b )
 		YY_FATAL_ERROR( "out of dynamic memory in yy_scan_buffer()" );
 
@@ -1768,7 +1838,7 @@ YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )
 	b->yy_fill_buffer = 0;
 	b->yy_buffer_status = YY_BUFFER_NEW;
 
-	yy_switch_to_buffer( b  );
+	yy_switch_to_buffer(b  );
 
 	return b;
 }
@@ -1784,7 +1854,7 @@ YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )
 YY_BUFFER_STATE yy_scan_string (const char * yystr )
 {
     
-	return yy_scan_bytes( yystr, (int) strlen(yystr) );
+	return yy_scan_bytes(yystr,(int) strlen(yystr) );
 }
 
 /** Setup the input buffer state to scan the given bytes. The next call to yylex() will
@@ -1803,7 +1873,7 @@ YY_BUFFER_STATE yy_scan_bytes  (const char * yybytes, int  _yybytes_len )
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = (yy_size_t) (_yybytes_len + 2);
-	buf = (char *) yyalloc( n  );
+	buf = (char *) yyalloc(n  );
 	if ( ! buf )
 		YY_FATAL_ERROR( "out of dynamic memory in yy_scan_bytes()" );
 
@@ -1812,7 +1882,7 @@ YY_BUFFER_STATE yy_scan_bytes  (const char * yybytes, int  _yybytes_len )
 
 	buf[_yybytes_len] = buf[_yybytes_len+1] = YY_END_OF_BUFFER_CHAR;
 
-	b = yy_scan_buffer( buf, n );
+	b = yy_scan_buffer(buf,n );
 	if ( ! b )
 		YY_FATAL_ERROR( "bad buffer in yy_scan_bytes()" );
 
@@ -1830,7 +1900,7 @@ YY_BUFFER_STATE yy_scan_bytes  (const char * yybytes, int  _yybytes_len )
 
 static void yynoreturn yy_fatal_error (const char* msg )
 {
-			fprintf( stderr, "%s\n", msg );
+			(void) fprintf( stderr, "%s\n", msg );
 	exit( YY_EXIT_FAILURE );
 }
 
@@ -1965,7 +2035,7 @@ int yylex_destroy  (void)
     
     /* Pop the buffer stack, destroying each element. */
 	while(YY_CURRENT_BUFFER){
-		yy_delete_buffer( YY_CURRENT_BUFFER  );
+		yy_delete_buffer(YY_CURRENT_BUFFER  );
 		YY_CURRENT_BUFFER_LVALUE = NULL;
 		yypop_buffer_state();
 	}
@@ -2031,4 +2101,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 99 "/mnt/c/Users/User/workspace/adversaries-lemon/adversary.l"
+#line 100 "adversary.l"
