@@ -1,6 +1,6 @@
-#line 2 "/home/clay/workspace/adversaries-lemon/lex.yy.c"
+#line 2 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
 
-#line 4 "/home/clay/workspace/adversaries-lemon/lex.yy.c"
+#line 4 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -548,8 +548,8 @@ int yy_adv_lineno = 1;
 #define BUFFER_MAX 60
 char quoted_string[BUFFER_MAX];
 
-#line 552 "/home/clay/workspace/adversaries-lemon/lex.yy.c"
-#line 553 "/home/clay/workspace/adversaries-lemon/lex.yy.c"
+#line 552 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
+#line 553 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
 
 #define INITIAL 0
 #define incl 1
@@ -771,7 +771,7 @@ YY_DECL
 #line 23 "adversary.l"
 
 
-#line 775 "/home/clay/workspace/adversaries-lemon/lex.yy.c"
+#line 775 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1030,7 +1030,7 @@ YY_RULE_SETUP
 #line 100 "adversary.l"
 ECHO;
 	YY_BREAK
-#line 1034 "/home/clay/workspace/adversaries-lemon/lex.yy.c"
+#line 1034 "/mnt/c/Users/User/workspace/adversaries-lemon/lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{

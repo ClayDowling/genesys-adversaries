@@ -14,7 +14,7 @@ TEST_TEAR_DOWN(Parser) {}
 
 TEST(Parser, Skill_in_input_becomes_part_of_world) {
     const char *SKILL_NAME = "Ranged (Heavy)";
-    struct world_t* w = parse_buffer("skill \"Ranged (Heavy)\" (agility)");
+    struct world_t* w = parse_buffer("skill \"Ranged (Heavy)\" (agility)\nSkill \"Stuff and nonsense\" (cun)\n");
 
     struct skill_t* s = world_find_skill(w, "Ranged (Heavy)");
 

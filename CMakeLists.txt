@@ -35,6 +35,7 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 add_executable(tokenstream
+    adversary.h
     adversary-to-tokens.c
     terminal_tags.c
     lex.yy.c
