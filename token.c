@@ -34,3 +34,11 @@ struct token *new_token_attribute(unsigned int l, enum attribute_t a,
   tok->attributeval = a;
   return tok;
 }
+
+void destroy_token(struct token *t) {
+  if (!t)
+    return;
+  if (t->strval)
+    free(t->strval);
+  free(t);
+}

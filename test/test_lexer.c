@@ -101,8 +101,69 @@ TEST(Lexer, keyword_matches_are_case_insensitive) {
   TEST_ASSERT_EQUAL_INT_MESSAGE(6, matches, "Unmatched keywords");
 }
 
+TEST(Lexer, attribute_matches_in_case_insensitive_way) {
+  enum attribute_t expected[] = {attr_brawn,     attr_agility,   attr_cunning,
+                                 attr_intellect, attr_willpower, attr_presence};
+  struct token *t;
+  useContent("brawn Agility cUnNiNg Intellect willPOWER PRESENCE");
+  int matches = 0;
+
+  for (int i = 0; i < sizeof(expected) / sizeof(enum attribute_t); ++i) {
+    t = lex_scan(ctx);
+    if (!t)
+      break;
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ATTRIBUTE, t->token_type,
+                                  mismatch_message(ATTRIBUTE, t->token_type));
+    TEST_ASSERT_EQUAL_INT((int)expected[i], (int)t->attributeval);
+    matches++;
+  }
+  TEST_ASSERT_EQUAL_INT(6, matches);
+}
+
+TEST(Lexer, attribute_abbreviations_matche_in_case_insensitive_way) {
+  enum attribute_t expected[] = {attr_brawn,     attr_agility,   attr_cunning,
+                                 attr_intellect, attr_willpower, attr_presence};
+  struct token *t;
+  useContent("br Ag CUN inT wIll PR");
+  int matches = 0;
+
+  for (int i = 0; i < sizeof(expected) / sizeof(enum attribute_t); ++i) {
+    t = lex_scan(ctx);
+    if (!t)
+      break;
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ATTRIBUTE, t->token_type,
+                                  mismatch_message(ATTRIBUTE, t->token_type));
+    TEST_ASSERT_EQUAL_INT((int)expected[i], (int)t->attributeval);
+    matches++;
+  }
+  TEST_ASSERT_EQUAL_INT(6, matches);
+}
+
+TEST(Lexer, non_reserved_words_return_word_token) {
+  struct token *first;
+  struct token *second;
+  useContent("Snow White");
+
+  first = lex_scan(ctx);
+  TEST_ASSERT_NOT_NULL(first);
+  TEST_ASSERT_EQUAL_INT_MESSAGE(WORD, first->token_type,
+                                mismatch_message(WORD, first->token_type));
+  TEST_ASSERT_EQUAL_STRING("Snow", first->strval);
+  destroy_token(first);
+
+  second = lex_scan(ctx);
+  TEST_ASSERT_NOT_NULL(second);
+  TEST_ASSERT_EQUAL_INT_MESSAGE(WORD, second->token_type,
+                                mismatch_message(WORD, second->token_type));
+  TEST_ASSERT_EQUAL_STRING("White", second->strval);
+  destroy_token(second);
+}
+
 TEST_GROUP_RUNNER(Lexer) {
   RUN_TEST_CASE(Lexer, single_character_tokens_return_expected_values);
   RUN_TEST_CASE(Lexer, keywords_return_expected_values);
   RUN_TEST_CASE(Lexer, keyword_matches_are_case_insensitive);
+  RUN_TEST_CASE(Lexer, attribute_matches_in_case_insensitive_way);
+  RUN_TEST_CASE(Lexer, attribute_abbreviations_matche_in_case_insensitive_way);
+  RUN_TEST_CASE(Lexer, non_reserved_words_return_word_token);
 }

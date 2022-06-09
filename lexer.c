@@ -18,6 +18,20 @@ struct fixed_value keywords[] = {{.text = "skill", .token_type = SKILL},
                                  {.text = "rival", .token_type = RIVAL},
                                  {.text = "nemesis", .token_type = NEMESIS}};
 
+struct fixed_value attributes[] = {
+    {.text = "brawn", .token_type = attr_brawn},
+    {.text = "agility", .token_type = attr_agility},
+    {.text = "intellect", .token_type = attr_intellect},
+    {.text = "cunning", .token_type = attr_cunning},
+    {.text = "willpower", .token_type = attr_willpower},
+    {.text = "presence", .token_type = attr_presence},
+    {.text = "br", .token_type = attr_brawn},
+    {.text = "ag", .token_type = attr_agility},
+    {.text = "int", .token_type = attr_intellect},
+    {.text = "cun", .token_type = attr_cunning},
+    {.text = "will", .token_type = attr_willpower},
+    {.text = "pr", .token_type = attr_presence}};
+
 struct token *lex_word(struct lex_context *ctx);
 int lex_match_keyword(const char *);
 
@@ -90,5 +104,12 @@ struct token *lex_word(struct lex_context *ctx) {
     if (strcasecmp(ctx->assembly, keywords[i].text) == 0)
       return new_token(ctx->lineno, keywords[i].token_type, ctx->assembly);
   }
-  return NULL;
+
+  for (int i = 0; i < sizeof(attributes) / sizeof(struct fixed_value); ++i) {
+    if (strcasecmp(ctx->assembly, attributes[i].text) == 0)
+      return new_token_attribute(ctx->lineno, attributes[i].token_type,
+                                 ctx->assembly);
+  }
+
+  return new_token(ctx->lineno, WORD, ctx->assembly);
 }

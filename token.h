@@ -16,7 +16,7 @@ enum attribute_t {
 struct token {
   int token_type;
   unsigned int lineno;
-  const char *strval;
+  char *strval;
   int intval;
   enum attribute_t attributeval;
 };
@@ -26,5 +26,7 @@ struct token *new_token_word(unsigned int line, const char *text);
 struct token *new_token_int(unsigned int line, int val, const char *text);
 struct token *new_token_attribute(unsigned int line, enum attribute_t,
                                   const char *text);
+
+void destroy_token(struct token *t);
 
 #endif
