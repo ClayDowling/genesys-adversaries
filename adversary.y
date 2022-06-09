@@ -117,6 +117,6 @@ leveleditem(A) ::= name(B) . { A = new_leveleditem(B, 0); }
 leveleditem(A) ::= name(B) NUMBER(C) . { A= new_leveleditem(B, C->intval); }
 attributebonus(A) ::= ATTRIBUTE(B) NUMBER(C) . { A = new_attributebonus(B->attributeval, C->intval); }
 
-name(A) ::= QUOTEDSTRING . { A = strdup(quoted_string); }
+name(A) ::= QUOTEDSTRING(B) . { A = strdup(B->strval); }
 name(A) ::= WORD(B) .    { A = strdup(B->strval); }
 

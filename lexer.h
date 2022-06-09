@@ -1,35 +1,35 @@
-#ifndef _LEXER_H_
-#define _LEXER_H_
+#ifndef LEXER_H
+#define LEXER_H
 
-#include <iostream>
-#include <string>
-using std::string;
-
-extern "C" {
 #include "token.h"
-}
 
-class lexer {
+struct lex_context;
 
-private:
-    std::istream& src;
-    unsigned int lineno;
-    token* hold;
-    bool holding;
+/**
+ * @brief Set up a lexer for the given file.
+ *
+ * @param filename Source file to scan
+ * @return struct lex_context* Argument to be passed to lex_scan
+ */
+struct lex_context *lex_file(const char *filename);
 
-    bool string_match(string, string);
-    token* get_number(const char);
-    string get_identifier(const char);
-    token* get_quoted_string(std::istream&);
+/**
+ * @brief Release resources associated with the lexer.
+ *
+ * @param ctx Lexer to finalize
+ */
+void lex_complete(struct lex_context *ctx);
 
-    enum attribute_t to_attribute(const char*);
-
-public:
-
-    lexer(std::istream&);
-    struct token* get();
-    void put_back(token&);
-    bool eof();
-};
+/**
+ * @brief Convert the input stream into the next token.
+ *
+ * Call lex_scan repeatedly to get tokens, until a NULL is returned, signifying
+ * the end of input.
+ *
+ * @param ctx 				A context previously set up with
+ * lex_file
+ * @return struct token* 	Next token, or NULL when input is exhausted.
+ */
+struct token *lex_scan(struct lex_context *ctx);
 
 #endif

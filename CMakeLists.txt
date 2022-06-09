@@ -26,7 +26,7 @@ add_library(adversary
     ast.c
     token.c
     terminal_tags.c
-    lex.yy.c
+    lexer.c
     parser.c
 )
 
@@ -34,12 +34,16 @@ target_link_libraries(${PROJECT_NAME}
     adversary
 )
 
-add_executable(tokenstream
-    adversary.h
-    adversary-to-tokens.c
-    terminal_tags.c
-    lex.yy.c
-)
+# add_executable(tokenstream
+#     adversary.h
+#     adversary-to-tokens.c
+#     terminal_tags.c
+#     lexer.c
+# )
+
+# target_link_libraries(tokenstream
+#     ${FLEX_LIBRARIES}
+# )
 
 add_executable(lemon
     lemon.c
@@ -57,7 +61,5 @@ add_executable(symbol-to-name
     symbol-to-name.cpp
     adversary.h
 )
-
-FLEX_TARGET(AdversaryScanner adversary.l ${GENERATED_FILE_DIR}/lex.yy.c)
 
 add_subdirectory(test)

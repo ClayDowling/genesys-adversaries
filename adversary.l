@@ -2,8 +2,9 @@
 %x incl
 %x QS
 
-%option case-insensitive
-%option noyywrap
+%option case-insensitive noyywrap yylineno
+%option nodefault
+%option header-file="lexer.h"
 
 %{
 
@@ -15,6 +16,20 @@ int yy_adv_lineno = 1;
 
 #define BUFFER_MAX 60
 char quoted_string[BUFFER_MAX];
+
+struct bufstack {
+    struct bufstack *prev;
+    YY_BUFFER_STATE bs;
+    int lineno;
+    char *filename;
+    FILE* f;
+} *curbs = 0;
+
+char* curfilename;
+
+int newfile(char *fn);
+int popfile();
+
 
 %}
 
@@ -50,21 +65,23 @@ cun             { yy_adv_attribute = attr_cunning; return ATTRIBUTE; }
 will            { yy_adv_attribute = attr_willpower; return ATTRIBUTE; }
 pr              { yy_adv_attribute = attr_presence; return ATTRIBUTE; }
 
-use           { BEGIN(incl); }
+use[ \t]+\"          { BEGIN(incl); }
 
-<incl>[ \t]*        /* Eat whitespace before the file name */
-<incl>[^ \t\n]+$    { // Filename except trailing whitespace
-        yyin = fopen(yytext, "r");
-
-        if (!yyin) {
-            fprintf(stderr, "Could not open \"%s\"\n", yytext);
-            return 0;
+<incl>[^\n\"]+  { // Filename except trailing whitespace
+        {
+            int c;
+            while((c = input()) && c != '\n');
         }
-
-        yypush_buffer_state(yy_create_buffer(yyin, YY_BUF_SIZE ));
+        yylineno++;
+        if (!newfile(yytext)) {
+            yyterminate();
+        }
         BEGIN(INITIAL);
     }
-
+<incl>.|\n      {
+        fprintf(stderr, "Bad \"use\" file on line %d", yylineno);
+        yyterminate();
+    }
 
 [A-Za-z][A-Za-z0-9]*  { return WORD; }
 
@@ -82,18 +99,59 @@ use           { BEGIN(incl); }
 
 [ \t]       // Eat up the whitespace
 
+<<EOF>>     { if (!popfile) yyterminate();  }
 
-.               { 
-        fprintf(stderr, "Unrecognized symbol \"%s\" in input.\n", yytext);
-        yyterminate();
+
+%%
+
+/* Open a new file and make it the current buffer, saving the old buffer to the stack */
+int newfile(char* fn) {
+    FILE *f = fopen(fn, "r");
+    struct bufstack *bs = (struct bufstack*)calloc(1, sizeof(struct bufstack));
+
+    if (!f) {
+        perror(fn);
+        return 0;
+    }
+    if (!bs) {
+        perror("malloc");
+        return 0;
     }
 
+    if (curbs) curbs->lineno = yylineno;
+    bs->prev = curbs;
 
+    bs->bs = yy_create_buffer(f, YY_BUF_SIZE);
+    bs->f = f;
+    bs->filename = strdup(fn);
+    yy_switch_to_buffer(bs->bs);
+    curbs = bs;
+    yylineno = 1;
+    curfilename = bs->filename;
+    return 1;
+}
 
-<<EOF>>     {
-        yypop_buffer_state();
+int popfile() {
+    struct bufstack *bs = curbs;
+    struct bufstack* prevbs;
 
-        if ( !YY_CURRENT_BUFFER ) {
-            yyterminate();
-        }
-    }
+    if (!bs) return 0;
+
+    /* Clean up current entry */
+    fclose(bs->f);
+    free(bs->filename);
+    yy_delete_buffer(bs->bs);
+
+    /* Switch to previous buffer */
+    prevbs = bs->prev;
+    free(bs);
+
+    /* Out of buffers and therefore out of input */
+    if (!prevbs) return 0;
+
+    yy_switch_to_buffer(prevbs->bs);
+    curbs = prevbs;
+    yylineno = curbs->lineno;
+    curfilename = curbs->filename;
+    return 1;
+}
