@@ -81,12 +81,13 @@ struct token *lex_word(struct lex_context *ctx) {
     if (isalpha(c)) {
       ctx->assembly[i] = c;
     } else {
+      ungetc(c, ctx->input);
       break;
     }
   }
 
   for (int i = 0; i < sizeof(keywords) / sizeof(struct fixed_value); ++i) {
-    if (strcmp(ctx->assembly, keywords[i].text) == 0)
+    if (strcasecmp(ctx->assembly, keywords[i].text) == 0)
       return new_token(ctx->lineno, keywords[i].token_type, ctx->assembly);
   }
   return NULL;
