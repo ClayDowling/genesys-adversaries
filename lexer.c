@@ -43,11 +43,20 @@ struct lex_context {
 };
 
 struct lex_context *lex_file(const char *filename) {
+  FILE *in = fopen(filename, "r");
+  if (!in) {
+    perror(filename);
+  }
+  return lex_FILE(in);
+}
+
+struct lex_context *lex_FILE(FILE* file) {
   struct lex_context *ctx = calloc(1, sizeof(struct lex_context));
-  ctx->input = fopen(filename, "r");
+  ctx->input = file;
   ctx->lineno = 1;
   return ctx;
 }
+
 
 void lex_complete(struct lex_context *ctx) {
   fclose(ctx->input);
@@ -60,6 +69,8 @@ struct token *lex_scan(struct lex_context *ctx) {
   while (!feof(ctx->input)) {
     c = fgetc(ctx->input);
     switch (c) {
+    case EOF:
+      return 0;
     case ',':
       return new_token(ctx->lineno, COMMA, ",");
     case ':':

@@ -1,43 +1,48 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "adversary.h"
 #include "lexer.h"
 #include "terminal_tags.h"
 #include "unity_fixture.h"
 
-char *tmpfilename = NULL;
 struct lex_context *ctx = NULL;
+FILE *srcfile = NULL;
+char filename[12];
 
 TEST_GROUP(Lexer);
 
 TEST_SETUP(Lexer) {
-  tmpfilename = NULL;
   ctx = NULL;
+  strncpy(filename, "lexerXXXXXX", sizeof(filename));
 }
 
 TEST_TEAR_DOWN(Lexer) {
-  if (tmpfilename) {
-    // remove(tmpfilename);
-    // free(tmpfilename);
-    tmpfilename = NULL;
-  }
   if (ctx) {
     lex_complete(ctx);
     ctx = NULL;
   }
+  if (srcfile) {
+    remove(filename);
+  }
 }
 
 void useContent(const char *content) {
-  char template[] = "lexerXXXXXX";
-  //   tmpfilename = strdup(template);
-  FILE *out = fdopen(mkstemp(template), "w+b");
-  fwrite((void *)content, strlen(content), 1, out);
-  fflush(out);
-  rewind(out);
+  int fd = mkstemp(filename);
+  if (fd == -1) {
+    perror(filename);
+    exit(1);
+  }
+  if (write(fd, (void*)content, strlen(content)) == -1) {
+    perror("write");
+    exit(2);
+  }
+  close(fd);
 
-  ctx = lex_file(template);
+  srcfile = fopen(filename, "r");
+  ctx = lex_FILE(srcfile);
 }
 
 const char *mismatch_message(int expected, int actual) {

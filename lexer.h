@@ -1,6 +1,7 @@
 #ifndef LEXER_H
 #define LEXER_H
 
+#include <stdio.h>
 #include "token.h"
 
 struct lex_context;
@@ -12,6 +13,14 @@ struct lex_context;
  * @return struct lex_context* Argument to be passed to lex_scan
  */
 struct lex_context *lex_file(const char *filename);
+
+/**
+ * @brief Set up a lexer for the given file handle
+ * 
+ * @param file File handle to parse
+ * @return struct lex_context* Argument to be passed to lex_scan
+ */
+struct lex_context *lex_FILE(FILE* file);
 
 /**
  * @brief Release resources associated with the lexer.
