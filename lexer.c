@@ -1,6 +1,8 @@
 #include "lexer.h"
 #include "adversary.h"
 
+#include <limits.h>
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,12 +37,24 @@ struct fixed_value attributes[] = {
 struct token *lex_word(struct lex_context *ctx);
 int lex_match_keyword(const char *);
 struct token *lex_quotedstring(struct lex_context *ctx);
+struct token *lex_end_of_file(struct lex_context *ctx);
+struct token *lex_use_file(struct lex_context *ctx, char* filename);
+void lex_error(struct lex_context* ctx, const char* message);
 
-#define ASSEMBLY_SIZE 80
+struct lex_pushed_context {
+  FILE *input;
+  int lineno;
+  char* filename;
+  struct lex_pushed_context* next;
+};
+
+#define ASSEMBLY_SIZE PATH_MAX
 struct lex_context {
   FILE *input;
   char assembly[ASSEMBLY_SIZE];
   int lineno;
+  char* filename;
+  struct lex_pushed_context* last;
 };
 
 struct lex_context *lex_file(const char *filename) {
@@ -48,19 +62,24 @@ struct lex_context *lex_file(const char *filename) {
   if (!in) {
     perror(filename);
   }
-  return lex_FILE(in);
+  return lex_FILE(in, filename);
 }
 
-struct lex_context *lex_FILE(FILE* file) {
+struct lex_context *lex_FILE(FILE* file, const char* name) {
   struct lex_context *ctx = calloc(1, sizeof(struct lex_context));
   ctx->input = file;
   ctx->lineno = 1;
+  if (name) {
+    ctx->filename = strdup(name);
+  } else {
+    ctx->filename = strdup("{stream}");
+  }
   return ctx;
 }
 
-
 void lex_complete(struct lex_context *ctx) {
   fclose(ctx->input);
+  free(ctx->filename);
   free(ctx);
 }
 
@@ -71,21 +90,24 @@ struct token *lex_scan(struct lex_context *ctx) {
     c = fgetc(ctx->input);
     switch (c) {
     case EOF:
-      return 0;
+      return lex_end_of_file(ctx);
     case ',':
-      return new_token(ctx->lineno, COMMA, ",");
+      return new_token(ctx->lineno, ctx->filename, COMMA, ",");
     case ':':
-      return new_token(ctx->lineno, COLON, ":");
+      return new_token(ctx->lineno, ctx->filename, COLON, ":");
     case '(':
-      return new_token(ctx->lineno, LPAREN, "(");
+      return new_token(ctx->lineno, ctx->filename, LPAREN, "(");
     case ')':
-      return new_token(ctx->lineno, RPAREN, ")");
+      return new_token(ctx->lineno, ctx->filename, RPAREN, ")");
     case '\'':
     case '\"':
       ungetc(c, ctx->input);
       return lex_quotedstring(ctx);
     case ' ':
     case '\t':
+      continue;
+    case '\n':
+      ctx->lineno++;
       continue;
     default:
 
@@ -94,13 +116,13 @@ struct token *lex_scan(struct lex_context *ctx) {
         return lex_word(ctx);
       }
 
-      fprintf(stderr, "Unknown value in input: %c\n", c);
+      fprintf(stderr, "Unknown value in input: \'%c\'\n", c);
       break;
     }
   }
 
   /* At end of input, no tokens */
-  return NULL;
+  return lex_end_of_file(ctx);
 }
 
 struct token *lex_word(struct lex_context *ctx) {
@@ -116,18 +138,35 @@ struct token *lex_word(struct lex_context *ctx) {
     }
   }
 
+  if (strcasecmp(ctx->assembly, "use") == 0) {
+    for(;;) {
+      c = fgetc(ctx->input);
+      if (c == ' ') continue;
+      if (c == '\t') continue;
+      if (c == '\n') {
+        lex_error(ctx, "No filename on USE line");
+      }
+      if (c == '\'' || c == '\"') {
+        ungetc(c, ctx->input);
+        break;
+      }
+    }
+    struct token* filename = lex_quotedstring(ctx);
+    return lex_use_file(ctx, filename->strval);
+  }
+
   for (int i = 0; i < sizeof(keywords) / sizeof(struct fixed_value); ++i) {
     if (strcasecmp(ctx->assembly, keywords[i].text) == 0)
-      return new_token(ctx->lineno, keywords[i].token_type, ctx->assembly);
+      return new_token(ctx->lineno, ctx->filename, keywords[i].token_type, ctx->assembly);
   }
 
   for (int i = 0; i < sizeof(attributes) / sizeof(struct fixed_value); ++i) {
     if (strcasecmp(ctx->assembly, attributes[i].text) == 0)
-      return new_token_attribute(ctx->lineno, attributes[i].token_type,
+      return new_token_attribute(ctx->lineno, ctx->filename, attributes[i].token_type,
                                  ctx->assembly);
   }
 
-  return new_token(ctx->lineno, WORD, ctx->assembly);
+  return new_token(ctx->lineno, ctx->filename, WORD, ctx->assembly);
 }
 
 struct token* lex_quotedstring(struct lex_context* ctx) {
@@ -139,31 +178,72 @@ struct token* lex_quotedstring(struct lex_context* ctx) {
   for(int c = fgetc(ctx->input); i < ASSEMBLY_SIZE; c = fgetc(ctx->input)) {
     switch(c) {
       case EOF:
-        fprintf(stderr, "End of File while reading quoted string, line %d", ctx->lineno);
-        return NULL;
+        lex_error(ctx, "End of File while reading quoted string");
+        return new_token(startline, ctx->filename, QUOTEDSTRING, ctx->assembly);
       case '\n':
         ctx->lineno++;
-        ctx->assembly[i++] = c;
+        return new_token(startline, ctx->filename, QUOTEDSTRING, ctx->assembly);
         break;
       default:
         if (delim == c) {
-          return new_token(startline, QUOTEDSTRING, ctx->assembly);
+          return new_token(startline, ctx->filename, QUOTEDSTRING, ctx->assembly);
         }
         ctx->assembly[i++] = c;
         break;
 
     }
   }
-  fprintf(stderr, "Overflow Error: Quoted String longer than %d characters.", ASSEMBLY_SIZE);
+
+  lex_error(ctx, "Quoted String longer than max allowed size");
   int idx;
   while(idx = fgetc(ctx->input)) {
-    if (idx == EOF)  {
-      fprintf(stderr, "End of File while reading quoted string, line %d", ctx->lineno);
-      return NULL;
+    if (idx == EOF)  {     
+      lex_error(ctx, "End of File while reading quoted string");
+      return new_token(startline, ctx->filename, QUOTEDSTRING, ctx->assembly);
     }
     if (idx == '\n') ctx->lineno++;
     if (idx == delim) {
-      return new_token(startline, QUOTEDSTRING, ctx->assembly);
+      return new_token(startline, ctx->filename, QUOTEDSTRING, ctx->assembly);
     }
   }
+}
+
+struct token* lex_end_of_file(struct lex_context* ctx) {
+  if (ctx->last) {
+    struct lex_pushed_context* last = ctx->last;
+    fclose(ctx->input);
+    ctx->input = last->input;
+    ctx->filename = last->filename;
+    ctx->lineno = last->lineno;
+    ctx->last = last->next;
+    free(last);
+    return lex_scan(ctx);
+  }
+  return NULL;
+}
+
+struct token* lex_use_file(struct lex_context* ctx, char* filename) {
+ 
+  FILE *newinput = fopen(filename, "r");
+  if (!newinput) {
+    perror(filename);
+    return lex_scan(ctx);
+  }
+
+  struct lex_pushed_context* pushed = (struct lex_pushed_context*)calloc(1, sizeof(struct lex_pushed_context));
+  pushed->filename = ctx->filename;
+  pushed->input = ctx->input;
+  pushed->lineno = ctx->lineno;
+
+  ctx->last = pushed;
+  ctx->filename = filename;
+  ctx->input = newinput;
+  ctx->lineno = 1;
+
+  return lex_scan(ctx);
+
+}
+
+void lex_error(struct lex_context* ctx, const char* message) {
+  fprintf(stderr, "%s line %d: %s\n", ctx->filename, ctx->lineno, message);
 }

@@ -20,7 +20,7 @@ struct lex_context *lex_file(const char *filename);
  * @param file File handle to parse
  * @return struct lex_context* Argument to be passed to lex_scan
  */
-struct lex_context *lex_FILE(FILE* file);
+struct lex_context *lex_FILE(FILE* file, const char* name);
 
 /**
  * @brief Release resources associated with the lexer.

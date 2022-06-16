@@ -1,3 +1,5 @@
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,7 +26,8 @@ TEST_TEAR_DOWN(Lexer) {
     lex_complete(ctx);
     ctx = NULL;
   }
-  if (srcfile) {
+  struct stat sb;
+  if (stat(filename, &sb) == 0) {  
     remove(filename);
   }
 }
@@ -41,8 +44,7 @@ void useContent(const char *content) {
   }
   close(fd);
 
-  srcfile = fopen(filename, "r");
-  ctx = lex_FILE(srcfile);
+  ctx = lex_file(filename);
 }
 
 const char *mismatch_message(int expected, int actual) {
@@ -175,6 +177,36 @@ TEST(Lexer, quoted_string_returns_QUOTEDSTRING_symbol) {
   destroy_token(tok);
 }
 
+TEST(Lexer, use_keyword_causes_named_file_to_be_read) {
+  struct token* first;
+  struct token* second;
+
+  char tempfile[10];
+  strncpy(tempfile, "useXXXXXX", sizeof(tempfile));
+  int fd = mkstemp(tempfile);
+  write(fd, "talent\n", 7);
+  close(fd);
+
+  char content[256];
+  memset(content, 0, sizeof(content));
+  snprintf(content, sizeof(content), "use \"%s\"\n"
+                                     "skill\n", tempfile);
+
+  useContent(content);
+
+  first = lex_scan(ctx);
+  second = lex_scan(ctx);
+
+  TEST_ASSERT_NOT_NULL(first);
+  TEST_ASSERT_NOT_NULL(second);
+  TEST_ASSERT_EQUAL_INT_MESSAGE(TALENT, first->token_type, mismatch_message(TALENT, first->token_type));
+  TEST_ASSERT_EQUAL_STRING(tempfile, first->filename);
+  TEST_ASSERT_EQUAL_INT_MESSAGE(SKILL, second->token_type, mismatch_message(SKILL, second->token_type));
+  TEST_ASSERT_EQUAL_STRING(filename, second->filename);
+
+  remove(tempfile);
+}
+
 TEST_GROUP_RUNNER(Lexer) {
   RUN_TEST_CASE(Lexer, single_character_tokens_return_expected_values);
   RUN_TEST_CASE(Lexer, keywords_return_expected_values);
@@ -183,4 +215,5 @@ TEST_GROUP_RUNNER(Lexer) {
   RUN_TEST_CASE(Lexer, attribute_abbreviations_match_in_case_insensitive_way);
   RUN_TEST_CASE(Lexer, non_reserved_words_return_word_token);
   RUN_TEST_CASE(Lexer, quoted_string_returns_QUOTEDSTRING_symbol);
+  RUN_TEST_CASE(Lexer, use_keyword_causes_named_file_to_be_read);
 }
