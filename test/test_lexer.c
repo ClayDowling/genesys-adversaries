@@ -125,7 +125,7 @@ TEST(Lexer, attribute_matches_in_case_insensitive_way) {
   TEST_ASSERT_EQUAL_INT(6, matches);
 }
 
-TEST(Lexer, attribute_abbreviations_matche_in_case_insensitive_way) {
+TEST(Lexer, attribute_abbreviations_match_in_case_insensitive_way) {
   enum attribute_t expected[] = {attr_brawn,     attr_agility,   attr_cunning,
                                  attr_intellect, attr_willpower, attr_presence};
   struct token *t;
@@ -164,11 +164,23 @@ TEST(Lexer, non_reserved_words_return_word_token) {
   destroy_token(second);
 }
 
+TEST(Lexer, quoted_string_returns_QUOTEDSTRING_symbol) {
+  struct token* tok;
+  useContent("\"Ranged (Light)\"");
+
+  tok = lex_scan(ctx);
+  TEST_ASSERT_NOT_NULL(tok);
+  TEST_ASSERT_EQUAL_INT(QUOTEDSTRING, tok->token_type);
+  TEST_ASSERT_EQUAL_STRING("Ranged (Light)", tok->strval);
+  destroy_token(tok);
+}
+
 TEST_GROUP_RUNNER(Lexer) {
   RUN_TEST_CASE(Lexer, single_character_tokens_return_expected_values);
   RUN_TEST_CASE(Lexer, keywords_return_expected_values);
   RUN_TEST_CASE(Lexer, keyword_matches_are_case_insensitive);
   RUN_TEST_CASE(Lexer, attribute_matches_in_case_insensitive_way);
-  RUN_TEST_CASE(Lexer, attribute_abbreviations_matche_in_case_insensitive_way);
+  RUN_TEST_CASE(Lexer, attribute_abbreviations_match_in_case_insensitive_way);
   RUN_TEST_CASE(Lexer, non_reserved_words_return_word_token);
+  RUN_TEST_CASE(Lexer, quoted_string_returns_QUOTEDSTRING_symbol);
 }

@@ -34,6 +34,7 @@ struct fixed_value attributes[] = {
 
 struct token *lex_word(struct lex_context *ctx);
 int lex_match_keyword(const char *);
+struct token *lex_quotedstring(struct lex_context *ctx);
 
 #define ASSEMBLY_SIZE 80
 struct lex_context {
@@ -79,6 +80,10 @@ struct token *lex_scan(struct lex_context *ctx) {
       return new_token(ctx->lineno, LPAREN, "(");
     case ')':
       return new_token(ctx->lineno, RPAREN, ")");
+    case '\'':
+    case '\"':
+      ungetc(c, ctx->input);
+      return lex_quotedstring(ctx);
     case ' ':
     case '\t':
       continue;
@@ -123,4 +128,42 @@ struct token *lex_word(struct lex_context *ctx) {
   }
 
   return new_token(ctx->lineno, WORD, ctx->assembly);
+}
+
+struct token* lex_quotedstring(struct lex_context* ctx) {
+  char delim = fgetc(ctx->input);
+  int startline = ctx->lineno;
+  memset(ctx->assembly, 0, ASSEMBLY_SIZE);
+
+  int i=0;
+  for(int c = fgetc(ctx->input); i < ASSEMBLY_SIZE; c = fgetc(ctx->input)) {
+    switch(c) {
+      case EOF:
+        fprintf(stderr, "End of File while reading quoted string, line %d", ctx->lineno);
+        return NULL;
+      case '\n':
+        ctx->lineno++;
+        ctx->assembly[i++] = c;
+        break;
+      default:
+        if (delim == c) {
+          return new_token(startline, QUOTEDSTRING, ctx->assembly);
+        }
+        ctx->assembly[i++] = c;
+        break;
+
+    }
+  }
+  fprintf(stderr, "Overflow Error: Quoted String longer than %d characters.", ASSEMBLY_SIZE);
+  int idx;
+  while(idx = fgetc(ctx->input)) {
+    if (idx == EOF)  {
+      fprintf(stderr, "End of File while reading quoted string, line %d", ctx->lineno);
+      return NULL;
+    }
+    if (idx == '\n') ctx->lineno++;
+    if (idx == delim) {
+      return new_token(startline, QUOTEDSTRING, ctx->assembly);
+    }
+  }
 }
