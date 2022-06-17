@@ -80,15 +80,22 @@ struct leveleditem_t* new_leveleditem(const char*, int);
 struct weapon_t {
     const char *name;
     const char *skill;
+    bool brawl;
     int damage;
     int crit;
+    struct node_t* specials;
 };
+
+struct weapon_t* new_weapon(const char* name, const char* skill, bool brawl, int damage, int crit);
+void weapon_add_special(struct weapon_t* w, const char* special);
+bool is_weapon(const void* candidate, const char* name);
 
 struct world_t {
     struct node_t *skills;
     struct node_t *talents;
     struct node_t *packages;
     struct node_t *characters;
+    struct node_t *weapons;
 };
 struct world_t* new_world();
 
@@ -96,6 +103,7 @@ void world_add_skill(struct world_t*, const struct skill_t*);
 void world_add_talent(struct world_t*, const struct talent_t*);
 void world_add_package(struct world_t*, const struct namedlist_t*);
 void world_add_character(struct world_t*, const struct namedlist_t*);
+void world_add_weapon(struct world_t*, const struct weapon_t*);
 
 struct listitem_t* world_add_reference(const struct world_t*, const char*, int);
 
@@ -103,5 +111,6 @@ struct skill_t* world_find_skill(const struct world_t* w, const char* n);
 struct talent_t* world_find_talent(const struct world_t* w, const char* n);
 struct namedlist_t* world_find_package(const struct world_t* w, const char* n);
 struct namedlist_t* world_find_character(const struct world_t*, const char*);
+struct weapon_t* world_find_weapon(const struct world_t*, const char*);
 
 #endif

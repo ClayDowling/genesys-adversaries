@@ -162,6 +162,17 @@ TEST(AST, world_add_reference_given_neither_talent_nor_reference_returns_null) {
   TEST_ASSERT_NULL(li);
 }
 
+TEST(AST, world_add_weapon_given_valid_weapon_adds_weapon_to_world) {
+  const char *WEAPON_NAME = "Shiv";
+  struct world_t *world = new_world();
+  struct weapon_t *w = new_weapon(WEAPON_NAME, "Melee", true, 2, 3);
+
+  world_add_weapon(world, w);
+
+  TEST_ASSERT_EQUAL_PTR(w, world_find_weapon(world, WEAPON_NAME));
+
+}
+
 TEST_GROUP_RUNNER(AST) {
   RUN_TEST_CASE(AST, is_skill_returns_true_when_given_skill);
   RUN_TEST_CASE(AST, is_skill_returns_false_when_given_not_skill);
@@ -182,4 +193,5 @@ TEST_GROUP_RUNNER(AST) {
                 world_add_reference_given_talent_provides_talent_reference);
   RUN_TEST_CASE(
       AST, world_add_reference_given_neither_talent_nor_reference_returns_null);
+  RUN_TEST_CASE(AST, world_add_weapon_given_valid_weapon_adds_weapon_to_world);
 }

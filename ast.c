@@ -1,6 +1,6 @@
 #include "ast.h"
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 
 struct skill_t *new_skill(const char *n, enum attribute_t a) {
   struct skill_t *s = calloc(1, sizeof(struct skill_t));
@@ -125,6 +125,24 @@ void *node_find(struct node_t *top, const char *name,
   return NULL;
 }
 
+struct weapon_t* new_weapon(const char* name, const char* skill, bool brawl, int damage, int crit) {
+  struct weapon_t* w = (struct weapon_t*)calloc(1, sizeof(struct weapon_t));
+  w->name = name;
+  w->skill = skill;
+  w->brawl = brawl;
+  w->damage = damage;
+  w->crit = crit;
+  return w;
+}
+
+void weapon_add_special(struct weapon_t* w, const char* special) {
+  w->specials = node_append(w->specials, (void*)special);
+}
+
+bool is_weapon(const void* candidate, const char* name) {
+  IS_NAME(struct weapon_t, candidate, name);
+}
+
 struct namedlist_t *new_namedlist(enum namedlist_type t, const char *n) {
   struct namedlist_t *nl =
       (struct namedlist_t *)calloc(1, sizeof(struct namedlist_t));
@@ -166,6 +184,11 @@ void world_add_character(struct world_t *w, const struct namedlist_t *c) {
   w->characters = node_append(w->characters, (void *)c);
 }
 
+void world_add_weapon(struct world_t *w, const struct weapon_t *wp) {
+  w->weapons = node_append(w->weapons, (void*)wp);
+}
+
+
 struct skill_t *world_find_skill(const struct world_t *w, const char *n) {
   return (struct skill_t *)node_find(w->skills, n, is_skill);
 }
@@ -181,6 +204,10 @@ struct namedlist_t *world_find_package(const struct world_t *w, const char *n) {
 struct namedlist_t *world_find_character(const struct world_t *w,
                                          const char *n) {
   return (struct namedlist_t *)node_find(w->characters, n, is_namedlist);
+}
+
+struct weapon_t* world_find_weapon(const struct world_t *w, const char *n) {
+  return (struct weapon_t*)node_find(w->weapons, n, is_weapon);
 }
 
 struct listitem_t *world_add_reference(const struct world_t *w, const char *n,
