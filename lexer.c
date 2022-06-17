@@ -41,6 +41,7 @@ struct token *lex_quotedstring(struct lex_context *ctx);
 struct token *lex_end_of_file(struct lex_context *ctx);
 struct token *lex_use_file(struct lex_context *ctx, char* filename);
 void lex_error(struct lex_context* ctx, const char* message);
+struct token *lex_number(struct lex_context *ctx);
 
 struct lex_pushed_context {
   FILE *input;
@@ -210,6 +211,11 @@ struct token* lex_quotedstring(struct lex_context* ctx) {
     }
   }
 }
+
+struct token *lex_number(struct lex_context *ctx) {
+  return NULL;
+}
+
 
 struct token* lex_end_of_file(struct lex_context* ctx) {
   if (ctx->last) {

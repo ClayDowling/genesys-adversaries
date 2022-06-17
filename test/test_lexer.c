@@ -207,6 +207,21 @@ TEST(Lexer, use_keyword_causes_named_file_to_be_read) {
   remove(tempfile);
 }
 
+TEST(Lexer, given_positive_negative_and_signless_numbes_return_correct_values) {
+  int expected[] = {128, -256, 7};
+  useContent("+128 -256 7");
+  int matches = 0;
+
+  struct token* tok;
+  for(int i=0; i < sizeof(expected) / sizeof(int); ++i) {
+    tok = lex_scan(ctx);
+    TEST_ASSERT_NOT_NULL(tok);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(NUMBER, tok->token_type, mismatch_message(NUMBER, tok->token_type));
+    TEST_ASSERT_EQUAL_INT(expected[i], tok->intval);
+  }
+  TEST_ASSERT_EQUAL_INT(3, matches);
+}
+
 TEST_GROUP_RUNNER(Lexer) {
   RUN_TEST_CASE(Lexer, single_character_tokens_return_expected_values);
   RUN_TEST_CASE(Lexer, keywords_return_expected_values);
@@ -216,4 +231,5 @@ TEST_GROUP_RUNNER(Lexer) {
   RUN_TEST_CASE(Lexer, non_reserved_words_return_word_token);
   RUN_TEST_CASE(Lexer, quoted_string_returns_QUOTEDSTRING_symbol);
   RUN_TEST_CASE(Lexer, use_keyword_causes_named_file_to_be_read);
+  RUN_TEST_CASE(Lexer, given_positive_negative_and_signless_numbes_return_correct_values);
 }
