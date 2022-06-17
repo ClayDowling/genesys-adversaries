@@ -1,5 +1,6 @@
 #include "adversary.h"
 #include "terminal_tags.h"
+#include "lexer.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -16,20 +17,13 @@ int main(int argc, char **argv) {
     return EXIT_FAILURE;
   }
 
-  yyin = fopen(argv[1], "r");
-  if (!yyin) {
-    perror(argv[1]);
-    return EXIT_FAILURE;
-  }
+  struct lex_context *ctx = lex_file(argv[1]);
+  struct token *tok;
 
-  int yymajor;
-  while ((yymajor = yylex())) {
-    if (yymajor == QUOTEDSTRING) {
-      printf("%s(%s)\n", tag_to_name(yymajor), quoted_string);
-    } else {
-      printf("%s(%s)\n", tag_to_name(yymajor), yytext);
-    }
+  while (tok = lex_scan(ctx)) {
+    printf("%s(%s)\n", tag_to_name(tok->token_type), tok->strval);
   }
+  lex_complete(ctx);
 
   return EXIT_SUCCESS;
 }

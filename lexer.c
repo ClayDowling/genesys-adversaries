@@ -93,6 +93,8 @@ struct token *lex_scan(struct lex_context *ctx) {
       return lex_end_of_file(ctx);
     case ',':
       return new_token(ctx->lineno, ctx->filename, COMMA, ",");
+    case ';':
+      return new_token(ctx->lineno, ctx->filename, SEMICOLON, ";");
     case ':':
       return new_token(ctx->lineno, ctx->filename, COLON, ":");
     case '(':

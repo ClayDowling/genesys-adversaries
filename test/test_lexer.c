@@ -55,9 +55,9 @@ const char *mismatch_message(int expected, int actual) {
 }
 
 TEST(Lexer, single_character_tokens_return_expected_values) {
-  int expected[] = {COMMA, COLON, LPAREN, RPAREN, 0};
+  int expected[] = {COMMA, SEMICOLON, COLON, LPAREN, RPAREN, 0};
   struct token *t;
-  useContent(", : ( )");
+  useContent(", ; : ( )");
   int matches = 0;
 
   for (int i = 0; expected[i]; ++i) {
@@ -69,7 +69,7 @@ TEST(Lexer, single_character_tokens_return_expected_values) {
     matches++;
   }
 
-  TEST_ASSERT_EQUAL_INT(4, matches);
+  TEST_ASSERT_EQUAL_INT(5, matches);
 }
 
 TEST(Lexer, keywords_return_expected_values) {

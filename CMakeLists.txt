@@ -34,12 +34,13 @@ target_link_libraries(${PROJECT_NAME}
     adversary
 )
 
-# add_executable(tokenstream
-#     adversary.h
-#     adversary-to-tokens.c
-#     terminal_tags.c
-#     lexer.c
-# )
+add_executable(tokenstream
+    adversary.h
+    adversary-to-tokens.c
+    terminal_tags.c
+    lexer.c
+    token.c
+)
 
 # target_link_libraries(tokenstream
 #     ${FLEX_LIBRARIES}
@@ -60,6 +61,12 @@ add_custom_command(
 add_executable(symbol-to-name
     symbol-to-name.cpp
     adversary.h
+)
+
+add_custom_command(
+    OUTPUT ${GENERATED_FILE_DIR}/terminal_tags.c
+    COMMAND symbol-to-name ${GENERATED_FILE_DIR}/adversary.h -o ${GENERATED_FILE_DIR}/terminal_tags.c
+    DEPENDS symbol-to-name
 )
 
 add_subdirectory(test)

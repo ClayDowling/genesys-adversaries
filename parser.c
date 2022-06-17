@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "adversary.h"
 #include "lexer.h"
@@ -41,16 +42,25 @@ struct world_t *parse_file(const char *filename) {
 }
 
 struct world_t *parse_buffer(const char *buffer) {
-  char template[] = "adversaryXXXXXX";
-  FILE *src = fdopen(mkstemp(template), "w+b");
-  fwrite((void *)buffer, strlen(buffer), 1, src);
-  fflush(src);
-  rewind(src);
+  char filename[16];
+  strncpy(filename, "adversaryXXXXXX", sizeof(filename));
+  int fd = mkstemp(filename);
+  if (fd == -1) {
+    perror(filename);
+    exit(1);
+  }
+  if (write(fd, (void*)buffer, strlen(buffer)) == -1) {
+    perror("write");
+    exit(2);
+  }
+  close(fd);
 
-  struct lex_context *ctx = lex_file(template);
+  struct lex_context *ctx = lex_file(filename);
 
   struct world_t *w = parse_input(ctx);
 
-  fclose(src);
+  lex_complete(ctx);
+  remove(filename);
+
   return w;
 }

@@ -3,9 +3,11 @@
 *.a
 *.exe
 build/
+linuxbuild/
 cmake-build-debug/
 .idea/
 .vscode/
+.vs/
 adversary.c
 adversary.h
 adversary.out

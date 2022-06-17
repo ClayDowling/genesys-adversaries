@@ -77,6 +77,13 @@ struct leveleditem_t {
 };
 struct leveleditem_t* new_leveleditem(const char*, int);
 
+struct weapon_t {
+    const char *name;
+    const char *skill;
+    int damage;
+    int crit;
+};
+
 struct world_t {
     struct node_t *skills;
     struct node_t *talents;

@@ -54,6 +54,7 @@ world ::= world skill .
 world ::= world talent .
 world ::= world package .
 world ::= world character .
+world ::= world weapon .
 
 
 skill ::= SKILL name(B) LPAREN ATTRIBUTE(C) RPAREN . { world_add_skill(thisworld, new_skill(B, C->attributeval)); }
@@ -116,6 +117,19 @@ namedlist(A) ::= namedlist COMMA attributebonus(B) . {
 leveleditem(A) ::= name(B) . { A = new_leveleditem(B, 0); }
 leveleditem(A) ::= name(B) NUMBER(C) . { A= new_leveleditem(B, C->intval); }
 attributebonus(A) ::= ATTRIBUTE(B) NUMBER(C) . { A = new_attributebonus(B->attributeval, C->intval); }
+
+weapon ::= WEAPON name LPAREN name SEMICOLON weaponstats RPAREN .
+
+weaponstats ::= weaponstats SEMICOLON criticalphrase .
+weaponstats ::= weaponstats SEMICOLON damagephrase .
+weaponstats ::= weaponstats SEMICOLON specials .
+weaponstats ::= .
+
+damagephrase ::= DAMAGE NUMBER .
+criticalphrase ::= CRITICAL NUMBER .
+
+specials ::= specials COMMA name .
+specials ::= name .
 
 name(A) ::= QUOTEDSTRING(B) . { A = strdup(B->strval); }
 name(A) ::= WORD(B) .    { A = strdup(B->strval); }
