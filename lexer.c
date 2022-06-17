@@ -113,6 +113,20 @@ struct token *lex_scan(struct lex_context *ctx) {
     case '\n':
       ctx->lineno++;
       continue;
+    case '-':
+    case '+':
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+      ungetc(c, ctx->input);
+      return lex_number(ctx);
     default:
 
       if (isalpha(c)) {
@@ -213,7 +227,14 @@ struct token* lex_quotedstring(struct lex_context* ctx) {
 }
 
 struct token *lex_number(struct lex_context *ctx) {
-  return NULL;
+  memset(ctx->assembly, 0, ASSEMBLY_SIZE);
+  int i=0;
+  ctx->assembly[i++] = fgetc(ctx->input);
+  for(int c = fgetc(ctx->input); c != EOF && i < ASSEMBLY_SIZE && isdigit(c); c = fgetc(ctx->input)) {
+    ctx->assembly[i++] = c;
+  }
+  struct token* tok = new_token_int(ctx->lineno, ctx->filename, strtol(ctx->assembly, NULL, 10), ctx->assembly);
+  return tok;
 }
 
 

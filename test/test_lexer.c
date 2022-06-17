@@ -213,11 +213,12 @@ TEST(Lexer, given_positive_negative_and_signless_numbes_return_correct_values) {
   int matches = 0;
 
   struct token* tok;
-  for(int i=0; i < sizeof(expected) / sizeof(int); ++i) {
+  for(int i=0; i < 3; ++i) {
     tok = lex_scan(ctx);
     TEST_ASSERT_NOT_NULL(tok);
     TEST_ASSERT_EQUAL_INT_MESSAGE(NUMBER, tok->token_type, mismatch_message(NUMBER, tok->token_type));
     TEST_ASSERT_EQUAL_INT(expected[i], tok->intval);
+    matches++;
   }
   TEST_ASSERT_EQUAL_INT(3, matches);
 }
