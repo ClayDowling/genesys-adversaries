@@ -22,6 +22,7 @@ int main(int argc, char **argv) {
 
   while (tok = lex_scan(ctx)) {
     printf("%s(%s)\n", tag_to_name(tok->token_type), tok->strval);
+    destroy_token(tok);
   }
   lex_complete(ctx);
 

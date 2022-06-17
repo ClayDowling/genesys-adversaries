@@ -18,7 +18,8 @@ struct fixed_value keywords[] = {{.text = "skill", .token_type = SKILL},
                                  {.text = "package", .token_type = PACKAGE},
                                  {.text = "minion", .token_type = MINION},
                                  {.text = "rival", .token_type = RIVAL},
-                                 {.text = "nemesis", .token_type = NEMESIS}};
+                                 {.text = "nemesis", .token_type = NEMESIS},
+                                 {.text = "weapon", .token_type = WEAPON}};
 
 struct fixed_value attributes[] = {
     {.text = "brawn", .token_type = attr_brawn},

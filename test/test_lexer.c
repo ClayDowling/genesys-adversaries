@@ -73,9 +73,9 @@ TEST(Lexer, single_character_tokens_return_expected_values) {
 }
 
 TEST(Lexer, keywords_return_expected_values) {
-  int expected[] = {SKILL, TALENT, PACKAGE, MINION, RIVAL, NEMESIS};
+  int expected[] = {SKILL, TALENT, PACKAGE, MINION, RIVAL, NEMESIS, WEAPON};
   struct token *t;
-  useContent("skill talent package minion rival nemesis");
+  useContent("skill talent package minion rival nemesis weapon");
   int matches = 0;
 
   for (int i = 0; expected[i]; ++i) {
@@ -87,7 +87,7 @@ TEST(Lexer, keywords_return_expected_values) {
     matches++;
   }
 
-  TEST_ASSERT_EQUAL_INT(6, matches);
+  TEST_ASSERT_EQUAL_INT(7, matches);
 }
 
 TEST(Lexer, keyword_matches_are_case_insensitive) {
