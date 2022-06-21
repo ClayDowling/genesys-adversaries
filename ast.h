@@ -10,14 +10,14 @@ struct skill_t {
 };
 
 struct skill_t* new_skill(const char* n, enum attribute_t a);
-bool is_skill(const void*, const char*);
+bool is_skill(const void*, const void*);
 
 struct talent_t {
     const char* name;
 };
 
 struct talent_t* new_talent(const char* n);
-bool is_talent(const void*, const char*);
+bool is_talent(const void*, const void*);
 
 struct attributebonus_t {
     enum attribute_t attribute;
@@ -30,14 +30,14 @@ struct skill_reference_t {
     int level;
 };
 struct skill_reference_t* new_skill_reference(const struct skill_t*, int);
-bool is_skill_reference(const void*, struct skill_t*);
+bool is_skill_reference(const void*, const void*);
 
 struct talent_reference_t {
     const struct talent_t* reference;
     int level;
 };
 struct talent_reference_t* new_talent_reference(const struct talent_t*, int);
-bool is_talent_reference(const void*, struct talent_t*);
+bool is_talent_reference(const void*, const void*);
 
 enum listitemtype { li_attribute, li_skillref, li_talentref };
 
@@ -59,7 +59,7 @@ struct node_t {
 };
 struct node_t* new_node(void*);
 struct node_t* node_append(struct node_t* t, void* n);
-void* node_find(struct node_t*, const char*, bool (predicate)(const void*, const char*));
+void* node_find(struct node_t*, const void*, bool (predicate)(const void*, const void*));
 
 enum namedlist_type {list_package, list_minion, list_rival, list_nemesis, list_MAX};
 
@@ -69,7 +69,7 @@ struct namedlist_t {
     struct node_t* TOP;
 };
 struct namedlist_t* new_namedlist(enum namedlist_type, const char*);
-bool is_namedlist(const void*, const char*);
+bool is_namedlist(const void*, const void*);
 
 struct leveleditem_t {
 	const char* name;
@@ -88,7 +88,7 @@ struct weapon_t {
 
 struct weapon_t* new_weapon(const char* name, const char* skill, bool brawl, int damage, int crit);
 void weapon_add_special(struct weapon_t* w, const char* special);
-bool is_weapon(const void* candidate, const char* name);
+bool is_weapon(const void* candidate, const void* name);
 
 struct world_t {
     struct node_t *skills;

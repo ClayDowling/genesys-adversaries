@@ -18,7 +18,7 @@ struct skill_t *new_skill(const char *n, enum attribute_t a) {
     return false;                                                              \
   }
 
-bool is_skill(const void *node, const char *name) {
+bool is_skill(const void *node, const void *name) {
   IS_NAME(struct skill_t, node, name);
 }
 
@@ -28,7 +28,7 @@ struct talent_t *new_talent(const char *n) {
   return t;
 }
 
-bool is_talent(const void *node, const char *name) {
+bool is_talent(const void *node, const void *name) {
   IS_NAME(struct talent_t, node, name);
 }
 
@@ -65,11 +65,15 @@ struct talent_reference_t *new_talent_reference(const struct talent_t *r,
     return false;                                                              \
   }
 
-bool is_skill_reference(const void *item, struct skill_t *ref) {
-  IS_REFERENCE(struct skill_reference_t, item, ref);
+bool is_skill_reference(const void *item, const void *skillreference) {
+  struct listitem_t* li = (struct listitem_t*)item;
+  if (li->type != li_skillref) {
+      return false;
+  }
+  return li->skill->reference == (struct skill_t*)skillreference;
 }
 
-bool is_talent_reference(const void *item, struct talent_t *ref) {
+bool is_talent_reference(const void *item, const void *ref) {
   IS_REFERENCE(struct talent_reference_t, item, ref);
 }
 
@@ -115,8 +119,8 @@ struct node_t *node_append(struct node_t *t, void *n) {
   return t;
 }
 
-void *node_find(struct node_t *top, const char *name,
-                bool(predicate)(const void *, const char *)) {
+void *node_find(struct node_t *top, const void *name,
+                bool(predicate)(const void *, const void *)) {
   for (struct node_t *cur = top; cur != NULL; cur = cur->next) {
     if (predicate(cur->node, name)) {
       return cur->node;
@@ -139,7 +143,7 @@ void weapon_add_special(struct weapon_t* w, const char* special) {
   w->specials = node_append(w->specials, (void*)special);
 }
 
-bool is_weapon(const void* candidate, const char* name) {
+bool is_weapon(const void* candidate, const void* name) {
   IS_NAME(struct weapon_t, candidate, name);
 }
 
@@ -151,7 +155,7 @@ struct namedlist_t *new_namedlist(enum namedlist_type t, const char *n) {
   return nl;
 }
 
-bool is_namedlist(const void *candidate, const char *name) {
+bool is_namedlist(const void *candidate, const void *name) {
   IS_NAME(struct namedlist_t, candidate, name);
 }
 

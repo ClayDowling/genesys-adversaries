@@ -173,6 +173,44 @@ TEST(AST, world_add_weapon_given_valid_weapon_adds_weapon_to_world) {
 
 }
 
+TEST(AST, skill_reference_in_list_can_be_found_by_skill) {
+    struct skill_t *myskill = new_skill("Ralph", attr_cunning);
+    struct world_t *world = new_world();
+    world_add_skill(world, myskill);
+
+    // Create a skill reference and validate the return
+    struct listitem_t *li = world_add_reference(world, "Ralph", 6);
+    TEST_ASSERT_NOT_NULL(li);
+    TEST_ASSERT_EQUAL_INT(li_skillref, li->type);
+    TEST_ASSERT_EQUAL_PTR(myskill, li->skill->reference);
+
+    struct namedlist_t* c = new_namedlist(list_minion, "Cannon Fodder");
+    c->TOP = node_append(c->TOP, (void*)li);
+    TEST_ASSERT_NOT_NULL(c->TOP);
+    struct listitem_t *found = (struct listitem_t*)node_find(c->TOP, (void*)myskill, is_skill_reference);
+
+    TEST_ASSERT_EQUAL_PTR(li, found);
+}
+
+TEST(AST, talent_reference_in_list_can_be_found_by_talent) {
+    struct talent_t *mytalent = new_talent("Sneaky");
+    struct world_t *world = new_world();
+    world_add_talent(world, mytalent);
+
+    // Create a talent reference and validate the return
+    struct listitem_t *li = world_add_reference(world, "Ralph", 6);
+    TEST_ASSERT_NOT_NULL(li);
+    TEST_ASSERT_EQUAL_INT(li_talentref, li->type);
+    TEST_ASSERT_EQUAL_PTR(mytalent, li->talent->reference);
+
+    struct namedlist_t* c = new_namedlist(list_minion, "Cannon Fodder");
+    c->TOP = node_append(c->TOP, (void*)li);
+    TEST_ASSERT_NOT_NULL(c->TOP);
+    struct listitem_t *found = (struct listitem_t*)node_find(c->TOP, (void*)mytalent, is_talent_reference);
+
+    TEST_ASSERT_EQUAL_PTR(li, found);
+}
+
 TEST_GROUP_RUNNER(AST) {
   RUN_TEST_CASE(AST, is_skill_returns_true_when_given_skill);
   RUN_TEST_CASE(AST, is_skill_returns_false_when_given_not_skill);
@@ -194,4 +232,6 @@ TEST_GROUP_RUNNER(AST) {
   RUN_TEST_CASE(
       AST, world_add_reference_given_neither_talent_nor_reference_returns_null);
   RUN_TEST_CASE(AST, world_add_weapon_given_valid_weapon_adds_weapon_to_world);
+  RUN_TEST_CASE(AST, skill_reference_in_list_can_be_found_by_skill);
+  RUN_TEST_CASE(AST, talent_reference_in_list_can_be_found_by_talent);
 }
