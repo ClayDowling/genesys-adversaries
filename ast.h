@@ -38,7 +38,8 @@ struct talent_reference_t {
     int level;
 };
 struct talent_reference_t* new_talent_reference(const struct talent_t*, int);
-bool is_talent_reference(const void*, const void*);
+bool is_talent_reference(const void* item, const void* talent);
+bool is_talent_reference_name(const void* item, const void* name);
 
 enum listitemtype { li_attribute, li_skillref, li_talentref };
 

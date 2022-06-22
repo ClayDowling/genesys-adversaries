@@ -208,7 +208,6 @@ TEST(AST, skill_reference_in_list_can_be_found_by_name) {
     TEST_ASSERT_EQUAL_PTR(li, found);
 }
 
-
 TEST(AST, talent_reference_in_list_can_be_found_by_talent) {
     struct talent_t *mytalent = new_talent("Sneaky");
     struct world_t *world = new_world();
@@ -227,6 +226,26 @@ TEST(AST, talent_reference_in_list_can_be_found_by_talent) {
 
     TEST_ASSERT_EQUAL_PTR(li, found);
 }
+
+TEST(AST, talent_reference_in_list_can_be_found_by_name) {
+    struct talent_t *mytalent = new_talent("Sneaky");
+    struct world_t *world = new_world();
+    world_add_talent(world, mytalent);
+
+    // Create a talent reference and validate the return
+    struct listitem_t *li = world_add_reference(world, "Sneaky", 6);
+    TEST_ASSERT_NOT_NULL(li);
+    TEST_ASSERT_EQUAL_INT(li_talentref, li->type);
+    TEST_ASSERT_EQUAL_PTR(mytalent, li->talent->reference);
+
+    struct namedlist_t* c = new_namedlist(list_minion, "Cannon Fodder");
+    c->TOP = node_append(c->TOP, (void*)li);
+    TEST_ASSERT_NOT_NULL(c->TOP);
+    struct listitem_t *found = (struct listitem_t*)node_find(c->TOP, (void*)"Sneaky", is_talent_reference_name);
+
+    TEST_ASSERT_EQUAL_PTR(li, found);
+}
+
 
 TEST_GROUP_RUNNER(AST) {
   RUN_TEST_CASE(AST, is_skill_returns_true_when_given_skill);
@@ -252,4 +271,5 @@ TEST_GROUP_RUNNER(AST) {
   RUN_TEST_CASE(AST, skill_reference_in_list_can_be_found_by_skill);
   RUN_TEST_CASE(AST, talent_reference_in_list_can_be_found_by_talent);
   RUN_TEST_CASE(AST, skill_reference_in_list_can_be_found_by_name);
+  RUN_TEST_CASE(AST, talent_reference_in_list_can_be_found_by_name);
 }

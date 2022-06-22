@@ -89,6 +89,14 @@ bool is_talent_reference(const void *item, const void *ref) {
     return li->talent->reference == (struct talent_t*)ref;
 }
 
+bool is_talent_reference_name(const void* item, const void* name) {
+    struct listitem_t* li = (struct listitem_t*)item;
+    if (li->type != li_talentref) {
+        return false;
+    }
+    return strcasecmp(li->talent->reference->name, (const char*)name) == 0;
+}
+
 struct listitem_t *new_listattribute(const struct attributebonus_t *a) {
   struct listitem_t *li =
       (struct listitem_t *)calloc(1, sizeof(struct listitem_t));
