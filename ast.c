@@ -73,6 +73,14 @@ bool is_skill_reference(const void *item, const void *skillreference) {
   return li->skill->reference == (struct skill_t*)skillreference;
 }
 
+bool is_skill_reference_name(const void *item, const void *name) {
+    struct listitem_t* li = (struct listitem_t*)item;
+    if (li->type != li_skillref) {
+        return false;
+    }
+    return strcasecmp(li->skill->reference->name, (const char*)name) == 0;
+}
+
 bool is_talent_reference(const void *item, const void *ref) {
     struct listitem_t* li = (struct listitem_t*)item;
     if (li->type != li_talentref) {

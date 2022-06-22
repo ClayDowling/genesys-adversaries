@@ -31,6 +31,7 @@ struct skill_reference_t {
 };
 struct skill_reference_t* new_skill_reference(const struct skill_t*, int);
 bool is_skill_reference(const void*, const void*);
+bool is_skill_reference_name(const void*, const void*);
 
 struct talent_reference_t {
     const struct talent_t* reference;

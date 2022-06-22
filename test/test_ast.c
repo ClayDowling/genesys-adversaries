@@ -192,6 +192,23 @@ TEST(AST, skill_reference_in_list_can_be_found_by_skill) {
     TEST_ASSERT_EQUAL_PTR(li, found);
 }
 
+TEST(AST, skill_reference_in_list_can_be_found_by_name) {
+    struct skill_t *myskill = new_skill("Ralph", attr_cunning);
+    struct world_t *world = new_world();
+    world_add_skill(world, myskill);
+
+    // Create a skill reference
+    struct listitem_t *li = world_add_reference(world, "Ralph", 6);
+
+    struct namedlist_t* c = new_namedlist(list_minion, "Cannon Fodder");
+    c->TOP = node_append(c->TOP, (void*)li);
+    TEST_ASSERT_NOT_NULL(c->TOP);
+    struct listitem_t *found = (struct listitem_t*)node_find(c->TOP, (void*)"ralph", is_skill_reference_name);
+
+    TEST_ASSERT_EQUAL_PTR(li, found);
+}
+
+
 TEST(AST, talent_reference_in_list_can_be_found_by_talent) {
     struct talent_t *mytalent = new_talent("Sneaky");
     struct world_t *world = new_world();
@@ -234,4 +251,5 @@ TEST_GROUP_RUNNER(AST) {
   RUN_TEST_CASE(AST, world_add_weapon_given_valid_weapon_adds_weapon_to_world);
   RUN_TEST_CASE(AST, skill_reference_in_list_can_be_found_by_skill);
   RUN_TEST_CASE(AST, talent_reference_in_list_can_be_found_by_talent);
+  RUN_TEST_CASE(AST, skill_reference_in_list_can_be_found_by_name);
 }
