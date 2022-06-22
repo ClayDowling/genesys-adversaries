@@ -198,7 +198,7 @@ TEST(AST, talent_reference_in_list_can_be_found_by_talent) {
     world_add_talent(world, mytalent);
 
     // Create a talent reference and validate the return
-    struct listitem_t *li = world_add_reference(world, "Ralph", 6);
+    struct listitem_t *li = world_add_reference(world, "Sneaky", 6);
     TEST_ASSERT_NOT_NULL(li);
     TEST_ASSERT_EQUAL_INT(li_talentref, li->type);
     TEST_ASSERT_EQUAL_PTR(mytalent, li->talent->reference);

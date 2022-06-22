@@ -74,7 +74,11 @@ bool is_skill_reference(const void *item, const void *skillreference) {
 }
 
 bool is_talent_reference(const void *item, const void *ref) {
-  IS_REFERENCE(struct talent_reference_t, item, ref);
+    struct listitem_t* li = (struct listitem_t*)item;
+    if (li->type != li_talentref) {
+        return false;
+    }
+    return li->talent->reference == (struct talent_t*)ref;
 }
 
 struct listitem_t *new_listattribute(const struct attributebonus_t *a) {
