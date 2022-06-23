@@ -58,13 +58,6 @@ struct talent_reference_t *new_talent_reference(const struct talent_t *r,
   return tr;
 }
 
-#define IS_REFERENCE(TYPE, NODE, POINTER)                                      \
-  {                                                                            \
-    if (((TYPE *)NODE)->reference == POINTER)                                  \
-      return true;                                                             \
-    return false;                                                              \
-  }
-
 bool is_skill_reference(const void *item, const void *skillreference) {
   struct listitem_t* li = (struct listitem_t*)item;
   if (li->type != li_skillref) {
@@ -241,6 +234,7 @@ struct listitem_t *world_add_reference(const struct world_t *w, const char *n,
   struct skill_t *s = world_find_skill(w, n);
   struct talent_t *t = world_find_talent(w, n);
   if (NULL != s) {
+    if (l == 0) l = 1;
     li = new_listskill(new_skill_reference(s, l));
   } else if (t != NULL) {
     li = new_listtalent(new_talent_reference(t, l));

@@ -5,7 +5,7 @@
 
 void run_all_tests() {
   RUN_TEST_GROUP(AST);
-  // RUN_TEST_GROUP(Parser);
+  RUN_TEST_GROUP(Parser);
   RUN_TEST_GROUP(Lexer);
 }
 

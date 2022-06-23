@@ -1,8 +1,5 @@
 %extra_argument { struct world_t* thisworld }
 
-%parse_accept {
-    printf("World loaded!\n");
-}
 %parse_failure {
     fprintf(stderr, "We're Forked!  Abandoning parse.\n");
 }
@@ -86,7 +83,7 @@ namedlist(A) ::= name(B) COLON leveleditem(C) . {
     A = new_namedlist(list_MAX, B); 
     struct listitem_t* li = world_add_reference(thisworld, C->name, C->level);
     if (li != NULL) {
-        node_append(A->TOP, (void*)li);
+        A->TOP = node_append(A->TOP, (void*)li);
     } else {
         fprintf(stderr, "Item %s is not defined.\n", C->name);
     }    
@@ -95,7 +92,7 @@ namedlist(A) ::= name(B) COLON leveleditem(C) . {
 namedlist(A) ::= namedlist leveleditem(B) . {
     struct listitem_t* li = world_add_reference(thisworld, B->name, B->level);
     if (li != NULL) {
-        node_append(A->TOP, (void*)li);
+        A->TOP = node_append(A->TOP, (void*)li);
     } else {
         fprintf(stderr, "Item %s is not defined.\n", B->name);
     }
@@ -104,14 +101,14 @@ namedlist(A) ::= namedlist leveleditem(B) . {
 namedlist(A) ::= namedlist COMMA leveleditem(B) . {
     struct listitem_t* li = world_add_reference(thisworld, B->name, B->level);
     if (li != NULL) {
-        node_append(A->TOP, (void*)li);
+        A->TOP = node_append(A->TOP, (void*)li);
     } else {
         fprintf(stderr, "Item %s is not defined.\n", B->name);
     }
 }
 
 namedlist(A) ::= namedlist COMMA attributebonus(B) . {
-	node_append(A->TOP, (void*)B);
+	A->TOP = node_append(A->TOP, (void*)B);
 }
 
 leveleditem(A) ::= name(B) . { A = new_leveleditem(B, 0); }
