@@ -1,6 +1,7 @@
 #include "ast.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 struct skill_t *new_skill(const char *n, enum attribute_t a) {
   struct skill_t *s = calloc(1, sizeof(struct skill_t));
@@ -38,6 +39,9 @@ struct attributebonus_t *new_attributebonus(enum attribute_t a, int l) {
   ab->attribute = a;
   ab->level = l;
   return ab;
+}
+void delete_attributebonus(struct attributebonus_t *bonus) {
+    free(bonus);
 }
 
 struct skill_reference_t *new_skill_reference(const struct skill_t *s,
@@ -175,9 +179,42 @@ bool is_namedlist(const void *candidate, const void *name) {
 struct leveleditem_t *new_leveleditem(const char *n, int l) {
   struct leveleditem_t *li =
       (struct leveleditem_t *)calloc(1, sizeof(struct leveleditem_t));
-  li->name = n;
+  li->name = strdup(n);
   li->level = l;
   return li;
+}
+
+void delete_leveleditem(struct leveleditem_t *item) {
+    if (item->name) {
+        free((void*)item->name);
+        item->name = NULL;
+    }
+    free(item);
+}
+
+struct namedlistitem_t* new_namedlistitem_leveled(struct leveleditem_t* item) {
+    struct namedlistitem_t *nli = (struct namedlistitem_t*)calloc(1, sizeof(struct namedlistitem_t));
+    nli->type = nli_leveledname;
+    nli->item = item;
+    return nli;
+}
+
+struct namedlistitem_t* new_namedlistitem_attribute(struct attributebonus_t* bonus) {
+    struct namedlistitem_t *nli = (struct namedlistitem_t*)calloc(1, sizeof(struct namedlistitem_t));
+    nli->type = nli_attribute;
+    nli->bonus = bonus;
+    return nli;
+}
+
+void delete_namedlistitem(struct namedlistitem_t* nli) {
+    switch(nli->type) {
+        case nli_attribute:
+            delete_attributebonus(nli->bonus);
+            break;
+        case nli_leveledname:
+            delete_leveleditem(nli->item);
+            break;
+    }
 }
 
 struct world_t *new_world() {
@@ -241,4 +278,23 @@ struct listitem_t *world_add_reference(const struct world_t *w, const char *n,
   }
 
   return li;
+}
+
+void namedlist_add_reference(const struct world_t* w, struct namedlist_t* list, struct namedlistitem_t* nli) {
+    if (NULL == w) return;
+    if (NULL == list) return;
+    if (NULL == nli) return;
+
+    if (nli_attribute == nli->type) {
+        struct listitem_t *item = new_listattribute(nli->bonus);
+        list->TOP = node_append(list->TOP, (void*)item);
+    }
+    if (nli_leveledname == nli->type) {
+        struct listitem_t *item = world_add_reference(w, nli->item->name, nli->item->level);
+        if (item) {
+            list->TOP = node_append(list->TOP, item);
+        } else {
+            fprintf(stderr, "Item \"%s\" not found in world.\n", nli->item->name);
+        }
+    }
 }

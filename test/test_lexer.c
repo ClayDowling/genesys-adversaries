@@ -223,6 +223,19 @@ TEST(Lexer, given_positive_negative_and_signless_numbes_return_correct_values) {
   TEST_ASSERT_EQUAL_INT(3, matches);
 }
 
+TEST(Lexer, given_number_follows_by_comma_returns_both_tokens) {
+  useContent("42,");
+  struct token *tok1 = lex_scan(ctx);
+  struct token *tok2 = lex_scan(ctx);
+  struct token *tokeof = lex_scan(ctx);
+
+  TEST_ASSERT_NOT_NULL(tok1);
+  TEST_ASSERT_EQUAL_INT(NUMBER, tok1->token_type);
+  TEST_ASSERT_NOT_NULL(tok2);
+  TEST_ASSERT_EQUAL_INT(COMMA, tok2->token_type);
+  TEST_ASSERT_NULL(tokeof);
+}
+
 TEST_GROUP_RUNNER(Lexer) {
   RUN_TEST_CASE(Lexer, single_character_tokens_return_expected_values);
   RUN_TEST_CASE(Lexer, keywords_return_expected_values);
@@ -233,4 +246,5 @@ TEST_GROUP_RUNNER(Lexer) {
   RUN_TEST_CASE(Lexer, quoted_string_returns_QUOTEDSTRING_symbol);
   RUN_TEST_CASE(Lexer, use_keyword_causes_named_file_to_be_read);
   RUN_TEST_CASE(Lexer, given_positive_negative_and_signless_numbes_return_correct_values);
+  RUN_TEST_CASE(Lexer, given_number_follows_by_comma_returns_both_tokens);
 }

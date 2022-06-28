@@ -24,6 +24,7 @@ struct attributebonus_t {
     int level;
 };
 struct attributebonus_t* new_attributebonus(enum attribute_t a, int l);
+void delete_attributebonus(struct attributebonus_t *bonus);
 
 struct skill_reference_t {
     const struct skill_t* reference;
@@ -74,10 +75,24 @@ struct namedlist_t* new_namedlist(enum namedlist_type, const char*);
 bool is_namedlist(const void*, const void*);
 
 struct leveleditem_t {
-	const char* name;
+	char* name;
 	int level;
 };
 struct leveleditem_t* new_leveleditem(const char*, int);
+void delete_leveleditem(struct leveleditem_t *item);
+
+enum namedlistitemtype { nli_leveledname, nli_attribute };
+
+struct namedlistitem_t {
+    enum namedlistitemtype type;
+    union {
+        struct leveleditem_t* item;
+        struct attributebonus_t* bonus;
+    };
+};
+struct namedlistitem_t* new_namedlistitem_leveled(struct leveleditem_t* item);
+struct namedlistitem_t* new_namedlistitem_attribute(struct attributebonus_t* bonus);
+void delete_namedlistitem(struct namedlistitem_t* nli);
 
 struct weapon_t {
     const char *name;
@@ -108,6 +123,7 @@ void world_add_character(struct world_t*, const struct namedlist_t*);
 void world_add_weapon(struct world_t*, const struct weapon_t*);
 
 struct listitem_t* world_add_reference(const struct world_t*, const char*, int);
+void namedlist_add_reference(const struct world_t* w, struct namedlist_t* list, struct namedlistitem_t* nli);
 
 struct skill_t* world_find_skill(const struct world_t* w, const char* n);
 struct talent_t* world_find_talent(const struct world_t* w, const char* n);

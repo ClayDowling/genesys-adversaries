@@ -229,9 +229,13 @@ struct token* lex_quotedstring(struct lex_context* ctx) {
 struct token *lex_number(struct lex_context *ctx) {
   memset(ctx->assembly, 0, ASSEMBLY_SIZE);
   int i=0;
+  int c;
   ctx->assembly[i++] = fgetc(ctx->input);
-  for(int c = fgetc(ctx->input); c != EOF && i < ASSEMBLY_SIZE && isdigit(c); c = fgetc(ctx->input)) {
+  for(c = fgetc(ctx->input); c != EOF && i < ASSEMBLY_SIZE && isdigit(c); c = fgetc(ctx->input)) {
     ctx->assembly[i++] = c;
+  }
+  if (i < ASSEMBLY_SIZE && c != EOF) {
+      ungetc(c, ctx->input);
   }
   struct token* tok = new_token_int(ctx->lineno, ctx->filename, strtol(ctx->assembly, NULL, 10), ctx->assembly);
   return tok;

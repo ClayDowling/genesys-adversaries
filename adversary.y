@@ -41,6 +41,7 @@ extern char quoted_string[];
 %type namedlist         {struct namedlist_t*}
 %type name              {const char*}
 %type builtname         {char*}
+%type namedlistitem     {struct namedlistitem_t*}
 
 %token_destructor { free((void*)$$->strval); free($$); }
 
@@ -79,37 +80,20 @@ character(A) ::= NEMESIS namedlist(B) . {
     world_add_character(thisworld, A);
 }
 
-namedlist(A) ::= name(B) COLON leveleditem(C) . { 
-    A = new_namedlist(list_MAX, B); 
-    struct listitem_t* li = world_add_reference(thisworld, C->name, C->level);
-    if (li != NULL) {
-        A->TOP = node_append(A->TOP, (void*)li);
-    } else {
-        fprintf(stderr, "Item %s is not defined.\n", C->name);
-    }    
+namedlist(A) ::= name(B) COLON . {
+    A = new_namedlist(list_MAX, B);
 }
 
-namedlist(A) ::= namedlist leveleditem(B) . {
-    struct listitem_t* li = world_add_reference(thisworld, B->name, B->level);
-    if (li != NULL) {
-        A->TOP = node_append(A->TOP, (void*)li);
-    } else {
-        fprintf(stderr, "Item %s is not defined.\n", B->name);
-    }
+namedlist(A) ::= namedlist namedlistitem(B) . {
+    namedlist_add_reference(thisworld, A, B);
 }
 
-namedlist(A) ::= namedlist COMMA leveleditem(B) . {
-    struct listitem_t* li = world_add_reference(thisworld, B->name, B->level);
-    if (li != NULL) {
-        A->TOP = node_append(A->TOP, (void*)li);
-    } else {
-        fprintf(stderr, "Item %s is not defined.\n", B->name);
-    }
+namedlist(A) ::= namedlist COMMA namedlistitem(B) . {
+    namedlist_add_reference(thisworld, A, B);
 }
 
-namedlist(A) ::= namedlist COMMA attributebonus(B) . {
-	A->TOP = node_append(A->TOP, (void*)B);
-}
+namedlistitem(A) ::= leveleditem(B) . { A = new_namedlistitem_leveled(B); }
+namedlistitem(A) ::= attributebonus(B) . { A = new_namedlistitem_attribute(B); }
 
 leveleditem(A) ::= name(B) . { A = new_leveleditem(B, 0); }
 leveleditem(A) ::= name(B) NUMBER(C) . { A= new_leveleditem(B, C->intval); }

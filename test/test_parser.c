@@ -78,10 +78,33 @@ TEST(Parser, Package_is_added_to_world) {
     TEST_ASSERT_EQUAL_INT(0, sneaky->talent->level);
 }
 
+TEST(Parser, Character_is_added_to_world) {
+    struct world_t* w = parse_buffer("skill Melee (Brawn)\n"
+                                     "talent Grit\n"
+                                     "rival \"Henchman\": melee, grit 2, Will +2\n"
+    );
+
+    struct namedlist_t *r = world_find_character(w, "Henchman");
+
+    TEST_ASSERT_NOT_NULL(r);
+    TEST_ASSERT_EQUAL_INT(list_rival, r->type);
+
+    struct listitem_t *melee = node_find(r->TOP, "melee", is_skill_reference_name);
+    TEST_ASSERT_NOT_NULL(melee);
+    TEST_ASSERT_EQUAL_INT(li_skillref, melee->type);
+    TEST_ASSERT_EQUAL_INT(1, melee->skill->level);
+
+    struct listitem_t *grit = node_find(r->TOP, "grit", is_talent_reference_name);
+    TEST_ASSERT_NOT_NULL(grit);
+    TEST_ASSERT_EQUAL_INT(li_talentref, grit->type);
+    TEST_ASSERT_EQUAL_INT(2, grit->talent->level);
+}
+
 TEST_GROUP_RUNNER(Parser) {
     RUN_TEST_CASE(Parser, Skill_in_input_becomes_part_of_world);
     RUN_TEST_CASE(Parser, Talent_in_input_becomes_part_of_world);
     RUN_TEST_CASE(Parser, Skill_and_talent_in_input_becomes_part_of_world);
     RUN_TEST_CASE(Parser, Two_Skills_Present_Both_Appear_In_World);
     RUN_TEST_CASE(Parser, Package_is_added_to_world);
+    RUN_TEST_CASE(Parser, Character_is_added_to_world);
 }

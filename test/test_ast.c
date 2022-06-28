@@ -246,6 +246,48 @@ TEST(AST, talent_reference_in_list_can_be_found_by_name) {
     TEST_ASSERT_EQUAL_PTR(li, found);
 }
 
+TEST(AST, namedlistitem_attribute_is_added_to_named_list) {
+    struct world_t *world = new_world();
+    struct namedlist_t *pkg = new_namedlist(list_package, "Sample");
+    struct attributebonus_t* ab = new_attributebonus(attr_presence, 3);
+    struct namedlistitem_t *nli = new_namedlistitem_attribute(ab);
+
+    namedlist_add_reference(world, pkg, nli);
+
+    enum attribute_t attribute = attr_MAX;
+    int attribute_level = 0;
+    for(struct node_t *cur = pkg->TOP; cur != NULL; cur = cur->next) {
+        struct listitem_t *item = (struct listitem_t*)cur->node;
+        if (item->type == li_attribute) {
+            attribute = item->bonus->attribute;
+            attribute_level = item->bonus->level;
+        }
+    }
+
+    TEST_ASSERT_EQUAL_INT(attr_presence, attribute);
+    TEST_ASSERT_EQUAL_INT(3, attribute_level);
+}
+
+TEST(AST, namedlistitem_skill_is_added_to_named_list) {
+    struct world_t *world = new_world();
+    struct skill_t *myskill = new_skill("My Skill", attr_cunning);
+    world_add_skill(world, myskill);
+    struct namedlist_t *pkg = new_namedlist(list_package, "Sample");
+    struct leveleditem_t *leveled = new_leveleditem("my skill", 1);
+    struct namedlistitem_t *nli = new_namedlistitem_leveled(leveled);
+
+    namedlist_add_reference(world, pkg, nli);
+
+    int matches = 0;
+    for(struct node_t *cur = pkg->TOP; cur != NULL; cur = cur->next) {
+        struct listitem_t *item = (struct listitem_t*)cur->node;
+        if (item->type == li_skillref) {
+            TEST_ASSERT_POINTERS_EQUAL(myskill, item->skill->reference);
+            matches++;
+        }
+    }
+    TEST_ASSERT_EQUAL_INT(1, matches);
+}
 
 TEST_GROUP_RUNNER(AST) {
   RUN_TEST_CASE(AST, is_skill_returns_true_when_given_skill);
@@ -272,4 +314,6 @@ TEST_GROUP_RUNNER(AST) {
   RUN_TEST_CASE(AST, talent_reference_in_list_can_be_found_by_talent);
   RUN_TEST_CASE(AST, skill_reference_in_list_can_be_found_by_name);
   RUN_TEST_CASE(AST, talent_reference_in_list_can_be_found_by_name);
+  RUN_TEST_CASE(AST, namedlistitem_attribute_is_added_to_named_list);
+  RUN_TEST_CASE(AST, namedlistitem_skill_is_added_to_named_list);
 }
