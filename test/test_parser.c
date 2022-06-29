@@ -100,6 +100,19 @@ TEST(Parser, Character_is_added_to_world) {
     TEST_ASSERT_EQUAL_INT(2, grit->talent->level);
 }
 
+TEST(Parser, weapon_is_added_to_world) {
+    struct world_t *world = parse_buffer("weapon Shiv (Melee; Damage +2; Crit 3)");
+
+    struct weapon_t *actual = world_find_weapon(world, "Shiv");
+
+    TEST_ASSERT_NOT_NULL(actual);
+    TEST_ASSERT_EQUAL_STRING("Shiv", actual->name);
+    TEST_ASSERT_EQUAL_STRING("Melee", actual->skill);
+    TEST_ASSERT_EQUAL(true, actual->brawl);
+    TEST_ASSERT_EQUAL(2, actual->damage);
+    TEST_ASSERT_EQUAL(3, actual->crit);
+}
+
 TEST_GROUP_RUNNER(Parser) {
     RUN_TEST_CASE(Parser, Skill_in_input_becomes_part_of_world);
     RUN_TEST_CASE(Parser, Talent_in_input_becomes_part_of_world);
@@ -107,4 +120,5 @@ TEST_GROUP_RUNNER(Parser) {
     RUN_TEST_CASE(Parser, Two_Skills_Present_Both_Appear_In_World);
     RUN_TEST_CASE(Parser, Package_is_added_to_world);
     RUN_TEST_CASE(Parser, Character_is_added_to_world);
+    RUN_TEST_CASE(Parser, weapon_is_added_to_world);
 }

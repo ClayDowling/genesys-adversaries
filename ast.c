@@ -161,7 +161,7 @@ void weapon_add_special(struct weapon_t* w, const char* special) {
 }
 
 bool is_weapon(const void* candidate, const void* name) {
-  IS_NAME(struct weapon_t, candidate, name);
+    IS_NAME(struct weapon_t, candidate, name);
 }
 
 struct namedlist_t *new_namedlist(enum namedlist_type t, const char *n) {

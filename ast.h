@@ -95,8 +95,8 @@ struct namedlistitem_t* new_namedlistitem_attribute(struct attributebonus_t* bon
 void delete_namedlistitem(struct namedlistitem_t* nli);
 
 struct weapon_t {
-    const char *name;
-    const char *skill;
+    char *name;
+    char *skill;
     bool brawl;
     int damage;
     int crit;

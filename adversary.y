@@ -42,6 +42,9 @@ extern char quoted_string[];
 %type name              {const char*}
 %type builtname         {char*}
 %type namedlistitem     {struct namedlistitem_t*}
+%type weapon            {struct weapon_t*}
+%type weaponstats       {struct weapon_t*}
+%type specials          {struct node_t*}
 
 %token_destructor { free((void*)$$->strval); free($$); }
 
@@ -99,18 +102,22 @@ leveleditem(A) ::= name(B) . { A = new_leveleditem(B, 0); }
 leveleditem(A) ::= name(B) NUMBER(C) . { A= new_leveleditem(B, C->intval); }
 attributebonus(A) ::= ATTRIBUTE(B) NUMBER(C) . { A = new_attributebonus(B->attributeval, C->intval); }
 
-weapon ::= WEAPON name LPAREN name SEMICOLON weaponstats RPAREN .
+weapon(A) ::= WEAPON name(N) LPAREN name(SK) SEMICOLON DAMAGE NUMBER(DMG) SEMICOLON CRITICAL NUMBER(CR) specials(SPECIALS) RPAREN . {
 
-weaponstats ::= weaponstats SEMICOLON criticalphrase .
-weaponstats ::= weaponstats SEMICOLON damagephrase .
-weaponstats ::= weaponstats SEMICOLON specials .
-weaponstats ::= .
+    bool brawl = false;
+    if (DMG->strval[0] == '+') {
+        brawl = true;
+    }
 
-damagephrase ::= DAMAGE NUMBER .
-criticalphrase ::= CRITICAL NUMBER .
+    A = new_weapon(N, SK, brawl, DMG->intval, CR->intval);
+    A->specials = SPECIALS;
+    world_add_weapon(thisworld, A);
+}
 
-specials ::= specials COMMA name .
-specials ::= name .
+
+specials ::= specials(A) COMMA name(N) . { A->next = node_append(A->next, (void*)N); }
+specials(A) ::= SEMICOLON name(N) . { A = new_node((void*)N); }
+specials ::= .
 
 name(A) ::= QUOTEDSTRING(B) . { A = strdup(B->strval); }
 name(A) ::= WORD(B) .    { A = strdup(B->strval); }
