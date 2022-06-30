@@ -17,7 +17,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(unity)
 
-add_executable(${PROJECT_NAME}  
+add_executable(${PROJECT_NAME}
     main.c
 )
 

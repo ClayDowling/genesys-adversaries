@@ -115,8 +115,8 @@ weapon(A) ::= WEAPON name(N) LPAREN name(SK) SEMICOLON DAMAGE NUMBER(DMG) SEMICO
 }
 
 
-specials ::= specials(A) COMMA name(N) . { A->next = node_append(A->next, (void*)N); }
-specials(A) ::= SEMICOLON name(N) . { A = new_node((void*)N); }
+specials(A) ::= specials COMMA leveleditem(N) . { A = node_append(A, (void*)N); }
+specials(A) ::= SEMICOLON leveleditem(N) . { A = new_node((void*)N); }
 specials ::= .
 
 name(A) ::= QUOTEDSTRING(B) . { A = strdup(B->strval); }

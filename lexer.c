@@ -152,7 +152,7 @@ struct token *lex_word(struct lex_context *ctx) {
   int c;
   for (int i = 0; i < ASSEMBLY_SIZE; ++i) {
     c = fgetc(ctx->input);
-    if (isalpha(c)) {
+    if (isalpha(c) || '-' == c) {
       ctx->assembly[i] = c;
     } else {
       ungetc(c, ctx->input);

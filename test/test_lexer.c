@@ -149,7 +149,8 @@ TEST(Lexer, attribute_abbreviations_match_in_case_insensitive_way) {
 TEST(Lexer, non_reserved_words_return_word_token) {
   struct token *first;
   struct token *second;
-  useContent("Snow White");
+  struct token *third;
+  useContent("Snow White Obi-Wan");
 
   first = lex_scan(ctx);
   TEST_ASSERT_NOT_NULL(first);
@@ -164,6 +165,12 @@ TEST(Lexer, non_reserved_words_return_word_token) {
                                 mismatch_message(WORD, second->token_type));
   TEST_ASSERT_EQUAL_STRING("White", second->strval);
   destroy_token(second);
+
+  third = lex_scan(ctx);
+  TEST_ASSERT_NOT_NULL(third);
+  TEST_ASSERT_EQUAL_INT_MESSAGE(WORD, third->token_type, mismatch_message(WORD, third->token_type));
+  TEST_ASSERT_EQUAL_STRING("Obi-Wan", third->strval);
+  destroy_token(third);
 }
 
 TEST(Lexer, quoted_string_returns_QUOTEDSTRING_symbol) {

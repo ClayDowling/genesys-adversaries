@@ -148,8 +148,8 @@ void *node_find(struct node_t *top, const void *name,
 
 struct weapon_t* new_weapon(const char* name, const char* skill, bool brawl, int damage, int crit) {
   struct weapon_t* w = (struct weapon_t*)calloc(1, sizeof(struct weapon_t));
-  w->name = name;
-  w->skill = skill;
+  w->name = strdup(name);
+  w->skill = strdup(skill);
   w->brawl = brawl;
   w->damage = damage;
   w->crit = crit;
