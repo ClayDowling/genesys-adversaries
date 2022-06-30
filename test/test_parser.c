@@ -81,7 +81,8 @@ TEST(Parser, Package_is_added_to_world) {
 TEST(Parser, Character_is_added_to_world) {
     struct world_t* w = parse_buffer("skill Melee (Brawn)\n"
                                      "talent Grit\n"
-                                     "rival \"Henchman\": melee, grit 2, Will +2\n"
+                                     "weapon Knife (Melee; Damage +2; Crit 4)\n"
+                                     "rival \"Henchman\": melee, grit 2, Will +2, knife\n"
     );
 
     struct namedlist_t *r = world_find_character(w, "Henchman");
@@ -98,6 +99,11 @@ TEST(Parser, Character_is_added_to_world) {
     TEST_ASSERT_NOT_NULL(grit);
     TEST_ASSERT_EQUAL_INT(li_talentref, grit->type);
     TEST_ASSERT_EQUAL_INT(2, grit->talent->level);
+
+    struct listitem_t *knife = node_find(r->TOP, "knife", is_weapon_reference_name);
+    TEST_ASSERT_NOT_NULL(knife);
+    TEST_ASSERT_EQUAL_INT(li_weapon, knife->type);
+    TEST_ASSERT_EQUAL_STRING("Knife", knife->weapon->name);
 }
 
 TEST(Parser, weapon_is_added_to_world) {

@@ -118,6 +118,13 @@ struct listitem_t *new_listtalent(const struct talent_reference_t *n) {
   return li;
 }
 
+struct listitem_t *new_listweapon(const struct weapon_t *w) {
+    struct listitem_t *li = (struct listitem_t*)calloc(1, sizeof(struct listitem_t));
+    li->type = li_weapon;
+    li->weapon = w;
+    return li;
+}
+
 struct node_t *new_node(void *value) {
   struct node_t *n = (struct node_t *)calloc(1, sizeof(struct node_t));
   n->node = value;
@@ -163,6 +170,15 @@ void weapon_add_special(struct weapon_t* w, const char* special) {
 bool is_weapon(const void* candidate, const void* name) {
     IS_NAME(struct weapon_t, candidate, name);
 }
+
+bool is_weapon_reference_name(const void* candidate, const void* name) {
+    struct listitem_t *item = (struct listitem_t*)candidate;
+    if (item->type == li_weapon) {
+        return strcasecmp(item->weapon->name, (const char*)name) == 0;
+    }
+    return false;
+}
+
 
 struct namedlist_t *new_namedlist(enum namedlist_type t, const char *n) {
   struct namedlist_t *nl =
@@ -270,11 +286,14 @@ struct listitem_t *world_add_reference(const struct world_t *w, const char *n,
 
   struct skill_t *s = world_find_skill(w, n);
   struct talent_t *t = world_find_talent(w, n);
+  struct weapon_t *wpn = world_find_weapon(w, n);
   if (NULL != s) {
     if (l == 0) l = 1;
     li = new_listskill(new_skill_reference(s, l));
   } else if (t != NULL) {
     li = new_listtalent(new_talent_reference(t, l));
+  } else if (wpn != NULL) {
+      li = new_listweapon(wpn);
   }
 
   return li;

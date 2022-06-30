@@ -42,7 +42,7 @@ struct talent_reference_t* new_talent_reference(const struct talent_t*, int);
 bool is_talent_reference(const void* item, const void* talent);
 bool is_talent_reference_name(const void* item, const void* name);
 
-enum listitemtype { li_attribute, li_skillref, li_talentref };
+enum listitemtype { li_attribute, li_skillref, li_talentref, li_weapon };
 
 struct listitem_t {
     enum listitemtype type;
@@ -50,11 +50,13 @@ struct listitem_t {
         const struct attributebonus_t* bonus;
         const struct skill_reference_t* skill;
         const struct talent_reference_t* talent;
+        const struct weapon_t* weapon;
     };
 };
 struct listitem_t* new_listattribute(const struct attributebonus_t* a);
 struct listitem_t* new_listskill(const struct skill_reference_t* n);
 struct listitem_t* new_listtalent(const struct talent_reference_t* n);
+struct listitem_t *new_listweapon(const struct weapon_t *w);
 
 struct node_t {
     void* node;
@@ -106,6 +108,7 @@ struct weapon_t {
 struct weapon_t* new_weapon(const char* name, const char* skill, bool brawl, int damage, int crit);
 void weapon_add_special(struct weapon_t* w, const char* special);
 bool is_weapon(const void* candidate, const void* name);
+bool is_weapon_reference_name(const void* candidate, const void* name);
 
 struct world_t {
     struct node_t *skills;
