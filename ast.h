@@ -48,16 +48,16 @@ enum listitemtype { li_attribute, li_skillref, li_talentref, li_weapon };
 struct listitem_t {
     enum listitemtype type;
     union {
-        const struct attributebonus_t* bonus;
-        const struct skill_reference_t* skill;
-        const struct talent_reference_t* talent;
-        const struct weapon_t* weapon;
+        struct attributebonus_t* bonus;
+        struct skill_reference_t* skill;
+        struct talent_reference_t* talent;
+        struct weapon_t* weapon;
     };
 };
-struct listitem_t* new_listattribute(const struct attributebonus_t* a);
-struct listitem_t* new_listskill(const struct skill_reference_t* n);
-struct listitem_t* new_listtalent(const struct talent_reference_t* n);
-struct listitem_t *new_listweapon(const struct weapon_t *w);
+struct listitem_t* new_listattribute(struct attributebonus_t* a);
+struct listitem_t* new_listskill(struct skill_reference_t* n);
+struct listitem_t* new_listtalent(struct talent_reference_t* n);
+struct listitem_t *new_listweapon(struct weapon_t *w);
 
 struct node_t {
     void* node;
@@ -66,6 +66,9 @@ struct node_t {
 struct node_t* new_node(void*);
 struct node_t* node_append(struct node_t* t, void* n);
 void* node_find(struct node_t*, const void*, bool (predicate)(const void*, const void*));
+
+struct skill_reference_t *node_find_skill_reference(struct node_t *TOP, const char *name);
+struct talent_reference_t *node_find_talent_reference(struct node_t *TOP, const char *name);
 
 enum namedlist_type {list_package, list_minion, list_rival, list_nemesis, list_MAX};
 

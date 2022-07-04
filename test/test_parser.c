@@ -165,6 +165,20 @@ TEST(Parser, Weapon_name_in_character_adds_weapon_to_character) {
     TEST_ASSERT_EQUAL_PTR(gat, foundweapon);
 }
 
+TEST(Parser, package_is_added_to_character) {
+    struct world_t *world = parse_buffer(
+            "talent Grit\n"
+            "skill Melee (brawn)\n"
+            "package Tough : Brawn +3, Grit 1\n"
+            "minion \"Gang Heavy\": Tough, Melee 2\n"
+            );
+
+    struct namedlist_t *minion = world_find_character(world, "Gang Heavy");
+
+    struct talent_reference_t *tr = node_find(minion->TOP, (void*)"Grit", is_talent_reference_name);
+    TEST_ASSERT_NOT_NULL(tr);
+}
+
 TEST_GROUP_RUNNER(Parser) {
     RUN_TEST_CASE(Parser, Skill_in_input_becomes_part_of_world);
     RUN_TEST_CASE(Parser, Talent_in_input_becomes_part_of_world);

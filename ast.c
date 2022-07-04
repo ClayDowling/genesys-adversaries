@@ -94,7 +94,7 @@ bool is_talent_reference_name(const void* item, const void* name) {
     return strcasecmp(li->talent->reference->name, (const char*)name) == 0;
 }
 
-struct listitem_t *new_listattribute(const struct attributebonus_t *a) {
+struct listitem_t *new_listattribute(struct attributebonus_t *a) {
   struct listitem_t *li =
       (struct listitem_t *)calloc(1, sizeof(struct listitem_t));
   li->type = li_attribute;
@@ -102,7 +102,7 @@ struct listitem_t *new_listattribute(const struct attributebonus_t *a) {
   return li;
 }
 
-struct listitem_t *new_listskill(const struct skill_reference_t *n) {
+struct listitem_t *new_listskill(struct skill_reference_t *n) {
   struct listitem_t *li =
       (struct listitem_t *)calloc(1, sizeof(struct listitem_t));
   li->type = li_skillref;
@@ -110,7 +110,7 @@ struct listitem_t *new_listskill(const struct skill_reference_t *n) {
   return li;
 }
 
-struct listitem_t *new_listtalent(const struct talent_reference_t *n) {
+struct listitem_t *new_listtalent(struct talent_reference_t *n) {
   struct listitem_t *li =
       (struct listitem_t *)calloc(1, sizeof(struct listitem_t));
   li->type = li_talentref;
@@ -118,7 +118,7 @@ struct listitem_t *new_listtalent(const struct talent_reference_t *n) {
   return li;
 }
 
-struct listitem_t *new_listweapon(const struct weapon_t *w) {
+struct listitem_t *new_listweapon(struct weapon_t *w) {
     struct listitem_t *li = (struct listitem_t*)calloc(1, sizeof(struct listitem_t));
     li->type = li_weapon;
     li->weapon = w;
@@ -152,6 +152,23 @@ void *node_find(struct node_t *top, const void *name,
   }
   return NULL;
 }
+
+struct skill_reference_t *node_find_skill_reference(struct node_t *TOP, const char *name) {
+    struct listitem_t *item = node_find(TOP, (void*)name, is_skill_reference_name);
+    if (item->type == li_skillref) {
+        return item->skill;
+    }
+    return NULL;
+}
+
+struct talent_reference_t *node_find_talent_reference(struct node_t *TOP, const char *name) {
+    struct listitem_t *item = node_find(TOP, (void*)name, is_talent_reference_name);
+    if (item->type == li_talentref) {
+        return item->talent;
+    }
+    return NULL;
+}
+
 
 struct weapon_t* new_weapon(const char* name, const char* skill, bool brawl, int damage, int crit) {
   struct weapon_t* w = (struct weapon_t*)calloc(1, sizeof(struct weapon_t));
