@@ -28,12 +28,17 @@ int character_proficiency(struct namedlist_t *c, const char *skillname) {
     return 0;
 }
 
-int character_ability(struct namedlist_t *c, const char *skillname) {
+int character_ability(struct world_t *w, struct namedlist_t *c, const char *skillname) {
     struct skill_reference_t *ref = node_find_skill_reference(c->TOP, skillname);
     if (ref) {
         int attribute = character_attribute(c, ref->reference->attribute);
         if (attribute > ref->level) return attribute - ref->level;
         return ref->level - attribute;
+    } else {
+        struct skill_t *skill = world_find_skill(w, skillname);
+        if (skill) {
+            return character_attribute(c, skill->attribute);
+        }
     }
     return 0;
 }

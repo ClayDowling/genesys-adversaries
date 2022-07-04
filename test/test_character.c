@@ -88,7 +88,7 @@ TEST(character, ability_when_attribute_greater_than_skill_level) {
     give_attribute(attr_cunning, 3);
     give_skill("Skulduggery", attr_cunning, 1);
 
-    int actual = character_ability(mycharacter, "Skulduggery");
+    int actual = character_ability(myworld, mycharacter, "Skulduggery");
 
     TEST_ASSERT_EQUAL_INT(2, actual);
 }
@@ -97,11 +97,26 @@ TEST(character, ability_when_attribute_less_than_skill_level) {
     give_attribute(attr_cunning, 2);
     give_skill("Skulduggery", attr_cunning, 3);
 
-    int actual = character_ability(mycharacter, "Skulduggery");
+    int actual = character_ability(myworld, mycharacter, "Skulduggery");
 
     TEST_ASSERT_EQUAL_INT(1, actual);
 }
 
+TEST(character, ability_when_character_does_not_have_skill) {
+    world_add_skill(myworld, new_skill("Skulduggery", attr_cunning));
+    give_attribute(attr_cunning, 2);
+
+    int actual = character_ability(myworld, mycharacter, "Skulduggery");
+
+    TEST_ASSERT_EQUAL_INT(2, actual);
+}
+
+TEST(character, ability_when_skill_does_not_exist_is_zero) {
+
+    int actual = character_ability(myworld, mycharacter, "Bogus Skill");
+
+    TEST_ASSERT_EQUAL_INT(0, actual);
+}
 
 TEST_GROUP_RUNNER(character) {
     RUN_TEST_CASE(character, single_attribute_values_create_correct_attribute_total);
@@ -111,4 +126,6 @@ TEST_GROUP_RUNNER(character) {
     RUN_TEST_CASE(character, proficiency_when_proficiency_greater_than_attribute_returns_attribute);
     RUN_TEST_CASE(character, ability_when_attribute_greater_than_skill_level);
     RUN_TEST_CASE(character, ability_when_attribute_less_than_skill_level);
+    RUN_TEST_CASE(character, ability_when_character_does_not_have_skill);
+    RUN_TEST_CASE(character, ability_when_skill_does_not_exist_is_zero);
 }

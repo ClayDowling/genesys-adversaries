@@ -155,6 +155,7 @@ void *node_find(struct node_t *top, const void *name,
 
 struct skill_reference_t *node_find_skill_reference(struct node_t *TOP, const char *name) {
     struct listitem_t *item = node_find(TOP, (void*)name, is_skill_reference_name);
+    if (!item) return NULL;
     if (item->type == li_skillref) {
         return item->skill;
     }
@@ -163,6 +164,7 @@ struct skill_reference_t *node_find_skill_reference(struct node_t *TOP, const ch
 
 struct talent_reference_t *node_find_talent_reference(struct node_t *TOP, const char *name) {
     struct listitem_t *item = node_find(TOP, (void*)name, is_talent_reference_name);
+    if (!item) return NULL;
     if (item->type == li_talentref) {
         return item->talent;
     }

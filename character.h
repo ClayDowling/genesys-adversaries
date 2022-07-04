@@ -9,6 +9,6 @@
 
 int character_attribute(struct namedlist_t* c, enum attribute_t attribute);
 int character_proficiency(struct namedlist_t *c, const char *skillname);
-int character_ability(struct namedlist_t *c, const char *skillname);
+int character_ability(struct world_t *w, struct namedlist_t *c, const char *skillname);
 
 #endif //ADVERSARIES_CHARACTER_H
