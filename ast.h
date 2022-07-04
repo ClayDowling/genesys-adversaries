@@ -44,6 +44,7 @@ bool is_talent_reference_name(const void* item, const void* name);
 
 enum listitemtype { li_attribute, li_skillref, li_talentref, li_weapon };
 
+/// listitem_t is contained in a named list such as a character or package
 struct listitem_t {
     enum listitemtype type;
     union {
@@ -68,10 +69,11 @@ void* node_find(struct node_t*, const void*, bool (predicate)(const void*, const
 
 enum namedlist_type {list_package, list_minion, list_rival, list_nemesis, list_MAX};
 
+/// Contains a package or a character
 struct namedlist_t {
     enum namedlist_type type;
     const char* name;
-    struct node_t* TOP;
+    struct node_t* TOP; /// Holds listitem_t
 };
 struct namedlist_t* new_namedlist(enum namedlist_type, const char*);
 bool is_namedlist(const void*, const void*);
@@ -85,6 +87,7 @@ void delete_leveleditem(struct leveleditem_t *item);
 
 enum namedlistitemtype { nli_leveledname, nli_attribute };
 
+/// namedlistitem_t is read from a file and converted to a listitem_t
 struct namedlistitem_t {
     enum namedlistitemtype type;
     union {

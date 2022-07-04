@@ -139,6 +139,31 @@ TEST(Parser, weapon_contains_specials) {
     TEST_ASSERT_EQUAL_INT(0, sp2->level);
 }
 
+TEST(Parser, Weapon_name_in_character_adds_weapon_to_character) {
+    struct world_t *world = parse_buffer(
+            "skill Ranged-Light (agility)\n"
+            "weapon Gat (ranged-light; Damage 3; Crit 3; Accurate 2, Customized)\n"
+            "rival Gunther : Ranged-Light 2, Gat\n"
+            );
+
+    struct namedlist_t *rival = world_find_character(world, "Gunther");
+    TEST_ASSERT_NOT_NULL(rival);
+
+    struct weapon_t *gat = world_find_weapon(world, "Gat");
+    TEST_ASSERT_NOT_NULL(gat);
+
+    struct weapon_t *foundweapon = NULL;
+    struct listitem_t *item;
+    for(struct node_t *cur = rival->TOP; cur != NULL; cur = cur->next) {
+        item = (struct listitem_t*)cur->node;
+        if (item->type == li_weapon) {
+            foundweapon = item->weapon;
+        }
+    }
+
+    TEST_ASSERT_NOT_NULL(foundweapon);
+    TEST_ASSERT_EQUAL_PTR(gat, foundweapon);
+}
 
 TEST_GROUP_RUNNER(Parser) {
     RUN_TEST_CASE(Parser, Skill_in_input_becomes_part_of_world);
@@ -149,4 +174,5 @@ TEST_GROUP_RUNNER(Parser) {
     RUN_TEST_CASE(Parser, Character_is_added_to_world);
     RUN_TEST_CASE(Parser, weapon_is_added_to_world);
     RUN_TEST_CASE(Parser, weapon_contains_specials);
+    RUN_TEST_CASE(Parser, Weapon_name_in_character_adds_weapon_to_character);
 }

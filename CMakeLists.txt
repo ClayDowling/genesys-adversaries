@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_STANDARD 99)
 include(FetchContent)
 include(CTest)
-find_package(FLEX)
 
 set(UNITY_EXTENSION_FIXTURE on)
 
@@ -28,6 +27,7 @@ add_library(adversary
     terminal_tags.c
     lexer.c
     parser.c
+    character.c
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -41,10 +41,6 @@ add_executable(tokenstream
     lexer.c
     token.c
 )
-
-# target_link_libraries(tokenstream
-#     ${FLEX_LIBRARIES}
-# )
 
 add_executable(lemon
     lemon.c

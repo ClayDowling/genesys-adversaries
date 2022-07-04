@@ -4,9 +4,10 @@
 #include "unity_fixture.h"
 
 void run_all_tests() {
-  RUN_TEST_GROUP(AST);
-  RUN_TEST_GROUP(Parser);
+  RUN_TEST_GROUP(AST)
   RUN_TEST_GROUP(Lexer);
+  RUN_TEST_GROUP(Parser);
+  RUN_TEST_GROUP(character);
 }
 
 int main(int argc, const char *argv[]) {

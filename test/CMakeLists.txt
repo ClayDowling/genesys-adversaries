@@ -8,6 +8,7 @@ add_executable(${UNIT_TEST_NAME}
     test_ast.c
     test_parser.c
     test_lexer.c
+    test_character.c
 )
 
 target_link_libraries(${UNIT_TEST_NAME}
