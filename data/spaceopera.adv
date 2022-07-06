@@ -1,0 +1,24 @@
+use "core.adv"
+
+talent "Natural Weapons"
+talent "Mind Reader"
+talent "Mind Shaper"
+talent "Mind Breaker"
+talent "Networked Intelligence"
+talent "Inorganic"
+talent "Space Is Our Birthright"
+talent "High Tech Baubles"
+
+weapon "Shudder Blade" (Melee; Damage +2; Critical 2; Pierce 2, vicious 3)
+weapon "Assault Cannon" (Gunnery; Damage 15; Crit 3; Auto-fire, Cumbersome 4, Inaccurate 1, Pierce 3, Vicious 3)
+weapon "Grenade Lobber" (Gunnery; Damage 8; Critical 4; Accurate 2, Blast 6, "Limited Ammo" 6)
+weapon "Laser Cannon" (Gunnery; Damage 9; Critical 3; Breach 2, Cumbersom 3)
+weapon "Laser Pistol" (Ranged-Light; Damage 5; Critical 3; Pierce 2)
+weapon "Laser Rifle" (Ranged-Heavy; Damage 6; Critical 3; Pierce 4)
+weapon "Particle Grenade" (Ranged-Light; Damage 6; Critical 4; Blast 3, Concussive 1, Disorient 3, "Limited Ammo" 1, Stun Damage)
+weapon "Plasma Cannon" (Gunnery; Damage 10; Critical 2; Blast 10, Burn 1, Cumbersome 3, Slow-firing 1)
+weapon "Plasma Pistol" (Ranged-Light; Damage 10; Critical 2; Burn 1)
+weapon "Plasma Rifle" (Ranged-Heavy; Damage 10; Critical 2;  Burn 1)
+weapon "Sliver Rocket Launcher" (Gunnery; Damage 15; Crit 2; Breach 4, Cumbersome 3, Guided 4, "Limited Ammo" 3, Prepare 1, Vicious 5)
+weapon "Slug Pistol" (Ranged-Light; Damage 6; Crit 4)
+weapon "Slug Rifle" (Ranged-Heavy; Damage 7; Crit 4; Auto-fire)

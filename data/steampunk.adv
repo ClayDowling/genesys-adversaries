@@ -1,0 +1,16 @@
+use "core.adv"
+
+talent "The Beast Within"
+talent "The Human Spirit"
+talent "Reanimated"
+
+weapon "Spring Fist" (Brawl; Damage +4; Crit 4; Concussive 1, Slow-Firing 2)
+weapon Rotorsword (Melee; Damage +3; Crit 2; Cumbersome 3, Inaccurate 1, Pierce 2, Sunder, Vicious 3)
+weapon "Sword Cane" (Melee; Damage +1; Crit 2; Defensive 1)
+weapon "Auto-Rotary Gun" (Ranged-Heavy; Damage 11; Critical 3; Auto-fire, Cumbersome 4, Prepare 1)
+weapon "Clockwork Grenade" (Ranged-Light; Damage 8; Critical 3; Blast 5, Burn 1, "Limited Ammo" 1)
+weapon "Death Ray" (Ranged-Heavy; Damage 12; Critical 1; Breach 2, Inaccurate 2, Slow-firing 1, Vicious 5)
+weapon "Hand Cannon" (Ranged-Light; Damage 9; Critical 3; Knockdown, "Limited Ammo" 1, Prepare 1)
+weapon "Repeating Rifle" (Ranged-Heavy; Damage 8; Critical 3)
+weapon "Rotor Pistol" (Ranged-Light; Damage 5; Critical 4; Auto-fire, "Limited Ammo" 1)
+

@@ -3,6 +3,8 @@
 //
 
 #include <unity_fixture.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "ast.h"
 #include "character.h"
 

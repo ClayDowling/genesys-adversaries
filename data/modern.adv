@@ -1,0 +1,15 @@
+use "core.adv"
+
+weapon "Brass Knuckles" (Brawl; Damage +1; Critical 3; Disorient 3)
+weapon "Collapsible Baton" (Melee; Damage +2; Critical 3)
+weapon "Stun Gun" (Melee; Damage 5; Critical 6; Stun 3, Stun Damage)
+weapon "Assault Rifle" (Ranged-Heavy; Damage 8; Critical 3; Auto-fire)
+weapon "Heavy Pistol" (Ranged-Light; Damage 6; Critical 3)
+weapon "Hunting Rifle" (Ranged-Heavy; Damage 8; Critical 3; Accurate 1, "Limited Ammo" 2)
+weapon "Light Pistol" (Ranged-Light; Damage 5; Critical 4)
+weapon "Machine Gun" (Gunnery; Damage 10; Critical 3; Auto-fire, Cumbersome 2, Pierce 2, Vicious 2)
+weapon "Portable Missile Launcher" (Gunnery; Damage 20; Critical 2; Blast 10, Breach 2, Cumbersome 3, Guided 3, "Limited Ammo" 1, Prepare 1)
+weapon Shotgun (Ranged-Heavy; Damage 8; Critical 3; Blast 4, Knockdown, Vicious 2)
+weapon "Submachine Gun" (Ranged-Light; Damage 5; Critical 3; Auto-fire)
+weapon "Sniper Rifle" (Ranged-Heavy; Damage 8; Critical 2; Accurate 2, "Limited Ammo" 4, Pierce 2)
+

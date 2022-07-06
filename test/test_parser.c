@@ -169,7 +169,7 @@ TEST(Parser, package_is_added_to_character) {
     struct world_t *world = parse_buffer(
             "talent Grit\n"
             "skill Melee (brawn)\n"
-            "package Tough : Brawn +3, Grit 1\n"
+            "package Tough : Brawn +3, Grit 1, Melee\n"
             "minion \"Gang Heavy\": Tough, Melee 2\n"
             );
 
@@ -177,6 +177,10 @@ TEST(Parser, package_is_added_to_character) {
 
     struct talent_reference_t *tr = node_find(minion->TOP, (void*)"Grit", is_talent_reference_name);
     TEST_ASSERT_NOT_NULL(tr);
+
+    struct skill_reference_t *sr = node_find(minion->TOP, (void*)"Melee", is_skill_reference_name);
+    TEST_ASSERT_NOT_NULL(sr);
+    TEST_ASSERT_EQUAL_INT(3, sr->level);
 }
 
 TEST_GROUP_RUNNER(Parser) {

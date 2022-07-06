@@ -1,0 +1,113 @@
+skill Alchemy (intellect)
+skill Arcana (intellect)
+skill Astrocartography (intellect)
+skill Athletics (brawn)
+skill Brawl (brawn)
+skill Charm (presence)
+skill Coercion (willpower)
+skill Computers (intellect)
+skill Cool (presence)
+skill Coordination (agility)
+skill Deception (cunning)
+skill Discipline (willpower)
+skill Divine (willpower)
+skill Driving (agility)
+skill Gunnery (agility)
+skill Knowledge (intellect)
+skill Leadership (presence)
+skill Mechanics (intellect)
+skill Medecine (intellect)
+skill Melee (brawn)
+skill Melee-Heavy (brawn)
+skill Melee-Light (brawn)
+skill Negotiation (presence)
+skill Operating (intellect)
+skill Perception (cunning)
+skill Piloting (agility)
+skill Primal (cunning)
+skill Ranged (agility)
+skill Ranged-Heavy (agility)
+skill Ranged-Light (agility)
+skill Resilience (brawn)
+skill Riding (agility)
+skill Skulduggery (cunning)
+skill Stealth (agility)
+skill Streetwise (cunning)
+skill Survival (cunning)
+skill Vigilance (willpower)
+
+talent "Bought Info"
+talent "Clever Retort"
+talent "Defensive Sysops"
+talent "Desperate Recovery"
+talent "Duelist"
+talent "Durable"
+talent "Forager"
+talent "Grit"
+talent "Hamstring Shot"
+talent "Jump Up"
+talent "Knack For It"
+talent "Know Somebody"
+taelnt "Let's Ride"
+talent "One With Nature"
+talent "Parry"
+talent "Proper Upbringing"
+talent "Quick Draw"
+talent "Quick Strike"
+talent "Rapid Reaction"
+talent "Second Wind"
+talent "Surgeon"
+talent "Swift"
+talent "Toughened"
+talent "Unremarkable"
+
+talent "Basic Military Training"
+talent "Berserk"
+talent "Coordinated Assault"
+talent "Counteroffer"
+talent "Daring Aviator"
+talent "Defensive Stance"
+talent "Defensive Sysops (Improved)"
+talent "Dual Wielder"
+talent "Fan the Hammer"
+talent "Heightened Awareness"
+talent "Inspiring Rhetoric"
+talent "Inventor"
+talent "Lucky Strike"
+talent "Scathing Tirade"
+talent "Side Step"
+
+talent "Animal Companion"
+talent "Barrel Roll"
+talent "Distinctive Style"
+talent "Dodge"
+talent "Eagle Eyes"
+talent "Field Commander"
+talent "Forgot to Count?"
+talent "Full Throttle"
+talent "Grenadier"
+talent "Inspiring Rhetoric (Improved)"
+talent "Painkiller Specialization"
+talent "Scathing Tirade (Improved)"
+talent "Heroic Will"
+talent "Natural"
+talent "Rapid Archery"
+talent "Parry (Improved)"
+
+talent "Can't We Talk About This?"
+talent "Deadeye"
+talent "Defensive"
+talent "Defensive Driving"
+talent "Enduring"
+talent "Field Commander (Improved)"
+talent "How Convenient"
+talent "Inspiring Rhetoric (Supreme)"
+talent "Mad Inventor"
+talent "Overcharge"
+talent "Scathing Tirade (Supreme)"
+
+talent "Dedication"
+talent "Indomitable"
+talent "Master"
+talent "Overcharge (Improved)"
+talent "Ruinous Repartee"

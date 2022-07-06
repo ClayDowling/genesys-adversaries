@@ -1,0 +1,20 @@
+use "core.adv"
+
+talent "Battle Rage"
+talent "Dark Vision"
+talent "Tough as Nails"
+
+weapon Knife (Melee; Damage +1; Crit 3)
+weapon Revolver (Ranged-Light; Damage 6; Crit 4; Accurate 1)
+weapon Axe (Melee-Light; Damage +3; Critical 3; Vicious 1)
+weapon Greataxe (Melee-Heavy; Damage +4; Critical 2; Cumbersome 3, Pierce 2, Vicious 1)
+weapon Greatsowrd (Melee-Heavy; Damage +4; Critical 2; Defensive 1, Pierce 1, Unweildy 3)
+weapon Halberd (Melee-Heavy; Damage +3; Crit 3; Defensive 1, Pierce 3)
+weapon "Light Spear" (Melee-Light; Damage +2; Crit 4; Accurate 1, Defensive 1)
+weapon Mace (Melee-Light; Damage +3; Crit 4)
+weapon Shield (Melee-Light; Damage +0; Crit 6; Defensive 1, Deflection 1, Inaccurate 1, Knockdown)
+weapon Sword (Melee-Light; Damage +3; Crit 2; Defensive 1)
+weapon Bow (Ranged; Damage 7; Crit 3; Unweildy 2)
+weapon Crossbow (Ranged; Damage 7; Crit 2; Pierce 2, Prepare 1)
+weapon Longbow (Ranged; Damage 8; Crit 3; Unweildy 3)
+

@@ -2,6 +2,7 @@
 // Created by Clay on 7/1/2022.
 //
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "character.h"
@@ -41,5 +42,9 @@ int character_ability(struct world_t *w, struct namedlist_t *c, const char *skil
         }
     }
     return 0;
+}
+
+void print_character_rival(FILE *out, struct world_t *w, struct namedlist_t *c) {
+
 }
 

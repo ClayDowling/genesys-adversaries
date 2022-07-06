@@ -1,0 +1,15 @@
+use "core.adv"
+
+talent "Inorganic"
+talent "A Face in a Crowd"
+
+
+weapon "Monoblade Knife" (Melee; Damage +1; Critical 2; Pierce 2)
+weapon "Stun Baton" (Melee; Damage 6; Critical 4; Disorient 3, Stun Damage)
+weapon "Flechette Pistol" (Ranged-Light; Damage 4; Critical 2; Pierce 2, Vicious 2)
+weapon "Flechette Launcher" (Ranged-Heavy; Damage 4; Critical 2; Blast 4, Pierce 2, Vicious 3)
+weapon "Laser Pistol" (Ranged-Light; Damage 6; Critical 3; Accurate 1, Burn 1)
+weapon "Laser Rifle" (Ranged-Heavy; Damage 8; Crit 3; Accurate 1, Burn 1)
+weapon "Gauss Rifle" (Ranged-Heavy; Damage 10; Critical 2; Cumbersome 3, Pierce 5, Slow-firing 1)
+weapon "Micro-Missle Launcher" (Gunnery; Damage 12; Critical 4; Blast 10, Cumbersome 4, Guided 3, "Limited Ammo" 3, Prepare 1)
+
