@@ -14,7 +14,23 @@ FetchContent_Declare(
     GIT_TAG v2.5.2
 )
 
-FetchContent_MakeAvailable(unity)
+FetchContent_Declare(
+        incbin
+        GIT_REPOSITORY https://github.com/graphitemaster/incbin.git
+        GIT_TAG origin/main
+)
+
+FetchContent_MakeAvailable(unity incbin)
+
+include_directories(${incbin_SOURCE_DIR})
+
+configure_file(data/core.adv .)
+configure_file(data/sciencefiction.adv .)
+configure_file(data/spaceopera.adv .)
+configure_file(data/steampunk.adv .)
+configure_file(data/weirdwar.adv .)
+configure_file(data/modern.adv .)
+configure_file(data/fantasy.adv .)
 
 add_executable(${PROJECT_NAME}
     main.c

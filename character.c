@@ -44,7 +44,56 @@ int character_ability(struct world_t *w, struct namedlist_t *c, const char *skil
     return 0;
 }
 
+void print_talent(FILE* out, struct world_t* w, struct namedlist_t* c, struct listitem_t *item) {
+    const char* name = item->talent->reference->name;
+    if (item->talent->level == 0) {
+        fprintf(out, "%s", name);
+    } else {
+        fprintf(out, "%s %d", name, item->talent->level);
+    }
+}
+
+void print_skill(FILE* out, struct world_t *w, struct namedlist_t *c, struct listitem_t *item) {
+    const char* name = item->skill->reference->name;
+    fprintf(out, "%s ", name);
+    int proficiency = character_proficiency(c, name);
+    int ability = character_ability(w, c, name);
+    for(int i=0; i < proficiency; ++i) fputc('Y', out);
+    for(int i=0; i < ability; ++i) fputc('g', out);
+}
+
+void print_list(FILE *out, struct world_t *w, struct namedlist_t *c,
+        enum listitemtype type, void (*printfunction)(FILE*, struct world_t*, struct namedlist_t*, struct listitem_t*)) {
+    const char *NOCOMMA = "";
+    const char *COMMA = ", ";
+    struct listitem_t *item;
+    const char *sep = NOCOMMA;
+
+    for(struct node_t *cur = c->TOP; cur != NULL; cur = cur->next) {
+        item = (struct listitem_t*)cur->node;
+        if (item->type == type) {
+            fprintf(out, sep);
+            sep = COMMA;
+            printfunction(out, w, c, item);
+        }
+    }
+    if (sep == COMMA) fprintf(out, "\n");
+}
+
 void print_character_rival(FILE *out, struct world_t *w, struct namedlist_t *c) {
+    fprintf(out, "Br Ag Int Cun Will Pres\n"
+                 "-- -- --- --- ---- ----\n"
+                 "%2d %2d %3d %3d %4d %4d\n\n",
+            character_attribute(c, attr_brawn),
+            character_attribute(c, attr_agility),
+            character_attribute(c, attr_intellect),
+            character_attribute(c, attr_cunning),
+            character_attribute(c, attr_willpower),
+            character_attribute(c, attr_presence)
+    );
+
+    print_list(out, w, c, li_talentref, print_talent);
+    print_list(out, w, c, li_skillref, print_skill);
 
 }
 
