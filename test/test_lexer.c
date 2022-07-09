@@ -214,6 +214,42 @@ TEST(Lexer, use_keyword_causes_named_file_to_be_read) {
   remove(tempfile);
 }
 
+TEST(Lexer, use_keyword_when_two_files_deep_loads_all_three_files) {
+
+    char firstfile[10];
+    strncpy(firstfile, "useXXXXXX", sizeof(firstfile));
+    int fd = mkstemp(firstfile);
+    write(fd, "talent\n", 7);
+    close(fd);
+
+    char secondfile[10];
+    strncpy(secondfile, "useXXXXXX", sizeof(secondfile));
+    fd = mkstemp(secondfile);
+    char content[256];
+    snprintf(content, 256, "use \"%s\"\nskill\n", firstfile);
+    write(fd, content, strlen(content));
+    close(fd);
+
+    snprintf(content, 256, "use \"%s\"\nbob\n", secondfile);
+    useContent(content);
+
+    struct token* first;
+    struct token* second;
+    struct token* third;
+
+    first = lex_scan(ctx);
+    second = lex_scan(ctx);
+    third = lex_scan(ctx);
+
+    TEST_ASSERT_NOT_NULL(first);
+    TEST_ASSERT_NOT_NULL(second);
+    TEST_ASSERT_NOT_NULL(third);
+
+    TEST_ASSERT_EQUAL_INT(TALENT, first->token_type);
+    TEST_ASSERT_EQUAL_INT(SKILL, second->token_type);
+    TEST_ASSERT_EQUAL_INT(WORD, third->token_type);
+}
+
 TEST(Lexer, given_positive_negative_and_signless_numbes_return_correct_values) {
   int expected[] = {128, -256, 7};
   useContent("+128 -256 7");
@@ -252,6 +288,7 @@ TEST_GROUP_RUNNER(Lexer) {
   RUN_TEST_CASE(Lexer, non_reserved_words_return_word_token);
   RUN_TEST_CASE(Lexer, quoted_string_returns_QUOTEDSTRING_symbol);
   RUN_TEST_CASE(Lexer, use_keyword_causes_named_file_to_be_read);
+  RUN_TEST_CASE(Lexer, use_keyword_when_two_files_deep_loads_all_three_files);
   RUN_TEST_CASE(Lexer, given_positive_negative_and_signless_numbes_return_correct_values);
   RUN_TEST_CASE(Lexer, given_number_follows_by_comma_returns_both_tokens);
 }

@@ -2,7 +2,7 @@ use "core.adv"
 
 weapon "Brass Knuckles" (Brawl; Damage +1; Critical 3; Disorient 3)
 weapon "Collapsible Baton" (Melee; Damage +2; Critical 3)
-weapon "Stun Gun" (Melee; Damage 5; Critical 6; Stun 3, Stun Damage)
+weapon "Stun Gun" (Melee; Damage 5; Critical 6; Stun 3, "Stun Damage")
 weapon "Assault Rifle" (Ranged-Heavy; Damage 8; Critical 3; Auto-fire)
 weapon "Heavy Pistol" (Ranged-Light; Damage 6; Critical 3)
 weapon "Hunting Rifle" (Ranged-Heavy; Damage 8; Critical 3; Accurate 1, "Limited Ammo" 2)

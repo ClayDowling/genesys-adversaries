@@ -108,7 +108,7 @@ struct weapon_t {
     bool brawl;
     int damage;
     int crit;
-    struct node_t* specials;
+    struct node_t* specials; // Contains leveleditem_t
 };
 
 struct weapon_t* new_weapon(const char* name, const char* skill, bool brawl, int damage, int crit);

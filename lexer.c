@@ -272,6 +272,7 @@ struct token* lex_use_file(struct lex_context* ctx, char* filename) {
   pushed->filename = ctx->filename;
   pushed->input = ctx->input;
   pushed->lineno = ctx->lineno;
+  pushed->next = ctx->last;
 
   ctx->last = pushed;
   ctx->filename = filename;

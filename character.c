@@ -62,6 +62,28 @@ void print_skill(FILE* out, struct world_t *w, struct namedlist_t *c, struct lis
     for(int i=0; i < ability; ++i) fputc('g', out);
 }
 
+void print_weapon(FILE* out, struct world_t *w, struct namedlist_t *c, struct listitem_t *item) {
+    struct weapon_t *wpn = item->weapon;
+    char brawl = ' ';
+    if (wpn->brawl) {
+        brawl = '+';
+    }
+    fprintf(out, "%s (%s; Dmg %c%d; Crit %d", wpn->name, wpn->skill, brawl, wpn->damage, wpn->crit);
+    const char *sep = "; ";
+    struct leveleditem_t *special;
+    for(struct node_t *cur = wpn->specials; cur != NULL; cur = cur->next) {
+        special = (struct leveleditem_t*)cur->node;
+        fputs(sep, out);
+        sep = ", ";
+        if (special->level == 0) {
+            fprintf(out, "%s", special->name);
+        } else {
+            fprintf(out, "%s %d", special->name, special->level);
+        }
+    }
+    fprintf(out, ")");
+}
+
 void print_list(FILE *out, struct world_t *w, struct namedlist_t *c,
         enum listitemtype type, void (*printfunction)(FILE*, struct world_t*, struct namedlist_t*, struct listitem_t*)) {
     const char *NOCOMMA = "";
@@ -94,6 +116,6 @@ void print_character_rival(FILE *out, struct world_t *w, struct namedlist_t *c) 
 
     print_list(out, w, c, li_talentref, print_talent);
     print_list(out, w, c, li_skillref, print_skill);
-
+    print_list(out, w, c, li_weapon, print_weapon);
 }
 
