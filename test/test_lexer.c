@@ -250,6 +250,31 @@ TEST(Lexer, use_keyword_when_two_files_deep_loads_all_three_files) {
     TEST_ASSERT_EQUAL_INT(WORD, third->token_type);
 }
 
+TEST(Lexer, use_keyword_searches_lex_directories_for_file) {
+
+#ifdef _WIN64
+    mkdir("testuse");
+#else
+    mkdir("testuse", 0755);
+#endif
+
+    FILE *out = fopen("testuse/test.adv", "w");
+    fputs("skill", out);
+    fclose(out);
+
+    lex_add_directory("testuse");
+    struct lex_context *ctx = lex_file("test.adv");
+    TEST_ASSERT_NOT_NULL(ctx);
+
+    struct token *tok = lex_scan(ctx);
+
+    remove("testuse/test.adv");
+    rmdir("testuse");
+
+    TEST_ASSERT_NOT_NULL(tok);
+    TEST_ASSERT_EQUAL_INT(SKILL, tok->token_type);
+}
+
 TEST(Lexer, given_positive_negative_and_signless_numbes_return_correct_values) {
   int expected[] = {128, -256, 7};
   useContent("+128 -256 7");
@@ -289,6 +314,7 @@ TEST_GROUP_RUNNER(Lexer) {
   RUN_TEST_CASE(Lexer, quoted_string_returns_QUOTEDSTRING_symbol);
   RUN_TEST_CASE(Lexer, use_keyword_causes_named_file_to_be_read);
   RUN_TEST_CASE(Lexer, use_keyword_when_two_files_deep_loads_all_three_files);
+  RUN_TEST_CASE(Lexer, use_keyword_searches_lex_directories_for_file);
   RUN_TEST_CASE(Lexer, given_positive_negative_and_signless_numbes_return_correct_values);
   RUN_TEST_CASE(Lexer, given_number_follows_by_comma_returns_both_tokens);
 }

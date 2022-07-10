@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 struct fixed_value {
   const char *text;
@@ -54,6 +56,13 @@ struct lex_pushed_context {
   struct lex_pushed_context* next;
 };
 
+struct lex_search_path {
+    const char *folder;
+    struct lex_search_path *next;
+};
+
+struct lex_search_path *SEARCH_PATH = NULL;
+
 #define ASSEMBLY_SIZE PATH_MAX
 struct lex_context {
   FILE *input;
@@ -63,12 +72,35 @@ struct lex_context {
   struct lex_pushed_context* last;
 };
 
+const char* lex_find_file(const char* filename) {
+    static char fullpath[PATH_MAX];
+    struct stat sb;
+
+    if (stat(filename, &sb) == 0) {
+        return filename;
+    }
+
+    struct lex_search_path *cur;
+    for(cur = SEARCH_PATH; cur != NULL; cur = cur->next) {
+        snprintf(fullpath, PATH_MAX, "%s/%s", cur->folder, filename);
+        if (stat(fullpath, &sb) == 0) return fullpath;
+    }
+    return NULL;
+}
+
 struct lex_context *lex_file(const char *filename) {
-  FILE *in = fopen(filename, "r");
+
+    const char *fullpath = lex_find_file(filename);
+    if (fullpath == NULL) {
+        fprintf(stderr, "Cannot find file %s\n", filename);
+        return NULL;
+    }
+
+  FILE *in = fopen(fullpath, "r");
   if (!in) {
-    perror(filename);
+    perror(fullpath);
   }
-  return lex_FILE(in, filename);
+  return lex_FILE(in, fullpath);
 }
 
 struct lex_context *lex_FILE(FILE* file, const char* name) {
@@ -285,4 +317,11 @@ struct token* lex_use_file(struct lex_context* ctx, char* filename) {
 
 void lex_error(struct lex_context* ctx, const char* message) {
   fprintf(stderr, "%s line %d: %s\n", ctx->filename, ctx->lineno, message);
+}
+
+void lex_add_directory(const char* directory) {
+    struct lex_search_path *cur = (struct lex_search_path*)calloc(1, sizeof(struct lex_search_path));
+    cur->folder = strdup(directory);
+    cur->next = SEARCH_PATH;
+    SEARCH_PATH = cur;
 }

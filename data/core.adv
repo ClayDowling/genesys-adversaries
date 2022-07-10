@@ -111,3 +111,6 @@ talent "Indomitable"
 talent "Master"
 talent "Overcharge (Improved)"
 talent "Ruinous Repartee"
+
+weapon Knife (Melee; Damage +1; Crit 3)
+weapon Axe (Melee-Light; Damage +3; Critical 3; Vicious 1)

@@ -58,8 +58,8 @@ void print_skill(FILE* out, struct world_t *w, struct namedlist_t *c, struct lis
     fprintf(out, "%s ", name);
     int proficiency = character_proficiency(c, name);
     int ability = character_ability(w, c, name);
-    for(int i=0; i < proficiency; ++i) fputc('Y', out);
-    for(int i=0; i < ability; ++i) fputc('g', out);
+    for(int i=0; i < proficiency; ++i) fputc('P', out);
+    for(int i=0; i < ability; ++i) fputc('a', out);
 }
 
 void print_weapon(FILE* out, struct world_t *w, struct namedlist_t *c, struct listitem_t *item) {
@@ -103,6 +103,7 @@ void print_list(FILE *out, struct world_t *w, struct namedlist_t *c,
 }
 
 void print_character_rival(FILE *out, struct world_t *w, struct namedlist_t *c) {
+    fprintf(out, "%s\n\n", c->name);
     fprintf(out, "Br Ag Int Cun Will Pres\n"
                  "-- -- --- --- ---- ----\n"
                  "%2d %2d %3d %3d %4d %4d\n\n",

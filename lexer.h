@@ -41,4 +41,10 @@ void lex_complete(struct lex_context *ctx);
  */
 struct token *lex_scan(struct lex_context *ctx);
 
+/**
+ * @brief Add a search directory to scan for use files
+ *
+ * @param directory
+ */
+void lex_add_directory(const char* directory);
 #endif

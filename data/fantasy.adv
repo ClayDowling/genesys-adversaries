@@ -4,9 +4,7 @@ talent "Battle Rage"
 talent "Dark Vision"
 talent "Tough as Nails"
 
-weapon Knife (Melee; Damage +1; Crit 3)
 weapon Revolver (Ranged-Light; Damage 6; Crit 4; Accurate 1)
-weapon Axe (Melee-Light; Damage +3; Critical 3; Vicious 1)
 weapon Greataxe (Melee-Heavy; Damage +4; Critical 2; Cumbersome 3, Pierce 2, Vicious 1)
 weapon Greatsowrd (Melee-Heavy; Damage +4; Critical 2; Defensive 1, Pierce 1, Unweildy 3)
 weapon Halberd (Melee-Heavy; Damage +3; Crit 3; Defensive 1, Pierce 3)
