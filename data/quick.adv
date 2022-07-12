@@ -1,0 +1,15 @@
+use "core.adv"
+
+package "Small Creature" : Br 1, Ag 2, Int 3, Cun 1, Will 1, Pr 1, Cbt -1, Soc -1
+package "Large Creature" : Br 4, Ag 2, Int 2, Cun 1, Will 1, Pr 1, Cbt +1, Soc -1
+package "Stealthy Creature" : Br 2, Ag 3, Int 3, Cun 1, Will 1, Pr 1, Cbt 0, Soc -1
+package "Huge Creature" : Br 5, Ag 1, Int 1, Cun 1, Will 1, Pr 1, Cbt +1, Soc -1, Gen -1
+package "Average Person" : Br 2, Ag 2, Int 2, Cun 2, Will 2, Pr 2
+package "Tough Person" : Br 3, Ag 2, Int 2, Cun 2, Will 2, Pr 1, Cbt 0, Soc -1
+package "Smart Person" : Br 1, Ag 2, Int 2, Cun 3, Will 2, Pr 2, Cbt -1, Soc 0, Gen 0
+package "Sociable Person" : Br 2, Ag 2, Int 2, Cun 2, Will 1, Pr 3, Cbt 0, Soc 0, Gen 0
+package "Jack of All Trades" : Br 3, Ag 3, Int 3, Cun 3, Will 3, Pr 3, Cbt +1, Soc +1, Gen +1
+package "Small Creature" : Br 1, Ag 2, Int 3, Cun 1, Will 1, Pr 1, Cbt -1, Soc -1
+package "Small Creature" : Br 1, Ag 2, Int 3, Cun 1, Will 1, Pr 1, Cbt -1, Soc -1
+package "Small Creature" : Br 1, Ag 2, Int 3, Cun 1, Will 1, Pr 1, Cbt -1, Soc -1
+package "Small Creature" : Br 1, Ag 2, Int 3, Cun 1, Will 1, Pr 1, Cbt -1, Soc -1

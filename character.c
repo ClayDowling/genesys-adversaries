@@ -104,15 +104,18 @@ void print_list(FILE *out, struct world_t *w, struct namedlist_t *c,
 
 void print_character_rival(FILE *out, struct world_t *w, struct namedlist_t *c) {
     fprintf(out, "%s\n\n", c->name);
-    fprintf(out, "Br Ag Int Cun Will Pres\n"
-                 "-- -- --- --- ---- ----\n"
-                 "%2d %2d %3d %3d %4d %4d\n\n",
+    fprintf(out, "Br Ag Int Cun Will Pres    Combat: %d\n"
+                 "-- -- --- --- ---- ----    Social: %d\n"
+                 "%2d %2d %3d %3d %4d %4d   General: %d\n\n",
+            character_attribute(c, attr_combat),
+            character_attribute(c, attr_social),
             character_attribute(c, attr_brawn),
             character_attribute(c, attr_agility),
             character_attribute(c, attr_intellect),
             character_attribute(c, attr_cunning),
             character_attribute(c, attr_willpower),
-            character_attribute(c, attr_presence)
+            character_attribute(c, attr_presence),
+            character_attribute(c, attr_general)
     );
 
     print_list(out, w, c, li_talentref, print_talent);

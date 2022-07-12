@@ -1,16 +1,7 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-enum attribute_t {
-  attr_brawn,
-  attr_agility,
-  attr_intellect,
-  attr_cunning,
-  attr_willpower,
-  attr_presence,
-  attr_MAX
-};
-
+#include "attribute.h"
 #define END_OF_INPUT -1
 
 struct token {

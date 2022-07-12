@@ -54,6 +54,13 @@ const char *mismatch_message(int expected, int actual) {
   return message;
 }
 
+const char *attribute_mismatch_message(enum attribute_t expected, enum attribute_t actual) {
+    static char message[100];
+    snprintf(message, sizeof(message), "Expected attribute %s but found %s",
+        attribute_name(expected), attribute_name(actual));
+    return message;
+}
+
 TEST(Lexer, single_character_tokens_return_expected_values) {
   int expected[] = {COMMA, SEMICOLON, COLON, LPAREN, RPAREN, 0};
   struct token *t;
@@ -145,6 +152,48 @@ TEST(Lexer, attribute_abbreviations_match_in_case_insensitive_way) {
   }
   TEST_ASSERT_EQUAL_INT(6, matches);
 }
+
+TEST(Lexer, power_attributes_match_in_case_insensitive_way) {
+  enum attribute_t expected[] = {
+    attr_combat, attr_combat, attr_social, attr_social, attr_general, attr_general
+  };
+  struct token *t;
+  useContent("Combat cbt sOc SoCiAl gen GeneraL");
+  int matches = 0;
+
+  for(int i=0; i < sizeof(expected)/ sizeof(enum attribute_t); ++i) {
+    t = lex_scan(ctx);
+    if (!t) break;
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ATTRIBUTE, t->token_type, 
+                                  mismatch_message(ATTRIBUTE, t->token_type));
+    TEST_ASSERT_EQUAL_INT((int)expected[i], (int)t->attributeval);
+    matches++;
+  }
+  TEST_ASSERT_EQUAL_INT(6, matches);
+}
+
+TEST(Lexer, defense_attributes_match_in_case_insensitive_way) {
+  enum attribute_t expected[] = {
+    attr_meleedefense, attr_meleedefense, 
+    attr_rangeddefence, attr_rangeddefence, 
+    attr_wound, attr_soak, attr_strain
+  };
+  struct token *t;
+  useContent("meleedefense melee-defense rangeddefense ranged-defense wound soak strain");
+  int matches = 0;
+
+  for(int i=0; i < sizeof(expected)/ sizeof(enum attribute_t); ++i) {
+    t = lex_scan(ctx);
+    if (!t) break;
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ATTRIBUTE, t->token_type, 
+                                  mismatch_message(ATTRIBUTE, t->token_type));
+    TEST_ASSERT_EQUAL_INT_MESSAGE((int)expected[i], (int)t->attributeval,
+                                  attribute_mismatch_message(expected[i], t->attributeval));
+    matches++;
+  }
+  TEST_ASSERT_EQUAL_INT(7, matches);
+}
+
 
 TEST(Lexer, non_reserved_words_return_word_token) {
   struct token *first;
@@ -310,6 +359,8 @@ TEST_GROUP_RUNNER(Lexer) {
   RUN_TEST_CASE(Lexer, keyword_matches_are_case_insensitive);
   RUN_TEST_CASE(Lexer, attribute_matches_in_case_insensitive_way);
   RUN_TEST_CASE(Lexer, attribute_abbreviations_match_in_case_insensitive_way);
+  RUN_TEST_CASE(Lexer, power_attributes_match_in_case_insensitive_way);
+  RUN_TEST_CASE(Lexer, defense_attributes_match_in_case_insensitive_way);
   RUN_TEST_CASE(Lexer, non_reserved_words_return_word_token);
   RUN_TEST_CASE(Lexer, quoted_string_returns_QUOTEDSTRING_symbol);
   RUN_TEST_CASE(Lexer, use_keyword_causes_named_file_to_be_read);

@@ -38,6 +38,7 @@ add_executable(${PROJECT_NAME}
 
 add_library(adversary
     adversary.c
+    attribute.c
     ast.c
     token.c
     terminal_tags.c

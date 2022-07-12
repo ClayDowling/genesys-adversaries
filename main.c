@@ -42,7 +42,7 @@ int main(int argc, const char* argv[]) {
     snprintf(librarypath, PATH_MAX, "%s/data", basename(argv[0]));
 #endif
     lex_add_directory(librarypath);
-    
+
     struct world_t *world = parse_file(argv[1]);
     struct namedlist_t *character;
     for(struct node_t *cur = world->characters; cur != NULL; cur = cur->next) {

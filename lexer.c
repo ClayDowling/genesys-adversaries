@@ -39,7 +39,23 @@ struct fixed_value attributes[] = {
     {.text = "int", .token_type = attr_intellect},
     {.text = "cun", .token_type = attr_cunning},
     {.text = "will", .token_type = attr_willpower},
-    {.text = "pr", .token_type = attr_presence}};
+    {.text = "pr", .token_type = attr_presence},
+    {.text = "combat", .token_type = attr_combat},
+    {.text = "social", .token_type = attr_social},
+    {.text = "general", .token_type = attr_general},
+    {.text = "cbt", .token_type = attr_combat},
+    {.text = "soc", .token_type = attr_social},
+    {.text = "gen", .token_type = attr_general},
+    {.text = "wound", .token_type = attr_wound},
+    {.text = "strain", .token_type = attr_strain},
+    {.text = "soak", .token_type = attr_soak},
+    {.text = "ranged defense", .token_type = attr_rangeddefence},
+    {.text = "rangeddefense", .token_type = attr_rangeddefence},
+    {.text = "ranged-defense", .token_type = attr_rangeddefence},
+    {.text = "melee defense", .token_type = attr_meleedefense},
+    {.text = "melee-defense", .token_type = attr_meleedefense},
+    {.text = "meleedefense", .token_type = attr_meleedefense},
+};
 
 struct token *lex_word(struct lex_context *ctx);
 int lex_match_keyword(const char *);
