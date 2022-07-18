@@ -3,15 +3,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "configure.h"
 #include "parser.h"
 #include "character.h"
 #include "lexer.h"
 
 void about(void) {
-    puts("Genesys RPG Adversary Builder\n"
+    printf("Genesys RPG Adversary Builder v%s\n"
          "\n"
          "Copyright (c) 2022 by Clay Dowling\n"
-         "All rights reserved.\n"
+         "All rights reserved.\n", ADVERSARY_VERSION
     );
 }
 
@@ -41,6 +42,7 @@ int main(int argc, const char* argv[]) {
 #else
     snprintf(librarypath, PATH_MAX, "%s/data", basename(argv[0]));
 #endif
+    printf("Library path: %s\n", librarypath);
     lex_add_directory(librarypath);
 
     struct world_t *world = parse_file(argv[1]);

@@ -1,0 +1,23 @@
+OutFile "@PROJECT_NAME@-@PROJECT_VERSION@+@CMAKE_SYSTEM_NAME@.exe"
+
+InstallDir $PROGRAMFILES64\@PROJECT_NAME@-@PROJECT_VERSION@
+
+Page directory
+Page instfiles
+
+Section Application
+
+    SetOutPath $INSTDIR
+
+    File adversaries.exe
+    File tokenstream.exe
+    File C:\Windows\System32\msvcrt.dll
+
+    EnVar::AddValue PATH $INSTDIR
+
+SectionEnd
+
+Section Data
+    SetOutPath $INSTDIR\data
+    FILE /r "@CMAKE_CURRENT_SOURCE_DIR@\data\*"
+SectionEnd

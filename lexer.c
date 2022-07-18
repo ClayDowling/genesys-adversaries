@@ -106,11 +106,11 @@ const char* lex_find_file(const char* filename) {
 
 struct lex_context *lex_file(const char *filename) {
 
-    const char *fullpath = lex_find_file(filename);
-    if (fullpath == NULL) {
-        fprintf(stderr, "Cannot find file %s\n", filename);
-        return NULL;
-    }
+  const char *fullpath = lex_find_file(filename);
+  if (fullpath == NULL) {
+      fprintf(stderr, "Cannot find file %s\n", filename);
+      return NULL;
+  }
 
   FILE *in = fopen(fullpath, "r");
   if (!in) {
@@ -310,7 +310,12 @@ struct token* lex_end_of_file(struct lex_context* ctx) {
 
 struct token* lex_use_file(struct lex_context* ctx, char* filename) {
  
-  FILE *newinput = fopen(filename, "r");
+  const char *fullpath = lex_find_file(filename);
+  if (!fullpath) {
+    fprintf(stderr, "%s: Not found in current directory or library path.\n", filename);
+    return lex_scan(ctx);
+  }
+  FILE *newinput = fopen(fullpath, "r");
   if (!newinput) {
     perror(filename);
     return lex_scan(ctx);

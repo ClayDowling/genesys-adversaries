@@ -9,7 +9,82 @@ package "Tough Person" : Br 3, Ag 2, Int 2, Cun 2, Will 2, Pr 1, Cbt 0, Soc -1
 package "Smart Person" : Br 1, Ag 2, Int 2, Cun 3, Will 2, Pr 2, Cbt -1, Soc 0, Gen 0
 package "Sociable Person" : Br 2, Ag 2, Int 2, Cun 2, Will 1, Pr 3, Cbt 0, Soc 0, Gen 0
 package "Jack of All Trades" : Br 3, Ag 3, Int 3, Cun 3, Will 3, Pr 3, Cbt +1, Soc +1, Gen +1
-package "Small Creature" : Br 1, Ag 2, Int 3, Cun 1, Will 1, Pr 1, Cbt -1, Soc -1
-package "Small Creature" : Br 1, Ag 2, Int 3, Cun 1, Will 1, Pr 1, Cbt -1, Soc -1
-package "Small Creature" : Br 1, Ag 2, Int 3, Cun 1, Will 1, Pr 1, Cbt -1, Soc -1
-package "Small Creature" : Br 1, Ag 2, Int 3, Cun 1, Will 1, Pr 1, Cbt -1, Soc -1
+package "Skilled Warrior" : Br 4, Ag 3, Int 2, Cun 2, Will 3, Pr 1, Cbt +2, Soc 0, gen 0
+package "Savant" : Br 2, Ag 1, Int 2, Cun 5, Will 2, Pr 1, Cbt -1, Soc -1, Gen +1
+package "Born Leader" : Br 2, Ag 2, Int 3, Cun 2, Will 3, Pr 5, Cbt 0, Soc +2, Gen 0
+package "Cunning Foe" : Br 2, Ag 4, Int 4, Cun 2, Will 2, Pr 2, Cbt +1, Soc 0, Gen +1
+package "Mastermind" : Br 3, Ag 3, Int 4, Cun 4, Will 5, Pr 3, Combat +1, Soc +2, General +2
+
+package "Tough Skin" : Soak +1, Wound +2
+package "Armored Hide" : Soak +2, Wound +5, Combat +1
+package Dodgy : Melee-defense +1, Ranged-defense +1
+package "Close Combatant" : Meleedefense +2
+package "Camouflaged" : Meleedefense +1, Ranged-defense +2, Combat +1
+package "Hardy" : Wound +5
+package "Very Tough" : Wound +10, Combat +1
+package "Giant Body" : Wound +25, Combat +2
+package "Savvy" : Strain +5
+package "Mental Giant" : Strain +10, Social +1
+
+package "Basic Creature" : Athletics 1, Brawl 1, Survival 2, Vigilance 2
+package "Ferocious Creature" : Athletics 3, Brawl 4, Perception 2, Survival 3, Vigilance 1, Combat 1, General 1
+package "Predatory Creature" : Brawl 3, Coordination 3, Perception 4, Survival 2, Stealth 3, Combat 1, General 1
+package "Territorial Creature" : Brawl 2, Resilience 3, Survival 4, Vigilance 4, general 2
+package "Soldier" : Athletics 2, Discipline 1, Melee 2, Ranged 2, Resilience 2, Vigilance 2, Combat 1, General 1
+package "Duelist" : Cool 3, Coordination 3, Melee 5, Stealth 1, Combat 1
+package "Scout" : Cool 2, Perception 3, Ranged 5, Stealth 4, Survival 3, Vigilance 3, Combat 2, General 2
+package "Sniper" : Cool 2, Perception 3, Ranged 5, Stealth 4, Survival 3, Vigilance 3, Combat 2, General 2
+package "Brawler" : Athletics 3, Brawl 2, Resilience 3
+package "Laborer" : Athletics 3, Brawl 2, Resilience 3
+package "Gunslinger" : Cool 3, Coordination 2, Ranged 4, Skulduggery 3, Combat 1
+package "Sailor" : Athletics 2, Operating 3, Perception 2, ranged 1, Vigilance 1
+package "Spy" : Cool 2, Charm 3, Deception 4, Knowledge 1, Skulduggery4, Stealth 3, Social 2, general 2
+package "Con Artist" : Cool 2, Charm 3, Deception 4, Knowledge 1, Skulduggery4, Stealth 3, Social 2, general 2
+package "Thief" : Coordination 3, Deception 2, melee 3, Skulduggery 4, Stealth 5, Streetwise 3, Vigilance 1, Combat 1, general 4
+package "Assassin" : Coordination 3, Deception 2, melee 3, Skulduggery 4, Stealth 5, Streetwise 3, Vigilance 1, Combat 1, general 4
+package "Researcher" : Astrocartography 5, Computers 3, Discipline 2, Knowledge 5, Perception 4, General 5
+package "Natural Philosopher" : Alchemy 4, Knowledge 4, Medicine 2, negotiation 1, Perception 2, General 3
+package "Doctor" : Cool 2, Discipline 2, Leadership 1, medicine 4, melee 1, social 1, general 2
+package "Knight" : Athletics 1, Discipline 2, Driving 3, Leadership 3, Melee 4, Riding 3, Combat 1, Social 2, General 2
+package "Warrior Leader" : Athletics 1, Discipline 2, Driving 3, Leadership 3, Melee 4, Riding 3, Combat 1, Social 2, General 2
+package "Captain of a Vessel" : Astrocartography 4, Coercion 2, Discipline 3, Leadership 4, Operating 4, ranged 3, combat 1, social 2, general 3
+package "Politician" : Charm 4, Coercion 2, Cool 2, Leadership 3, Negotiation 5, Vigilance 1, Social 3, General 1
+package "Official" : Charm 4, Coercion 2, Cool 2, Leadership 3, Negotiation 5, Vigilance 1, Social 3, General 1
+package "Mage" : Alchemy 2, Arcana 4, Coercion 2, Knowledge 4, Combat 2, General 2
+package "Priest" : Charm 2, Discipline 3, Divine 4, Knowledge 4, Combat 2, Social 1,  General 2
+package "Druid" : Knowledge 4, Primal 4, Survival 3, Vigilance 2, Combat 2, General 2
+package "Pilot" : Cool 2, Coordination 3, Driving 4, Piloting 4, Ranged 3, Riding 4, Combat 1, General 3
+package "Driver" : Cool 2, Coordination 3, Driving 4, Piloting 4, Ranged 3, Riding 4, Combat 1, General 3
+package "Rider" : Cool 2, Coordination 3, Driving 4, Piloting 4, Ranged 3, Riding 4, Combat 1, General 3
+package "Merchant" : Charm 2, Deception 3, negotiation 3, Perception 2, Vigilance 3, Social 3
+package "Crime Boss" : Brawl 4, Coercion 5, Discipline 2, Leadership 2, Ranged 2, Streetwise 4, Combat 2, Social 3, General 1
+package "Bureaucrat" : Cool 3, Discipline 3, Knowledge 2,  Negotiation 2, Vigilance 3, Social 3, General 1
+package "Mechanic" : Athletics 2, Brawl 1, Computers 1, Mechanics 4, Resilience 3, general 3
+package "Hacker" : Computers 5, Cool 2, Deception 2, Streetwise 2, Social 1, general 3
+package "Criminal Tough" : Brawl 2, Coercion 3, Resilience 3, Skulduggery 3, Streetwise 2, Social 1, General 2
+package "Investigator" : Charm 2, Coercion 2, Discipline 3, Perception 3, Streetwise 3, Survival 3, Vigilance 3, Social 2, general 3
+package "Wrangler" : Athletics 4, Coordination 2, Perception 3, Ranged 2, Riding 3, Survival 4, General 3
+package "Survivalist" : Athletics 4, Coordination 2, Perception 3, Ranged 2, Riding 3, Survival 4, General 3
+package "Cop" : Coercion 2, Driving 2, Leadership 2, Melee 2, ranged 2, Combat 1, Social 1
+package "Guard" : Coercion 2, Driving 2, Leadership 2, Melee 2, ranged 2, Combat 1, Social 1
+
+talent "Component Casting"
+talent "Elementalist"
+talent "Ensorceled"
+talent "Brilliant Casting"
+talent "Ensorceled (Improved)"
+talent "Druid"
+talent "Elementalist (Improved)"
+talent "Ensorceled (Supreme)"
+talent "Explosive Casting"
+talent "Face of the Wild"
+talent "Innate Focus"
+talent "Master of Illusion"
+talent "Elementalist (Supreme)"
+talent "Flicker Step"
+talent "Masterful Casting"
+talent "Polymorph"
+talent "Strength of Faith"
+talent "Teleportation"
+talent "Dire Animal Companion"
+talent "Teleportation (Improved)"

@@ -1,10 +1,14 @@
 cmake_minimum_required(VERSION 3.16)
-project(adversaries LANGUAGES C CXX)
+
+project(adversaries LANGUAGES C CXX VERSION 0.7)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_STANDARD 99)
 include(FetchContent)
 include(CTest)
+
+configure_file(installer.nsis.in installer.nsi)
+configure_file(configure.h.in configure.h)
 
 set(UNITY_EXTENSION_FIXTURE on)
 
@@ -22,15 +26,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(unity incbin)
 
-include_directories(${incbin_SOURCE_DIR})
-
-configure_file(data/core.adv .)
-configure_file(data/sciencefiction.adv .)
-configure_file(data/spaceopera.adv .)
-configure_file(data/steampunk.adv .)
-configure_file(data/weirdwar.adv .)
-configure_file(data/modern.adv .)
-configure_file(data/fantasy.adv .)
+include_directories(${incbin_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} )
 
 add_executable(${PROJECT_NAME}
     main.c

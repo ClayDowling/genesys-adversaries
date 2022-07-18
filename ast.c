@@ -323,16 +323,28 @@ void namedlist_add_reference(const struct world_t* w, struct namedlist_t* list, 
     if (NULL == list) return;
     if (NULL == nli) return;
 
+
+
     if (nli_attribute == nli->type) {
         struct listitem_t *item = new_listattribute(nli->bonus);
         list->TOP = node_append(list->TOP, (void*)item);
     }
+
     if (nli_leveledname == nli->type) {
-        struct listitem_t *item = world_add_reference(w, nli->item->name, nli->item->level);
-        if (item) {
-            list->TOP = node_append(list->TOP, item);
-        } else {
-            fprintf(stderr, "Item \"%s\" not found in world.\n", nli->item->name);
+
+        struct namedlist_t *pkg = world_find_package(w, nli->item->name);
+        if (NULL != pkg) {
+          for(struct node_t *cur=pkg->TOP; NULL != cur; cur = cur->next) {
+            list->TOP = node_append(list->TOP, cur->node);
+          }
+        }
+        else {
+          struct listitem_t *item = world_add_reference(w, nli->item->name, nli->item->level);
+          if (item) {
+              list->TOP = node_append(list->TOP, item);
+          } else {
+              fprintf(stderr, "Item \"%s\" not found in world.\n", nli->item->name);
+          }
         }
     }
 }
