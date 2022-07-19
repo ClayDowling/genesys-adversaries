@@ -42,8 +42,12 @@ int main(int argc, const char* argv[]) {
 #else
     snprintf(librarypath, PATH_MAX, "%s/data", basename(argv[0]));
 #endif
-    printf("Library path: %s\n", librarypath);
     lex_add_directory(librarypath);
+
+    const char* libraryenv = getenv("ADVERSARIES_LIBRARY");
+    if (libraryenv) {
+        lex_add_directory(libraryenv);
+    }
 
     struct world_t *world = parse_file(argv[1]);
     struct namedlist_t *character;

@@ -35,3 +35,37 @@ The result would be a combination of the packages *Tough Person,* *Dodgy,* and *
     name ::= QUOTEDSTRING.
     name ::= WORD.
 
+## How To Use It
+
+If you're using the Quick Adversary Generation System from the Genesys Advanced Player's Guide, adversaries are very quick to generate.  A single line using the shorthand of that system might look like this:
+
+    use "quick.adv"
+    use "modern.adv"
+
+    minion "Jets Gang Member" : "Tough Person", "Hardy", "Brawler", "Brass Knuckles"
+
+    rival "Jets Gang Lt" : "Tough Person", "Hardy", "Warrior Leader", Knife
+
+I then process it with:
+
+    adveraries westside-story.adv
+
+I'll get output similar to:
+
+    Jets Gang Member
+
+    Br Ag Int Cun Will Pres    Combat: 0
+    -- -- --- --- ---- ----    Social: -1
+    3  2   2   2    2    1   General: 0
+
+    Athletics PPP, Brawl PPa, Resilience PPP
+    Brass Knuckles (Brawl; Dmg +1; Crit 3; Disorient 3)
+
+    Jets Gang Lt
+
+    Br Ag Int Cun Will Pres    Combat: 1
+    -- -- --- --- ---- ----    Social: 1
+    3  2   2   2    2    1   General: 2
+
+    Athletics Paa, Discipline PP, Driving PPa, Leadership Paa, Melee PPPa, Riding PPa
+    Knife (Melee; Dmg +1; Crit 3)

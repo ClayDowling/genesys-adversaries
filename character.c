@@ -121,5 +121,6 @@ void print_character_rival(FILE *out, struct world_t *w, struct namedlist_t *c) 
     print_list(out, w, c, li_talentref, print_talent);
     print_list(out, w, c, li_skillref, print_skill);
     print_list(out, w, c, li_weapon, print_weapon);
+    fprintf(out, "\n");
 }
 

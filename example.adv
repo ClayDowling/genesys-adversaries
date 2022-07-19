@@ -1,0 +1,6 @@
+use "quick.adv"
+use "modern.adv"
+
+minion "Jets Gang Member" : "Tough Person", "Hardy", "Brawler", "Brass Knuckles"
+
+rival "Jets Gang Lt" : "Tough Person", "Hardy", "Warrior Leader", Knife

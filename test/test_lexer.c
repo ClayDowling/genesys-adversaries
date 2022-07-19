@@ -321,7 +321,7 @@ TEST(Lexer, use_keyword_searches_lex_directories_for_file) {
     rmdir("testuse");
 
     TEST_ASSERT_NOT_NULL(tok);
-    TEST_ASSERT_EQUAL_INT(SKILL, tok->token_type);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(SKILL, tok->token_type, mismatch_message(SKILL, tok->token_type));
 }
 
 TEST(Lexer, given_positive_negative_and_signless_numbes_return_correct_values) {
