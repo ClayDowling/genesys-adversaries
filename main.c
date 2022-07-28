@@ -1,4 +1,5 @@
 #include <limits.h>
+#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,6 +36,8 @@ int main(int argc, const char* argv[]) {
         about();
         return EXIT_FAILURE;
     }
+
+    setlocale(LC_ALL, "");
 
     char librarypath[PATH_MAX];
 #ifdef _WIN64

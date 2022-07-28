@@ -7,6 +7,9 @@
 #include <string.h>
 #include "character.h"
 
+const char *PROFICIENCY_SYMBOL = "Y";
+const char *ABILITY_SYMBOL = "g";
+
 int character_attribute(struct namedlist_t* c, enum attribute_t attribute) {
     struct listitem_t *item;
     int total = 0;
@@ -58,8 +61,8 @@ void print_skill(FILE* out, struct world_t *w, struct namedlist_t *c, struct lis
     fprintf(out, "%s ", name);
     int proficiency = character_proficiency(c, name);
     int ability = character_ability(w, c, name);
-    for(int i=0; i < proficiency; ++i) fputc('P', out);
-    for(int i=0; i < ability; ++i) fputc('a', out);
+    for(int i=0; i < proficiency; ++i) fprintf(out, "%s", PROFICIENCY_SYMBOL);
+    for(int i=0; i < ability; ++i) fprintf(out, "%s", ABILITY_SYMBOL);
 }
 
 void print_weapon(FILE* out, struct world_t *w, struct namedlist_t *c, struct listitem_t *item) {
