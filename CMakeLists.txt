@@ -18,15 +18,13 @@ FetchContent_Declare(
     GIT_TAG v2.5.2
 )
 
-FetchContent_Declare(
-        incbin
-        GIT_REPOSITORY https://github.com/graphitemaster/incbin.git
-        GIT_TAG origin/main
+FetchContent_MakeAvailable(unity)
+
+include_directories( ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/external
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/cJSON
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/mustach
 )
-
-FetchContent_MakeAvailable(unity incbin)
-
-include_directories(${incbin_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} )
 
 add_executable(${PROJECT_NAME}
     main.c
@@ -41,7 +39,11 @@ add_library(adversary
     lexer.c
     parser.c
     character.c
-)
+    external/cJSON/cJSON.c
+    external/mustach/mustach.c
+    external/mustach/mustach-wrap.c
+    external/mustach/mustach-cjson.c
+        )
 
 target_link_libraries(${PROJECT_NAME}
     adversary
