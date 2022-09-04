@@ -47,4 +47,11 @@ struct token *lex_scan(struct lex_context *ctx);
  * @param directory
  */
 void lex_add_directory(const char* directory);
+
+struct lex_search_path {
+    const char *folder;
+    struct lex_search_path *next;
+};
+
+extern struct lex_search_path *SEARCH_PATH;
 #endif

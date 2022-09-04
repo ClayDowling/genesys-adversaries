@@ -72,10 +72,6 @@ struct lex_pushed_context {
   struct lex_pushed_context* next;
 };
 
-struct lex_search_path {
-    const char *folder;
-    struct lex_search_path *next;
-};
 
 struct lex_search_path *SEARCH_PATH = NULL;
 
@@ -161,6 +157,7 @@ struct token *lex_scan(struct lex_context *ctx) {
       return lex_quotedstring(ctx);
     case ' ':
     case '\t':
+    case '\r':
       continue;
     case '\n':
       ctx->lineno++;

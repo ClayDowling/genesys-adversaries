@@ -71,6 +71,7 @@ struct skill_reference_t *node_find_skill_reference(struct node_t *TOP, const ch
 struct talent_reference_t *node_find_talent_reference(struct node_t *TOP, const char *name);
 
 enum namedlist_type {list_package, list_minion, list_rival, list_nemesis, list_MAX};
+const char* namedlist_type_name(enum namedlist_type t);
 
 /// Contains a package or a character
 struct namedlist_t {

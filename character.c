@@ -127,3 +127,95 @@ void print_character_rival(FILE *out, struct world_t *w, struct namedlist_t *c) 
     fprintf(out, "\n");
 }
 
+void json_skill(struct cJSON* root, struct world_t* w, struct namedlist_t* c, struct listitem_t* item) {
+    struct cJSON *skill = cJSON_CreateObject();
+    const char* name = item->skill->reference->name;
+    cJSON_AddStringToObject(skill, "name", name);
+    int proficiency = character_proficiency(c, name);
+    int ability = character_ability(w, c, name);
+    cJSON_AddNumberToObject(skill, "proficiency", proficiency);
+    cJSON_AddNumberToObject(skill, "ability", ability);
+    cJSON_AddItemToArray(root, skill);
+}
+
+void json_talent(struct cJSON* root, struct world_t* w, struct namedlist_t* c, struct listitem_t* item) {
+    struct cJSON *talent = cJSON_CreateObject();
+    cJSON_AddStringToObject(talent, "name", item->talent->reference->name);
+    cJSON_AddBoolToObject(talent, "leveled", item->talent->level > 0);
+    if (item->talent->level > 0) {
+        cJSON_AddNumberToObject(talent, "level", item->talent->level);
+    }
+    cJSON_AddItemToArray(root, talent);
+}
+
+void json_weapon(struct cJSON* root, struct world_t* w, struct namedlist_t* c, struct listitem_t* item) {
+    struct cJSON *weapon = cJSON_CreateObject();
+    cJSON_AddStringToObject(weapon, "name", item->weapon->name);
+    cJSON_AddStringToObject(weapon, "skill", item->weapon->skill);
+    cJSON_AddNumberToObject(weapon, "damage", item->weapon->damage);
+    cJSON_AddNumberToObject(weapon, "crit", item->weapon->brawl);
+    if (item->weapon->specials) {
+        struct cJSON *specials = cJSON_AddArrayToObject(weapon, "specials");
+        for(struct node_t *s = item->weapon->specials; s != NULL; s = s->next) {
+            struct leveleditem_t *sp = (struct leveleditem_t*)s->node;
+            struct cJSON *special = cJSON_CreateObject();
+            cJSON_AddItemToArray(specials, special);
+            cJSON_AddStringToObject(special, "name", sp->name);
+            if (sp->level) {
+                cJSON_AddNumberToObject(special, "level", sp->level);
+            }
+        }
+    }
+    cJSON_AddItemToArray(root, weapon);
+}
+
+void character_json_add_element(struct cJSON *root, struct world_t* w, struct namedlist_t *c, enum listitemtype type,
+        void (*addfunction)(struct cJSON*, struct world_t*, struct namedlist_t*, struct listitem_t*)) {
+    struct listitem_t *item;
+
+    for(struct node_t *cur = c->TOP; cur != NULL; cur = cur->next) {
+        item = (struct listitem_t*)cur->node;
+        if (item->type == type) {
+            addfunction(root, w, c, item);
+        }
+    }
+
+}
+
+struct cJSON* character_json(struct world_t *w, struct namedlist_t *c) {
+    struct cJSON *root = cJSON_CreateObject();
+    cJSON_AddItemToObject(root, "name", cJSON_CreateString(c->name));
+    cJSON_AddItemToObject(root, "type", cJSON_CreateString(namedlist_type_name(c->type)));
+
+    struct cJSON *attribute = cJSON_CreateObject();
+    struct cJSON *talent = cJSON_CreateArray();
+    struct cJSON *skill = cJSON_CreateArray();
+    struct cJSON *weapon = cJSON_CreateArray();
+
+    cJSON_AddItemToObject(root, "attribute", attribute);
+    cJSON_AddItemToObject(root, "talent", talent);
+    cJSON_AddItemToObject(root, "skill", skill);
+    cJSON_AddItemToObject(root, "weapon", weapon);
+
+    cJSON_AddNumberToObject(attribute, "social", character_attribute(c, attr_social));
+    cJSON_AddNumberToObject(attribute, "brawn", character_attribute(c, attr_brawn));
+    cJSON_AddNumberToObject(attribute, "agility", character_attribute(c, attr_agility));
+    cJSON_AddNumberToObject(attribute, "intellect", character_attribute(c, attr_intellect));
+    cJSON_AddNumberToObject(attribute, "cunning", character_attribute(c, attr_cunning));
+    cJSON_AddNumberToObject(attribute, "willpower", character_attribute(c, attr_willpower));
+    cJSON_AddNumberToObject(attribute, "presence", character_attribute(c, attr_presence));
+    cJSON_AddNumberToObject(attribute, "general", character_attribute(c, attr_general));
+    cJSON_AddNumberToObject(attribute, "combat", character_attribute(c, attr_combat));
+
+    character_json_add_element(talent, w, c, li_talentref, json_talent);
+    character_json_add_element(skill, w, c, li_skillref, json_skill);
+    character_json_add_element(weapon, w, c, li_weapon, json_weapon);
+
+    return root;
+}
+
+void print_character_json(FILE *out, struct world_t *w, struct namedlist_t *c) {
+    struct cJSON* json = character_json(w, c);
+    fputs(cJSON_Print(json), out);
+}
+

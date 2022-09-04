@@ -1,3 +1,4 @@
+#include <getopt.h>
 #include <limits.h>
 #include <locale.h>
 #include <stdio.h>
@@ -17,6 +18,18 @@ void about(void) {
     );
 }
 
+void usage(void) {
+    about();
+    fprintf(stderr, "usage: adversaries [-j] game.adv\n"
+                    "\n"
+                    "-d          Debug information\n"
+                    "-j          Print characters as json\n"
+                    "-I <path>   Include libraries from path\n"
+                    "-h          Print this help message\n"
+        );
+
+}
+
 const char* basename(const char* filename) {
     static char path[PATH_MAX];
     char *end;
@@ -30,7 +43,7 @@ const char* basename(const char* filename) {
     return path;
 }
 
-int main(int argc, const char* argv[]) {
+int main(int argc, char* const* argv) {
 
     if (argc == 1) {
         about();
@@ -39,6 +52,30 @@ int main(int argc, const char* argv[]) {
 
     setlocale(LC_ALL, "");
 
+    void (*printer)(FILE *out, struct world_t*, struct namedlist_t*) = print_character_rival;
+    bool debug = false;
+
+    int ch;
+    while((ch = getopt(argc, argv, "djhHI:")) != -1) {
+        switch(ch) {
+            case 'd':
+                debug = true;
+                break;
+            case 'j':
+                printer = print_character_json;
+                break;
+            case 'I':
+                lex_add_directory(optarg);
+                break;
+            case 'h':
+            case 'H':
+            case '?':
+            default:
+                usage();
+                exit(1);
+        }
+    }
+    
     char librarypath[PATH_MAX];
 #ifdef _WIN64
     snprintf(librarypath, PATH_MAX, "%s\\data", basename(argv[0]));
@@ -52,11 +89,23 @@ int main(int argc, const char* argv[]) {
         lex_add_directory(libraryenv);
     }
 
-    struct world_t *world = parse_file(argv[1]);
+    if (debug) {
+        for(struct lex_search_path* cur = SEARCH_PATH; cur != NULL; cur = cur->next) {
+            printf("Path: %s\n", cur->folder);
+        }
+    }
+
+    if (optind > argc) {
+        usage();
+        fputs("Expected adversary file name", stderr);
+        exit(1);
+    }
+
+    struct world_t *world = parse_file(argv[optind]);
     struct namedlist_t *character;
     for(struct node_t *cur = world->characters; cur != NULL; cur = cur->next) {
         character = (struct namedlist_t*)cur->node;
-        print_character_rival(stdout, world, character);
+        printer(stdout, world, character);
     }
 
     return EXIT_SUCCESS;

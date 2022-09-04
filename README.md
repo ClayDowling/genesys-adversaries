@@ -118,7 +118,7 @@ Add a skill to your NPC by writing it's name in the list of attributes, followed
 
 #### Skill Specializations
 
-Some skills, principally Melee and Ranged, can have "Heavy" and "Light" specializations in some settings.  The settings files follow the convention of the character sheets in writing this, so you get Melee-Light or Ranged-Heavy.  If you really preferred the convention of the rule books, you can create your own custom settings with the specialization in parenthesis, but it ambiguous with the attribute specialization for a skill, and will look funny printed.
+Some skills, principally Melee and Ranged, can have "Heavy" and "Light" specializations in some settings.  The settings files follow the convention of the character sheets in writing this, so you get Melee-Light or Ranged-Heavy.  If you really preferred the convention of the rule books, you can create your own custom settings with the specialization in parenthesis, but it is ambiguous with the attribute specialization for a skill, and will look funny printed.
 
 ### Packages
 

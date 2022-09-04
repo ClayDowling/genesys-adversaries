@@ -348,3 +348,21 @@ void namedlist_add_reference(const struct world_t* w, struct namedlist_t* list, 
         }
     }
 }
+
+const char* namedlist_type_name(enum namedlist_type t) {
+    switch(t) {
+        case list_package:
+            return "package";
+        case list_minion:
+            return "minion";
+        case list_rival:
+            return "rival";
+        case list_nemesis:
+            return "nemesis";
+        case list_MAX:
+            return "MAX";
+        default:
+            return "UNKNOWN";
+    }
+}
+
