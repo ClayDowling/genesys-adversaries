@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(adversaries LANGUAGES C CXX VERSION 1.0)
+project(adversaries LANGUAGES C CXX VERSION 1.1)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_STANDARD 99)

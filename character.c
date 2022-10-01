@@ -23,6 +23,14 @@ int character_attribute(struct namedlist_t* c, enum attribute_t attribute) {
     return total;
 }
 
+int character_wound(struct namedlist_t* c) {
+    return character_attribute(c, attr_brawn) + character_attribute(c, attr_wound);
+}
+
+int character_strain(struct namedlist_t* c) {
+    return character_attribute(c, attr_strain) + character_attribute(c, attr_willpower);
+}
+
 int character_proficiency(struct namedlist_t *c, const char *skillname) {
     struct skill_reference_t *ref = node_find_skill_reference(c->TOP, skillname);
     if (ref) {
@@ -109,7 +117,9 @@ void print_character_rival(FILE *out, struct world_t *w, struct namedlist_t *c) 
     fprintf(out, "%s\n\n", c->name);
     fprintf(out, "Br Ag Int Cun Will Pres    Combat: %d\n"
                  "-- -- --- --- ---- ----    Social: %d\n"
-                 "%2d %2d %3d %3d %4d %4d   General: %d\n\n",
+                 "%2d %2d %3d %3d %4d %4d   General: %d\n"
+                 "                            Wound: %d\n"
+                 "                           Strain: %d\n\n",
             character_attribute(c, attr_combat),
             character_attribute(c, attr_social),
             character_attribute(c, attr_brawn),
@@ -118,7 +128,9 @@ void print_character_rival(FILE *out, struct world_t *w, struct namedlist_t *c) 
             character_attribute(c, attr_cunning),
             character_attribute(c, attr_willpower),
             character_attribute(c, attr_presence),
-            character_attribute(c, attr_general)
+            character_attribute(c, attr_general),
+            character_wound(c),
+            character_strain(c)
     );
 
     print_list(out, w, c, li_talentref, print_talent);
@@ -206,6 +218,8 @@ struct cJSON* character_json(struct world_t *w, struct namedlist_t *c) {
     cJSON_AddNumberToObject(attribute, "presence", character_attribute(c, attr_presence));
     cJSON_AddNumberToObject(attribute, "general", character_attribute(c, attr_general));
     cJSON_AddNumberToObject(attribute, "combat", character_attribute(c, attr_combat));
+    cJSON_AddNumberToObject(attribute, "wound", character_wound(c));
+    cJSON_AddNumberToObject(attribute, "strain", character_strain(c));
 
     character_json_add_element(talent, w, c, li_talentref, json_talent);
     character_json_add_element(skill, w, c, li_skillref, json_skill);

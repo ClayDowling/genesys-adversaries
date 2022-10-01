@@ -10,6 +10,23 @@
 #include <stdio.h>
 
 int character_attribute(struct namedlist_t* c, enum attribute_t attribute);
+
+/** character_wound calculates the wound threshold for the character.  Technically an attribute, but the final
+ * value of wound is the combination of wound and brawn.
+ *
+ * @param c namedlist_t representing the character
+ * @return int wound threshold
+ */
+int character_wound(struct namedlist_t* c);
+
+/** character_strain calculcate the strain threshold for the character.  Technically an attribute, but the final
+ *  value of strain is the combination of strain and will.
+ *
+ * @param c namedlist_t representing the character
+ * @return int strain threshold
+ */
+int character_strain(struct namedlist_t* c);
+
 int character_proficiency(struct namedlist_t *c, const char *skillname);
 int character_ability(struct world_t *w, struct namedlist_t *c, const char *skillname);
 

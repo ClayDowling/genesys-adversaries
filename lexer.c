@@ -18,6 +18,7 @@ struct fixed_value {
 struct fixed_value keywords[] = {{.text = "skill", .token_type = SKILL},
                                  {.text = "talent", .token_type = TALENT},
                                  {.text = "package", .token_type = PACKAGE},
+                                 {.text = "archetype", .token_type = ARCHETYPE},
                                  {.text = "minion", .token_type = MINION},
                                  {.text = "rival", .token_type = RIVAL},
                                  {.text = "nemesis", .token_type = NEMESIS},

@@ -104,6 +104,24 @@ TEST(character, ability_when_attribute_less_than_skill_level) {
     TEST_ASSERT_EQUAL_INT(1, actual);
 }
 
+TEST(character, wound_whenArchetypeGives10AndBrawn3_returns13) {
+    give_attribute(attr_wound, 10);
+    give_attribute(attr_brawn, 3);
+
+    int actual = character_wound(mycharacter);
+
+    TEST_ASSERT_EQUAL_INT(13, actual);
+}
+
+TEST(character, strain_whenArchetypesGivesStrain8AndWill2_return10) {
+    give_attribute(attr_willpower, 2);
+    give_attribute(attr_strain, 8);
+
+    int actual = character_strain(mycharacter);
+
+    TEST_ASSERT_EQUAL_INT(10, actual);
+}
+
 TEST(character, ability_when_character_does_not_have_skill) {
     world_add_skill(myworld, new_skill("Skulduggery", attr_cunning));
     give_attribute(attr_cunning, 2);
@@ -120,6 +138,8 @@ TEST(character, ability_when_skill_does_not_exist_is_zero) {
     TEST_ASSERT_EQUAL_INT(0, actual);
 }
 
+
+
 TEST_GROUP_RUNNER(character) {
     RUN_TEST_CASE(character, single_attribute_values_create_correct_attribute_total);
     RUN_TEST_CASE(character, mismatched_attribute_values_return_zero);
@@ -130,4 +150,6 @@ TEST_GROUP_RUNNER(character) {
     RUN_TEST_CASE(character, ability_when_attribute_less_than_skill_level);
     RUN_TEST_CASE(character, ability_when_character_does_not_have_skill);
     RUN_TEST_CASE(character, ability_when_skill_does_not_exist_is_zero);
+    RUN_TEST_CASE(character, wound_whenArchetypeGives10AndBrawn3_returns13);
+    RUN_TEST_CASE(character, strain_whenArchetypesGivesStrain8AndWill2_return10);
 }

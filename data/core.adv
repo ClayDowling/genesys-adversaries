@@ -112,5 +112,15 @@ talent "Master"
 talent "Overcharge (Improved)"
 talent "Ruinous Repartee"
 
+talent "Ready for Anything"
+talent "Tough as Nails"
+talent "Brilliant!"
+talent "Forceful Personality"
+
 weapon Knife (Melee; Damage +1; Crit 3)
 weapon Axe (Melee-Light; Damage +3; Critical 3; Vicious 1)
+
+archetype "Average Human": Br 2, Ag 2, Int 2, Cun 2, Will 2, Pr 2, Wound 10, Strain 10, "Ready for Anything"
+archetype "The Laborer": Br 3, Ag 2, Int 2, Cun 2, Will 1, Pr 2, Wound 12, Strain 8, Athletics, "Tough as Nails"
+archetype "The Intellectural": Br 2, Ag 1, Int 3, Cun 2, Will 2, Pr 2, Wound 8, Strain 12, Knowledge, "Brilliant!"
+archetype "The Aristocrat": Br 1, Ag 2, Int 2, Cun 2, Will 2, Pr 3, Cool, "Forceful Personality"

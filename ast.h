@@ -70,7 +70,7 @@ void* node_find(struct node_t*, const void*, bool (predicate)(const void*, const
 struct skill_reference_t *node_find_skill_reference(struct node_t *TOP, const char *name);
 struct talent_reference_t *node_find_talent_reference(struct node_t *TOP, const char *name);
 
-enum namedlist_type {list_package, list_minion, list_rival, list_nemesis, list_MAX};
+enum namedlist_type {list_package, list_minion, list_rival, list_nemesis, list_archetype, list_MAX};
 const char* namedlist_type_name(enum namedlist_type t);
 
 /// Contains a package or a character

@@ -36,6 +36,7 @@ extern char quoted_string[];
 %type talent            {struct talent_t*}
 %type attributebonus    {struct attributebonus_t*}
 %type package           {struct namedlist_t*}
+%type archetype         {struct namedlist_t*}
 %type character         {struct namedlist_t*}
 %type leveleditem	{struct leveleditem_t*}
 %type namedlist         {struct namedlist_t*}
@@ -54,6 +55,7 @@ world ::= .
 world ::= world skill .
 world ::= world talent .
 world ::= world package .
+world ::= world archetype .
 world ::= world character .
 world ::= world weapon .
 
@@ -64,6 +66,12 @@ talent ::= TALENT name(B) . { world_add_talent(thisworld, new_talent(B)); }
 package(A) ::= PACKAGE namedlist(B) . {
     A = B;
     A->type = list_package;
+    world_add_package(thisworld, A);
+}
+
+archetype(A) ::= ARCHETYPE namedlist(B) . {
+    A = B;
+    A->type = list_archetype;
     world_add_package(thisworld, A);
 }
 
