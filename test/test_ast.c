@@ -289,6 +289,15 @@ TEST(AST, namedlistitem_skill_is_added_to_named_list) {
     TEST_ASSERT_EQUAL_INT(1, matches);
 }
 
+TEST(AST, newarmor_populates_armor_t) {
+  struct armor_t *actual = new_armor("Heavy Jacket", 1, 2);
+
+  TEST_ASSERT_NOT_NULL(actual);
+  TEST_ASSERT_EQUAL_STRING("Heavy Jacket", actual->name);
+  TEST_ASSERT_EQUAL_INT(1, actual->defense);
+  TEST_ASSERT_EQUAL_INT(2, actual->soak);
+}
+
 TEST_GROUP_RUNNER(AST) {
   RUN_TEST_CASE(AST, is_skill_returns_true_when_given_skill);
   RUN_TEST_CASE(AST, is_skill_returns_false_when_given_not_skill);
@@ -316,4 +325,6 @@ TEST_GROUP_RUNNER(AST) {
   RUN_TEST_CASE(AST, talent_reference_in_list_can_be_found_by_name);
   RUN_TEST_CASE(AST, namedlistitem_attribute_is_added_to_named_list);
   RUN_TEST_CASE(AST, namedlistitem_skill_is_added_to_named_list);
+  RUN_TEST_CASE(AST, newarmor_populates_armor_t);
+
 }

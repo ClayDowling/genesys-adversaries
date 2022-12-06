@@ -122,7 +122,6 @@ weapon(A) ::= WEAPON name(N) LPAREN name(SK) SEMICOLON DAMAGE NUMBER(DMG) SEMICO
     world_add_weapon(thisworld, A);
 }
 
-
 specials(A) ::= specials COMMA leveleditem(N) . { A = node_append(A, (void*)N); }
 specials(A) ::= SEMICOLON leveleditem(N) . { A = new_node((void*)N); }
 specials ::= .

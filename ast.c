@@ -198,6 +198,18 @@ bool is_weapon_reference_name(const void* candidate, const void* name) {
     return false;
 }
 
+struct armor_t* new_armor(const char* name, int defense, int soak) {
+  struct armor_t *a = (struct armor_t*)calloc(1, sizeof(struct armor_t));
+  a->name = strdup(name);
+  a->defense = defense;
+  a->soak = soak;
+
+  return a;
+}
+
+bool is_armor(const void* candidate, const void* name) {
+  IS_NAME(struct armor_t, candidate, name);
+}
 
 struct namedlist_t *new_namedlist(enum namedlist_type t, const char *n) {
   struct namedlist_t *nl =

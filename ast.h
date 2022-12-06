@@ -42,7 +42,17 @@ struct talent_reference_t* new_talent_reference(const struct talent_t*, int);
 bool is_talent_reference(const void* item, const void* talent);
 bool is_talent_reference_name(const void* item, const void* name);
 
-enum listitemtype { li_attribute, li_skillref, li_talentref, li_weapon };
+struct armor_t {
+    char *name;
+    int defense;
+    int soak;
+};
+
+struct armor_t* new_armor(const char* name, int defense, int soak);
+bool is_armor(const void* candidate, const void* name);
+bool is_armor_reference_name(const void* candidate, const void *name);
+
+enum listitemtype { li_attribute, li_skillref, li_talentref, li_weapon, li_armor };
 
 /// listitem_t is contained in a named list such as a character or package
 struct listitem_t {
@@ -52,17 +62,21 @@ struct listitem_t {
         struct skill_reference_t* skill;
         struct talent_reference_t* talent;
         struct weapon_t* weapon;
+        struct armor_t* armor;
     };
 };
 struct listitem_t* new_listattribute(struct attributebonus_t* a);
 struct listitem_t* new_listskill(struct skill_reference_t* n);
 struct listitem_t* new_listtalent(struct talent_reference_t* n);
 struct listitem_t *new_listweapon(struct weapon_t *w);
+struct listitem_t *new_listarmor(struct armor_t *a);
 
 struct node_t {
     void* node;
     struct node_t *next;
 };
+
+
 struct node_t* new_node(void*);
 struct node_t* node_append(struct node_t* t, void* n);
 void* node_find(struct node_t*, const void*, bool (predicate)(const void*, const void*));
@@ -118,11 +132,13 @@ bool is_weapon(const void* candidate, const void* name);
 bool is_weapon_reference_name(const void* candidate, const void* name);
 
 struct world_t {
+    struct node_t *root;
     struct node_t *skills;
     struct node_t *talents;
     struct node_t *packages;
     struct node_t *characters;
     struct node_t *weapons;
+    struct node_t *armors;
 };
 struct world_t* new_world();
 
