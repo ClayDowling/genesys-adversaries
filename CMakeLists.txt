@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
+set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 
 project(adversaries LANGUAGES C CXX VERSION 1.1)
 
@@ -22,7 +23,7 @@ FetchContent_MakeAvailable(unity)
 
 include_directories( ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/external
-    ${CMAKE_CURRENT_SOURCE_DIR}/external/cJSON
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/cjson
     ${CMAKE_CURRENT_SOURCE_DIR}/external/mustach
 )
 
@@ -39,7 +40,7 @@ add_library(adversary
     lexer.c
     parser.c
     character.c
-    external/cJSON/cJSON.c
+    external/cjson/cJSON.c
     external/mustach/mustach.c
     external/mustach/mustach-wrap.c
     external/mustach/mustach-cjson.c
