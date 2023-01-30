@@ -20,15 +20,6 @@ TEST(AST, is_skill_returns_false_when_given_not_skill) {
   TEST_ASSERT_FALSE(is_skill((void *)s, "Something Else"));
 }
 
-TEST(AST, new_world_creates_null_initialized_word) {
-  struct world_t *world = new_world();
-
-  TEST_ASSERT_NULL(world->skills);
-  TEST_ASSERT_NULL(world->talents);
-  TEST_ASSERT_NULL(world->packages);
-  TEST_ASSERT_NULL(world->characters);
-}
-
 TEST(AST, node_append_adds_node_to_empty_list) {
   struct node_t *TOP = NULL;
   struct skill_t *s = new_skill("Ranged (Light)", attr_agility);
@@ -76,10 +67,12 @@ TEST(AST, node_append_adds_node_to_populated_list) {
 TEST(AST, world_add_skill_adds_skill_to_world) {
   const char *SKILL_NAME = "Skulldugery";
   struct world_t *world = new_world();
-  struct skill_t *sk = new_skill(SKILL_NAME, attr_cunning);
+  struct skill_t *sk;
 
-  world_add_skill(world, sk);
-  TEST_ASSERT_EQUAL_PTR(sk, world_find_skill(world, SKILL_NAME));
+  world_add_skill(world, SKILL_NAME, attr_cunning);
+
+    sk = world_find_skill(world, SKILL_NAME);
+    TEST_ASSERT_NOT_NULL(sk);
 }
 
 TEST(AST, world_returns_null_when_skill_not_in_world) {
@@ -94,9 +87,9 @@ TEST(AST, world_add_talent_adds_talent_to_world) {
   struct world_t *world = new_world();
   struct talent_t *t = new_talent(TALENT_NAME);
 
-  world_add_talent(world, t);
-
-  TEST_ASSERT_EQUAL_PTR(t, world_find_talent(world, TALENT_NAME));
+    world_add_talent(world, TALENT_NAME);
+    t = world_find_talent(world, TALENT_NAME);
+    TEST_ASSERT_NOT_NULL(t);
 }
 
 TEST(AST, world_add_pakcage_adds_package_to_world) {
@@ -104,7 +97,7 @@ TEST(AST, world_add_pakcage_adds_package_to_world) {
   struct world_t *world = new_world();
   struct namedlist_t *nl = new_namedlist(list_package, PACKAGE_NAME);
 
-  world_add_package(world, nl);
+    world_add_package(world, nl);
 
   TEST_ASSERT_EQUAL_PTR(nl, world_find_package(world, PACKAGE_NAME));
 }
@@ -114,16 +107,16 @@ TEST(AST, world_add_character_adds_character_to_world) {
   struct world_t *world = new_world();
   struct namedlist_t *nl = new_namedlist(list_minion, CHARACTER_NAME);
 
-  world_add_character(world, nl);
+    world_add_character(world, nl);
 
   TEST_ASSERT_EQUAL_PTR(nl, world_find_character(world, CHARACTER_NAME));
 }
 
 TEST(AST, world_add_reference_given_skill_provides_skill_reference) {
   const char *SKILL_NAME = "Computers";
-  struct skill_t *s = new_skill(SKILL_NAME, attr_intellect);
   struct world_t *world = new_world();
-  world_add_skill(world, s);
+    world_add_skill(world, SKILL_NAME, attr_intellect);
+    struct skill_t *s = world_find_skill(world, SKILL_NAME);
 
   struct listitem_t *li = world_add_reference(world, SKILL_NAME, 1);
 
@@ -137,9 +130,9 @@ TEST(AST, world_add_reference_given_skill_provides_skill_reference) {
 
 TEST(AST, world_add_reference_given_talent_provides_talent_reference) {
   const char *TALENT_NAME = "Night Vision";
-  struct talent_t *t = new_talent(TALENT_NAME);
   struct world_t *world = new_world();
-  world_add_talent(world, t);
+    world_add_talent(world, TALENT_NAME);
+    struct talent_t *t = world_find_talent(world, TALENT_NAME);
 
   struct listitem_t *li = world_add_reference(world, TALENT_NAME, 0);
 
@@ -153,9 +146,8 @@ TEST(AST, world_add_reference_given_talent_provides_talent_reference) {
 
 TEST(AST, world_add_reference_given_neither_talent_nor_reference_returns_null) {
   const char *TALENT_NAME = "Night Vision";
-  struct talent_t *t = new_talent(TALENT_NAME);
   struct world_t *world = new_world();
-  world_add_talent(world, t);
+    world_add_talent(world, TALENT_NAME);
 
   struct listitem_t *li = world_add_reference(world, "Something Else", 0);
 
@@ -165,18 +157,19 @@ TEST(AST, world_add_reference_given_neither_talent_nor_reference_returns_null) {
 TEST(AST, world_add_weapon_given_valid_weapon_adds_weapon_to_world) {
   const char *WEAPON_NAME = "Shiv";
   struct world_t *world = new_world();
-  struct weapon_t *w = new_weapon(WEAPON_NAME, "Melee", true, 2, 3);
 
-  world_add_weapon(world, w);
+  world_add_weapon(world, WEAPON_NAME, "Melee", true, 2, 3);
 
-  TEST_ASSERT_EQUAL_PTR(w, world_find_weapon(world, WEAPON_NAME));
+  struct weapon_t *w = world_find_weapon(world, WEAPON_NAME);
 
+    TEST_ASSERT_EQUAL_STRING(WEAPON_NAME, w->name);
+    TEST_ASSERT_EQUAL_STRING("Melee", w->skill);
 }
 
 TEST(AST, skill_reference_in_list_can_be_found_by_skill) {
-    struct skill_t *myskill = new_skill("Ralph", attr_cunning);
     struct world_t *world = new_world();
-    world_add_skill(world, myskill);
+    world_add_skill(world, "Ralph", attr_intellect);
+    struct skill_t *myskill = world_find_skill(world, "Ralph");
 
     // Create a skill reference and validate the return
     struct listitem_t *li = world_add_reference(world, "Ralph", 6);
@@ -193,9 +186,8 @@ TEST(AST, skill_reference_in_list_can_be_found_by_skill) {
 }
 
 TEST(AST, skill_reference_in_list_can_be_found_by_name) {
-    struct skill_t *myskill = new_skill("Ralph", attr_cunning);
     struct world_t *world = new_world();
-    world_add_skill(world, myskill);
+    world_add_skill(world, "Ralph", attr_cunning);
 
     // Create a skill reference
     struct listitem_t *li = world_add_reference(world, "Ralph", 6);
@@ -209,9 +201,9 @@ TEST(AST, skill_reference_in_list_can_be_found_by_name) {
 }
 
 TEST(AST, talent_reference_in_list_can_be_found_by_talent) {
-    struct talent_t *mytalent = new_talent("Sneaky");
     struct world_t *world = new_world();
-    world_add_talent(world, mytalent);
+    world_add_talent(world, "Sneaky");
+    struct talent_t *mytalent = world_find_talent(world, "Sneaky");
 
     // Create a talent reference and validate the return
     struct listitem_t *li = world_add_reference(world, "Sneaky", 6);
@@ -228,9 +220,9 @@ TEST(AST, talent_reference_in_list_can_be_found_by_talent) {
 }
 
 TEST(AST, talent_reference_in_list_can_be_found_by_name) {
-    struct talent_t *mytalent = new_talent("Sneaky");
     struct world_t *world = new_world();
-    world_add_talent(world, mytalent);
+    world_add_talent(world, "Sneaky");
+    struct talent_t *mytalent = world_find_talent(world, "Sneaky");
 
     // Create a talent reference and validate the return
     struct listitem_t *li = world_add_reference(world, "Sneaky", 6);
@@ -270,8 +262,9 @@ TEST(AST, namedlistitem_attribute_is_added_to_named_list) {
 
 TEST(AST, namedlistitem_skill_is_added_to_named_list) {
     struct world_t *world = new_world();
-    struct skill_t *myskill = new_skill("My Skill", attr_cunning);
-    world_add_skill(world, myskill);
+    world_add_skill(world, "My Skill", attr_cunning);
+    struct skill_t *myskill = world_find_skill(world, "My Skill");
+
     struct namedlist_t *pkg = new_namedlist(list_package, "Sample");
     struct leveleditem_t *leveled = new_leveleditem("my skill", 1);
     struct namedlistitem_t *nli = new_namedlistitem_leveled(leveled);
@@ -301,7 +294,6 @@ TEST(AST, newarmor_populates_armor_t) {
 TEST_GROUP_RUNNER(AST) {
   RUN_TEST_CASE(AST, is_skill_returns_true_when_given_skill);
   RUN_TEST_CASE(AST, is_skill_returns_false_when_given_not_skill);
-  RUN_TEST_CASE(AST, new_world_creates_null_initialized_word);
   RUN_TEST_CASE(AST, node_append_adds_node_to_empty_list);
   RUN_TEST_CASE(AST, node_find_when_item_in_list_returns_node);
   RUN_TEST_CASE(AST, node_find_when_item_not_in_list_returns_null);

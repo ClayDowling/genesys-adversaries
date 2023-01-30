@@ -60,8 +60,8 @@ world ::= world character .
 world ::= world weapon .
 
 
-skill ::= SKILL name(B) LPAREN ATTRIBUTE(C) RPAREN . { world_add_skill(thisworld, new_skill(B, C->attributeval)); }
-talent ::= TALENT name(B) . { world_add_talent(thisworld, new_talent(B)); }
+skill ::= SKILL name(B) LPAREN ATTRIBUTE(C) RPAREN . { world_add_skill(thisworld, B, C->attributeval); }
+talent ::= TALENT name(B) . { world_add_talent(thisworld, B); }
 
 package(A) ::= PACKAGE namedlist(B) . {
     A = B;
@@ -119,7 +119,7 @@ weapon(A) ::= WEAPON name(N) LPAREN name(SK) SEMICOLON DAMAGE NUMBER(DMG) SEMICO
 
     A = new_weapon(N, SK, brawl, DMG->intval, CR->intval);
     A->specials = SPECIALS;
-    world_add_weapon(thisworld, A);
+    world_add_weapon(thisworld, N, SK, brawl, DMG->intval, CR->intval);
 }
 
 specials(A) ::= specials COMMA leveleditem(N) . { A = node_append(A, (void*)N); }

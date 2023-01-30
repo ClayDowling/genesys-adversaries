@@ -19,7 +19,7 @@ void ParseFree(void *p,                 /* The parser to be deleted */
                void (*freeProc)(void *) /* Function used to reclaim memory */
 );
 
-struct world_t *parse_input(struct lex_context *ctx) {
+void *parse_input(struct lex_context *ctx) {
 
   struct world_t *world = new_world();
 
@@ -35,13 +35,13 @@ struct world_t *parse_input(struct lex_context *ctx) {
   return world;
 }
 
-struct world_t *parse_file(const char *filename) {
+void * parse_file(const char *filename) {
   struct lex_context *ctx = lex_file(filename);
-  return parse_input(ctx);
   lex_complete(ctx);
+  return parse_input(ctx);
 }
 
-struct world_t *parse_buffer(const char *buffer) {
+void * parse_buffer(const char *buffer) {
   char filename[16];
   strncpy(filename, "adversaryXXXXXX", sizeof(filename));
   int fd = mkstemp(filename);

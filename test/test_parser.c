@@ -62,7 +62,7 @@ TEST(Parser, Package_is_added_to_world) {
                                      "package \"Sneaky Dude\": sneaky, brawling, Br +3\n"
             );
 
-    struct namedlist_t *p = world_find_package(w, "Sneaky Dude");
+    const struct namedlist_t *p = world_find_package(w, "Sneaky Dude");
 
     TEST_ASSERT_NOT_NULL(p);
     TEST_ASSERT_EQUAL_INT(list_package, p->type);
@@ -85,7 +85,7 @@ TEST(Parser, Character_is_added_to_world) {
                                      "rival \"Henchman\": melee, grit 2, Will +2, knife\n"
     );
 
-    struct namedlist_t *r = world_find_character(w, "Henchman");
+    const struct namedlist_t *r = world_find_character(w, "Henchman");
 
     TEST_ASSERT_NOT_NULL(r);
     TEST_ASSERT_EQUAL_INT(list_rival, r->type);
@@ -146,7 +146,7 @@ TEST(Parser, Weapon_name_in_character_adds_weapon_to_character) {
             "rival Gunther : Ranged-Light 2, Gat\n"
             );
 
-    struct namedlist_t *rival = world_find_character(world, "Gunther");
+    const struct namedlist_t *rival = world_find_character(world, "Gunther");
     TEST_ASSERT_NOT_NULL(rival);
 
     struct weapon_t *gat = world_find_weapon(world, "Gat");
@@ -173,7 +173,7 @@ TEST(Parser, package_is_added_to_character) {
             "minion \"Gang Heavy\": Tough, Melee 2\n"
             );
 
-    struct namedlist_t *minion = world_find_character(world, "Gang Heavy");
+    const struct namedlist_t *minion = world_find_character(world, "Gang Heavy");
 
     struct talent_reference_t *tr = node_find(minion->TOP, (void*)"Grit", is_talent_reference_name);
     TEST_ASSERT_NOT_NULL(tr);

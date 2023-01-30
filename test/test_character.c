@@ -123,7 +123,7 @@ TEST(character, strain_whenArchetypesGivesStrain8AndWill2_return10) {
 }
 
 TEST(character, ability_when_character_does_not_have_skill) {
-    world_add_skill(myworld, new_skill("Skulduggery", attr_cunning));
+    world_add_skill(myworld, "Skulduggery", attr_cunning);
     give_attribute(attr_cunning, 2);
 
     int actual = character_ability(myworld, mycharacter, "Skulduggery");

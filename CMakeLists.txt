@@ -19,7 +19,16 @@ FetchContent_Declare(
     GIT_TAG v2.5.2
 )
 
-FetchContent_MakeAvailable(unity)
+FetchContent_Declare(
+        catch2
+        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+        GIT_TAG v3.3.1
+)
+
+FetchContent_MakeAvailable(unity catch2)
+
+list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+include(Catch)
 
 include_directories( ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/external
@@ -29,7 +38,7 @@ include_directories( ${CMAKE_CURRENT_BINARY_DIR}
 
 add_executable(${PROJECT_NAME}
     main.c
-)
+        )
 
 add_library(adversary
     adversary.c
@@ -44,7 +53,8 @@ add_library(adversary
     external/mustach/mustach.c
     external/mustach/mustach-wrap.c
     external/mustach/mustach-cjson.c
-        )
+        namedlist.cpp
+        world.cpp)
 
 target_link_libraries(${PROJECT_NAME}
     adversary

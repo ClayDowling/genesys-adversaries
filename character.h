@@ -9,6 +9,10 @@
 #include "cJSON.h"
 #include <stdio.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int character_attribute(struct namedlist_t* c, enum attribute_t attribute);
 
 /** character_wound calculates the wound threshold for the character.  Technically an attribute, but the final
@@ -34,5 +38,10 @@ void print_character_rival(FILE *out, struct world_t *w, struct namedlist_t *c);
 
 struct cJSON* character_json(struct world_t *w, struct namedlist_t *c);
 void print_character_json(FILE *out, struct world_t *w, struct namedlist_t *c);
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif //ADVERSARIES_CHARACTER_H

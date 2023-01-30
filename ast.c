@@ -264,73 +264,7 @@ void delete_namedlistitem(struct namedlistitem_t* nli) {
     }
 }
 
-struct world_t *new_world() {
-  struct world_t *w = (struct world_t *)calloc(1, sizeof(struct world_t));
-  return w;
-}
-
-void world_add_skill(struct world_t *w, const struct skill_t *s) {
-  w->skills = node_append(w->skills, (void *)s);
-}
-
-void world_add_talent(struct world_t *w, const struct talent_t *t) {
-  w->talents = node_append(w->talents, (void *)t);
-}
-
-void world_add_package(struct world_t *w, const struct namedlist_t *p) {
-  w->packages = node_append(w->packages, (void *)p);
-}
-
-void world_add_character(struct world_t *w, const struct namedlist_t *c) {
-  w->characters = node_append(w->characters, (void *)c);
-}
-
-void world_add_weapon(struct world_t *w, const struct weapon_t *wp) {
-  w->weapons = node_append(w->weapons, (void*)wp);
-}
-
-
-struct skill_t *world_find_skill(const struct world_t *w, const char *n) {
-  return (struct skill_t *)node_find(w->skills, n, is_skill);
-}
-
-struct talent_t *world_find_talent(const struct world_t *w, const char *n) {
-  return (struct talent_t *)node_find(w->talents, n, is_talent);
-}
-
-struct namedlist_t *world_find_package(const struct world_t *w, const char *n) {
-  return (struct namedlist_t *)node_find(w->packages, n, is_namedlist);
-}
-
-struct namedlist_t *world_find_character(const struct world_t *w,
-                                         const char *n) {
-  return (struct namedlist_t *)node_find(w->characters, n, is_namedlist);
-}
-
-struct weapon_t* world_find_weapon(const struct world_t *w, const char *n) {
-  return (struct weapon_t*)node_find(w->weapons, n, is_weapon);
-}
-
-struct listitem_t *world_add_reference(const struct world_t *w, const char *n,
-                                       int l) {
-  struct listitem_t *li = NULL;
-
-  struct skill_t *s = world_find_skill(w, n);
-  struct talent_t *t = world_find_talent(w, n);
-  struct weapon_t *wpn = world_find_weapon(w, n);
-  if (NULL != s) {
-    if (l == 0) l = 1;
-    li = new_listskill(new_skill_reference(s, l));
-  } else if (t != NULL) {
-    li = new_listtalent(new_talent_reference(t, l));
-  } else if (wpn != NULL) {
-      li = new_listweapon(wpn);
-  }
-
-  return li;
-}
-
-void namedlist_add_reference(const struct world_t* w, struct namedlist_t* list, struct namedlistitem_t* nli) {
+void namedlist_add_reference(struct world_t* w, struct namedlist_t* list, struct namedlistitem_t* nli) {
     if (NULL == w) return;
     if (NULL == list) return;
     if (NULL == nli) return;
@@ -344,7 +278,7 @@ void namedlist_add_reference(const struct world_t* w, struct namedlist_t* list, 
 
     if (nli_leveledname == nli->type) {
 
-        struct namedlist_t *pkg = world_find_package(w, nli->item->name);
+        const struct namedlist_t *pkg = world_find_package(w, nli->item->name);
         if (NULL != pkg) {
           for(struct node_t *cur=pkg->TOP; NULL != cur; cur = cur->next) {
             list->TOP = node_append(list->TOP, cur->node);
