@@ -107,12 +107,12 @@ void world_add_weapon(void *w, const char *name, const char *skillname, bool bra
 
 struct skill_t *world_find_skill(void *w, const char *n) {
     auto item = getworld(w)->get_item(n);
-    return item ? &item->skill : nullptr;
+    return ( item && item->type == witype::skill ) ? &item->skill : nullptr;
 }
 
 struct talent_t *world_find_talent(void *w, const char *n) {
     auto item = getworld(w)->get_item(n);
-    return item ? &item->talent : nullptr;
+    return ( item && item->type == witype::talent ) ? &item->talent : nullptr;
 }
 
 const struct namedlist_t *world_find_package(void *w, const char *n) {
@@ -127,7 +127,7 @@ const struct namedlist_t *world_find_character(void *w, const char *n) {
 
 struct weapon_t *world_find_weapon(void *w, const char *n) {
     auto item = getworld(w)->get_item(n);
-    return item ? &item->weapon : nullptr;
+    return ( item && item->type == witype::weapon) ? &item->weapon : nullptr;
 }
 
 struct listitem_t *world_add_reference(void *w, const char *n, int lvl) {

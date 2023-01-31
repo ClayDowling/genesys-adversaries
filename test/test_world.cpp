@@ -62,3 +62,71 @@ TEST_CASE("world_find_character returns nullptr when item with the name is found
 
     REQUIRE( item == nullptr );
 }
+
+TEST_CASE("world_find_skill returns skill when item with the name is found", WORLD_TAG) {
+    world w;
+    const char *NAME = "Stealing";
+    w.add_skill(NAME, attr_agility);
+
+    auto item = world_find_skill(&w, NAME);
+
+    REQUIRE( item != nullptr );
+    REQUIRE( strcmp(item->name, NAME) == 0 );
+    REQUIRE( item->attribute == attr_agility );
+}
+
+TEST_CASE("world_find_skill returns nullptr when item with the name is found but is not skill", WORLD_TAG) {
+    world w;
+    const char *NAME = "Stealing";
+    w.add_talent(NAME);
+
+    auto item = world_find_skill(&w, NAME);
+
+    REQUIRE( item == nullptr );
+}
+
+TEST_CASE("world_find_talent returns talent when it is in the world", WORLD_TAG) {
+    world w;
+    const char *NAME = "Dirty Pool";
+    w.add_talent(NAME);
+
+    auto item = world_find_talent(&w, NAME);
+
+    REQUIRE( item != nullptr );
+    REQUIRE( strcmp(item->name, NAME) == 0 );
+}
+
+TEST_CASE("world_find_talent returns nullptr when it is found but isn't a skill", WORLD_TAG) {
+    world w;
+    const char *NAME = "Dirty Pool";
+    w.add_skill(NAME, attr_intellect);
+
+    auto item = world_find_talent(&w, NAME);
+
+    REQUIRE( item == nullptr );
+}
+
+TEST_CASE("world_find_weapon returns weapon when it exists in the world", WORLD_TAG) {
+    world w;
+    const char *NAME = "Shiv";
+    w.add_weapon(NAME, "Stabbing", false, 3, 4);
+
+    auto item = world_find_weapon(&w, NAME);
+
+    REQUIRE( item != nullptr );
+    REQUIRE( strcmp(item->name, NAME) == 0 );
+    REQUIRE( strcmp(item->skill, "Stabbing") == 0);
+    REQUIRE( item->brawl == false );
+    REQUIRE( item->damage == 3 );
+    REQUIRE( item->crit == 4 );
+}
+
+TEST_CASE("world_find_weapon returns nullptr when it exists but isn't a weapon", WORLD_TAG) {
+    world w;
+    const char *NAME = "Shiv";
+    w.add_talent(NAME);
+
+    auto item = world_find_weapon(&w, NAME);
+
+    REQUIRE( item == nullptr );
+}
