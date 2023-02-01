@@ -117,14 +117,14 @@ weapon(A) ::= WEAPON name(N) LPAREN name(SK) SEMICOLON DAMAGE NUMBER(DMG) SEMICO
         brawl = true;
     }
 
-    A = new_weapon(N, SK, brawl, DMG->intval, CR->intval);
-    A->specials = SPECIALS;
     world_add_weapon(thisworld, N, SK, brawl, DMG->intval, CR->intval);
+    A = world_find_weapon(thisworld, N);
+    A->specials = SPECIALS;
 }
 
 specials(A) ::= specials COMMA leveleditem(N) . { A = node_append(A, (void*)N); }
 specials(A) ::= SEMICOLON leveleditem(N) . { A = new_node((void*)N); }
-specials ::= .
+specials(A) ::= . { A = NULL; }
 
 name(A) ::= QUOTEDSTRING(B) . { A = strdup(B->strval); }
 name(A) ::= WORD(B) .    { A = strdup(B->strval); }

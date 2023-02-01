@@ -16,8 +16,8 @@ void give_attribute(enum attribute_t attribute, int level) {
 }
 
 void give_skill(const char* name, enum attribute_t attribute, int level) {
-    struct skill_t* sk = new_skill(name, attribute);
-    myworld->skills = node_append(myworld->skills, sk);
+    world_add_skill(myworld, name, attribute);
+    struct skill_t* sk = world_find_skill(myworld, name);
 
     struct listitem_t *item = world_add_reference(myworld, name, level);
     mycharacter->TOP = node_append(mycharacter->TOP, (void*)item);

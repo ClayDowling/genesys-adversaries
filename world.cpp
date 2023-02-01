@@ -51,6 +51,7 @@ void world::add_weapon(string name, string skill, bool brawl, int damage, int cr
     w->weapon.brawl = brawl;
     w->weapon.crit = crit;
     w->weapon.damage = damage;
+    w->weapon.specials = nullptr;
 }
 
 void world::add_armor(string name, int defense, int soak) {

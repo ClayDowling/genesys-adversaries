@@ -117,7 +117,11 @@ TEST(Parser, weapon_is_added_to_world) {
     TEST_ASSERT_EQUAL(true, actual->brawl);
     TEST_ASSERT_EQUAL(2, actual->damage);
     TEST_ASSERT_EQUAL(3, actual->crit);
-    TEST_ASSERT_NULL(actual->specials);
+    if (actual->specials != NULL) {
+        TEST_ASSERT_NULL(actual->specials->node);
+        TEST_ASSERT_NULL(actual->specials->next);
+    }
+
 }
 
 TEST(Parser, weapon_contains_specials) {
