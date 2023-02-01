@@ -208,6 +208,8 @@ const struct namedlist_t *world_find_character(void *w, const char *n);
 
 struct weapon_t *world_find_weapon(void *w, const char *n);
 
+const struct namedlist_t** world_get_characters(void *w);
+
 #ifdef __cplusplus
 }
 #endif

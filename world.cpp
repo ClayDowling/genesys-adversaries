@@ -61,6 +61,28 @@ void world::add_armor(string name, int defense, int soak) {
     a->armor.soak = soak;
 }
 
+const namedlist_t** world::get_characters() {
+    int count = 0;
+    for(auto const& [key, value] : item) {
+        if (value->type == witype::character) {
+            ++count;
+        }
+    }
+
+    const namedlist_t** results = new const namedlist_t *[count + 1];
+
+    int i=0;
+    for(auto const& [key, value] : item) {
+        if (value->type == witype::character) {
+            results[i] = value->list;
+            ++i;
+        }
+    }
+    results[i] = nullptr;
+
+    return results;
+}
+
 world_item *world::add_item(string name, witype type) {
     world_item *i = new world_item();
     i->type = type;
@@ -153,3 +175,7 @@ struct listitem_t *world_add_reference(void *w, const char *n, int lvl) {
     return li;
 }
 
+const struct namedlist_t** world_get_characters(void *w) {
+    auto wrld = getworld(w);
+    return wrld->get_characters();
+}

@@ -130,3 +130,16 @@ TEST_CASE("world_find_weapon returns nullptr when it exists but isn't a weapon",
 
     REQUIRE( item == nullptr );
 }
+
+TEST_CASE("get_characters returns one character when there is a character in the world", WORLD_TAG) {
+    world w;
+    const char *NAME = "Sam";
+    namedlist_t *sam = new_namedlist(namedlist_type::list_rival, NAME);
+    w.add_namedlist(NAME, sam);
+
+    auto actual = w.get_characters();
+
+    REQUIRE( actual != nullptr );
+    REQUIRE( actual[0] == sam );
+    REQUIRE( actual[1] == nullptr );
+}

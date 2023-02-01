@@ -93,6 +93,10 @@ const char* lex_find_file(const char* filename) {
         return filename;
     }
 
+    if (NULL == SEARCH_PATH) {
+        fprintf(stderr, "No search path for library data.\nAborting.\n");
+        exit(EXIT_FAILURE);
+    }
     struct lex_search_path *cur;
     for(cur = SEARCH_PATH; cur != NULL; cur = cur->next) {
         snprintf(fullpath, PATH_MAX, "%s/%s", cur->folder, filename);
@@ -112,6 +116,7 @@ struct lex_context *lex_file(const char *filename) {
   FILE *in = fopen(fullpath, "r");
   if (!in) {
     perror(fullpath);
+    exit(EXIT_FAILURE);
   }
   return lex_FILE(in, fullpath);
 }
@@ -136,6 +141,12 @@ void lex_complete(struct lex_context *ctx) {
 
 struct token *lex_scan(struct lex_context *ctx) {
   int c;
+
+  if (ctx->input == NULL) {
+      fprintf(stderr, "Context %p with file %s has NULL file pointers\n", ctx, ctx->filename);
+      exit(EXIT_FAILURE);
+  }
+
 
   while (!feof(ctx->input)) {
     c = fgetc(ctx->input);
@@ -339,6 +350,18 @@ void lex_error(struct lex_context* ctx, const char* message) {
 }
 
 void lex_add_directory(const char* directory) {
+
+    struct stat sb;
+    if (stat(directory, &sb)) {
+        fprintf(stderr, "Lex directory %s not found.\n", directory);
+        return;
+    }
+
+    if ((sb.st_mode & S_IFDIR) == 0) {
+        fprintf(stderr, "Lex directory %s is not a directory.\n", directory);
+        return;
+    }
+
     struct lex_search_path *cur = (struct lex_search_path*)calloc(1, sizeof(struct lex_search_path));
     cur->folder = strdup(directory);
     cur->next = SEARCH_PATH;

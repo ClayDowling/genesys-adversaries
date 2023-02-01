@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 
-project(adversaries LANGUAGES C CXX VERSION 1.1)
+project(adversaries LANGUAGES C CXX VERSION 1.2)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 99)
 include(FetchContent)
 include(CTest)

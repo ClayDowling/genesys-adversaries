@@ -10,7 +10,9 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
+using std::vector;
 using std::map;
 using std::string;
 
@@ -62,6 +64,7 @@ public:
     void add_namedlist(string name, const namedlist_t*);
     void add_weapon(string name, string skill, bool brawl, int damage, int crit);
     void add_armor(string name, int defense, int soak);
+    const namedlist_t** get_characters();
 };
 
 #endif //ADVERSARIES_WORLD_H

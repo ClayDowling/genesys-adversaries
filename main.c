@@ -102,10 +102,9 @@ int main(int argc, char* const* argv) {
     }
 
     struct world_t *world = parse_file(argv[optind]);
-    struct namedlist_t *character;
-    for(struct node_t *cur = world->characters; cur != NULL; cur = cur->next) {
-        character = (struct namedlist_t*)cur->node;
-        printer(stdout, world, character);
+    const struct namedlist_t **character = world_get_characters(world);
+    for(int i = 0; character[i]; ++i ) {
+        printer(stdout, world, character[i]);
     }
 
     return EXIT_SUCCESS;

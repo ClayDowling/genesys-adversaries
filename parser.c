@@ -32,12 +32,12 @@ void *parse_input(struct lex_context *ctx) {
   Parse(parser, 0, NULL, world);
   ParseFree(parser, free);
 
+  lex_complete(ctx);
   return world;
 }
 
 void * parse_file(const char *filename) {
   struct lex_context *ctx = lex_file(filename);
-  lex_complete(ctx);
   return parse_input(ctx);
 }
 
@@ -59,7 +59,6 @@ void * parse_buffer(const char *buffer) {
 
   struct world_t *w = parse_input(ctx);
 
-  lex_complete(ctx);
   remove(filename);
 
   return w;
