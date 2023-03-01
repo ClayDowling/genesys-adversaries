@@ -1,0 +1,22 @@
+Separatist Foot Soldier
+
+Br Ag Int Cun Will Pres    Combat: 1
+-- -- --- --- ---- ----    Social: 0
+ 3  2   2   2    2    1   General: 2
+                            Wound: 3
+                           Strain: 2
+
+Brawl YYg, Coercion YYg, Resilience YYY, Skulduggery YYg, Streetwise YY
+Bat (Melee; Dmg +2; Crit 3), Sap Gloves (Brawl; Dmg +1; Crit 3; Disorient 3)
+
+Separatist Squad Leader
+
+Br Ag Int Cun Will Pres    Combat: 2
+-- -- --- --- ---- ----    Social: 1
+ 3  2   2   2    2    1   General: 2
+                            Wound: 13
+                           Strain: 2
+
+Athletics Ygg, Discipline YY, Driving YYg, Leadership Ygg, Melee YYYg, Riding YYg
+Sap Gloves (Brawl; Dmg +1; Crit 3; Disorient 3), Stun Gun (Melee; Dmg  5; Crit 6; Stun 3, Stun Damage)
+

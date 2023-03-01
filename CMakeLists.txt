@@ -8,6 +8,9 @@ set(CMAKE_C_STANDARD 99)
 include(FetchContent)
 include(CTest)
 
+set(DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/data)
+set(GENERATED_FILE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
 configure_file(installer.nsis.in installer.nsi)
 configure_file(configure.h.in configure.h)
 
@@ -71,8 +74,6 @@ add_executable(tokenstream
 add_executable(lemon
     lemon.c
 )
-
-set(GENERATED_FILE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_custom_command(
     OUTPUT ${GENERATED_FILE_DIR}/adversary.c ${GENERATED_FILE_DIR}/adversary.h

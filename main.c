@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include "configure.h"
 #include "parser.h"
@@ -82,7 +84,10 @@ int main(int argc, char* const* argv) {
 #else
     snprintf(librarypath, PATH_MAX, "%s/data", basename(argv[0]));
 #endif
-    lex_add_directory(librarypath);
+    struct stat sb;
+    if (stat(librarypath, &sb) == 0) {
+        lex_add_directory(librarypath);
+    }
 
     const char* libraryenv = getenv("ADVERSARIES_LIBRARY");
     if (libraryenv) {

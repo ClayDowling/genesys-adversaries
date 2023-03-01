@@ -1,0 +1,4 @@
+use "sampleworld.adv"
+
+minion "Separatist Foot Soldier": "Tough Person", "Camouflaged", "Criminal Tough", Bat, "Sap Gloves"
+rival "Separatist Squad Leader": "Tough Person", "Very Tough", "Knight", "Sap Gloves", "Stun Gun"

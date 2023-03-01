@@ -27,4 +27,9 @@ target_link_libraries(${CPP_TEST_NAME}
         Catch2::Catch2WithMain
         )
 
+add_test(NAME unitytests COMMAND ${UNIT_TEST_NAME})
+set_tests_properties(unitytests PROPERTIES
+    PASS_REGULAR_EXPRESSION " 0 Failures"
+)
+
 catch_discover_tests(${CPP_TEST_NAME})

@@ -1,0 +1,9 @@
+use "modern.adv"
+use "quick.adv"
+
+weapon "Sap Gloves" (Brawl; Damage +1; Critical 3; Disorient 3)
+weapon "Folding Knife " (Melee; Damage +1; Critical 5 ) 
+weapon "Switch Blade " (Melee; Damage +1; Critical 4 )
+weapon "Small Knife " (Melee; Damage +1; Critical 4 )
+weapon "Large Knife " (Melee; Damage +2; Critical 3 )
+weapon "Bat" (Melee; Damage +2; Critical 3 )
