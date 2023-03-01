@@ -26,19 +26,19 @@ void *parse_input(struct lex_context *ctx) {
   int yymajor = 0;
   struct token *tok;
   void *parser = ParseAlloc(malloc);
-  while (tok = lex_scan(ctx)) {
+  while ((tok = lex_scan(ctx))) {
     Parse(parser, tok->token_type, tok, world);
   }
   Parse(parser, 0, NULL, world);
   ParseFree(parser, free);
-
-  lex_complete(ctx);
   return world;
 }
 
 void * parse_file(const char *filename) {
   struct lex_context *ctx = lex_file(filename);
-  return parse_input(ctx);
+  void *w = parse_input(ctx);
+  lex_complete(ctx);
+  return w;
 }
 
 void * parse_buffer(const char *buffer) {
@@ -59,6 +59,7 @@ void * parse_buffer(const char *buffer) {
 
   struct world_t *w = parse_input(ctx);
 
+  lex_complete(ctx);
   remove(filename);
 
   return w;
